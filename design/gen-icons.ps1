@@ -49,9 +49,16 @@ W "$r\app\src\main\AndroidManifest.xml" @"
         android:roundIcon="@mipmap/ic_a_forest"
         android:allowBackup="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:exported="true"
+        <activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize">
+            <!-- receive a checklist shared from another app -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+        </activity>
 $aliases        <receiver android:name=".StreakWidget" android:exported="true">
             <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE"/></intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/streak_widget_info"/>

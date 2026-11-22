@@ -19,10 +19,14 @@ jobs:
           KS_B64: ${{ secrets.KS_B64 }}
         run: |
           if [ -n "$KS_B64" ]; then echo "$KS_B64" | base64 -d > app/spinwise.keystore; fi
-      - run: gradle assembleRelease --no-daemon
+      - run: gradle assembleRelease bundleRelease --no-daemon
         env:
           KS_PASSWORD: ${{ secrets.KS_PASSWORD }}
       - uses: actions/upload-artifact@v4
         with:
           name: Spinwise-apk
           path: app/build/outputs/apk/release/*.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Spinwise-play-bundle
+          path: app/build/outputs/bundle/release/*.aab
