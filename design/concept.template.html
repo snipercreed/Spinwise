@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spinwise Liquid Glass Concept</title>
+<style>
+@font-face{font-family:"Jakarta";src:url(__JAKARTA__) format("woff2");font-weight:400}
+@font-face{font-family:"Clash";src:url(__CLASH__) format("woff2");font-weight:600}
+@font-face{font-family:"Chillax";src:url(__CHILLAX__) format("woff2");font-weight:600}
+:root{--font:"Jakarta",system-ui,sans-serif;--display:"Clash",system-ui,sans-serif;--ui:"Chillax",system-ui,sans-serif;--bg:#e9edf3;--ink:#10141a;--mute:#5d6874;--card:#fff}
+.dark{--bg:#080b10;--ink:#eef2f6;--mute:#8d98a5;--card:#141a21}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--font);padding-bottom:40px}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+h1{font:600 34px/1.05 var(--display);letter-spacing:-.025em;margin:26px 0 8px}
+h2{font:600 21px/1.2 var(--display);margin:34px 0 6px;letter-spacing:-.01em}
+p{color:var(--mute);margin:4px 0 12px}
+b,button,label{font-family:var(--ui);font-weight:600}
+.panel{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 18px;background:var(--card);border-radius:20px;padding:14px 16px;margin:14px 0;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+.panel label{display:grid;gap:4px;font-size:12.5px;color:var(--mute)}
+.panel input[type=range]{width:100%;accent-color:#3e63dd}
+.panel .tg{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink)}
+/* ------- the scene the glass sits on ------- */
+.scene{position:relative;height:620px;border-radius:30px;overflow:hidden;background:#1b2a55;touch-action:none;user-select:none;-webkit-user-select:none}
+.scene .mesh{position:absolute;inset:0;background:
+  radial-gradient(60% 60% at 12% 8%,#ff6b9a 0,transparent 60%),radial-gradient(55% 60% at 92% 20%,#4cc9ff 0,transparent 60%),
+  radial-gradient(60% 60% at 70% 95%,#ffd36b 0,transparent 60%),radial-gradient(50% 55% at 8% 90%,#7a5cff 0,transparent 60%),#1b2a55}
+.dark .scene .mesh{filter:saturate(.9) brightness(.8)}
+.scene .stripes{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.14) 0 2px,transparent 2px 38px);mask:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent)}
+.scene .big{position:absolute;left:28px;top:34px;font:600 92px/0.9 var(--display);letter-spacing:-.04em;color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.25)}
+.scene .big small{display:block;font:400 17px var(--font);letter-spacing:0;margin-top:12px;opacity:.9}
+.scene .chipsrow{position:absolute;left:28px;right:28px;top:250px;display:flex;flex-wrap:wrap;gap:10px}
+.scene .chipsrow span{background:#fff;color:#10141a;border-radius:99px;padding:10px 16px;font:600 14px var(--ui);box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.scene .chipsrow span:nth-child(3n){background:#ff4d7a;color:#fff}.scene .chipsrow span:nth-child(3n+1){background:#10141a;color:#fff}
+.scene .grid{position:absolute;left:28px;right:28px;top:330px;display:grid;grid-template-columns:repeat(26,1fr);gap:5px}
+.scene .grid i{aspect-ratio:1;border-radius:4px;background:rgba(255,255,255,.85)}
+.scene .grid i:nth-child(4n){background:#42e695}.scene .grid i:nth-child(7n){background:#ffd36b}.scene .grid i:nth-child(5n){background:rgba(255,255,255,.35)}
+/* ------- GLASS ------- */
+.glass{position:absolute;--a:135deg;--tint:.08;--rim:.9;border-radius:var(--r,28px);isolation:isolate;
+  background:rgba(255,255,255,var(--tint));
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,calc(var(--rim)*.9)),inset 0 -1px 1px rgba(255,255,255,calc(var(--rim)*.3)),inset 0 0 22px rgba(255,255,255,.14),
+             0 22px 44px rgba(0,0,0,.28),0 4px 10px rgba(0,0,0,.18)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.6px;pointer-events:none;
+  background:linear-gradient(var(--a),rgba(255,255,255,var(--rim)) 0%,rgba(255,255,255,.12) 38%,rgba(255,255,255,0) 58%,rgba(255,255,255,calc(var(--rim)*.55)) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);mask-composite:exclude}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 90% at 18% -10%,rgba(255,255,255,.34),transparent 46%),linear-gradient(var(--a),rgba(255,255,255,.12),transparent 30%,transparent 70%,rgba(255,255,255,.06))}
+.glass>*{position:relative;z-index:1}
+.glass.nofx{backdrop-filter:blur(18px) saturate(1.6) !important}
+.lens{width:168px;height:168px;--r:84px;cursor:grab;left:62%;top:120px}
+.lens:active{cursor:grabbing}
+.lens .tag{position:absolute;inset:auto 0 12px 0;text-align:center;font:600 11px var(--ui);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.4);opacity:.9}
+.hero{left:20px;bottom:110px;width:min(62%,370px);height:150px;--r:30px;padding:18px;color:#fff}
+.hero b{font:600 40px/1 var(--display);letter-spacing:-.03em;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.hero span{display:block;font:400 13px var(--font);opacity:.95;margin-top:4px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.nav{left:50%;transform:translateX(-50%);bottom:20px;width:min(88%,430px);height:70px;--r:35px;display:flex;align-items:center;justify-content:space-around;color:#fff}
+.nav i{font:600 12px var(--ui);font-style:normal;display:grid;place-items:center;gap:2px;opacity:.85}
+.nav i.on{background:rgba(255,255,255,.28);border-radius:26px;padding:8px 18px;opacity:1;box-shadow:inset 0 1px 1px rgba(255,255,255,.6)}
+.btn{right:22px;bottom:118px;width:150px;height:56px;--r:28px;display:grid;place-items:center;color:#fff;font:600 15px var(--ui);cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.btn:active{transform:scale(.94)}
+.switch{right:36px;bottom:196px;width:84px;height:44px;--r:22px;cursor:pointer}
+.switch .thumb{position:absolute;left:4px;top:4px;width:56px;height:36px;border-radius:18px;background:rgba(255,255,255,.5);transition:transform .35s cubic-bezier(.34,1.4,.64,1);box-shadow:inset 0 1px 1px #fff,0 4px 10px rgba(0,0,0,.25)}
+.switch.on .thumb{transform:translateX(20px)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:10px}
+.card{background:var(--card);border-radius:22px;padding:16px 18px;box-shadow:0 6px 24px rgba(0,0,0,.07)}
+.card h3{font:600 16px var(--display);margin:0 0 4px}
+.card p{margin:0;font-size:14px}
+.card ol,.card ul{margin:6px 0 0;padding-left:18px;color:var(--mute);font-size:14px}
+.badge{display:inline-block;font:600 11px var(--ui);border-radius:99px;padding:2px 9px;background:#e1e7ff;color:#2a3a9a;margin-left:6px;vertical-align:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Liquid Glass, but actually glass</h1>
+  <p>Frosted blur alone looks like fogged plastic. Real glass <b>bends light at its edges</b>, splits colours slightly, catches a highlight from a light source, and has visible thickness. This concept recreates all four, live. Drag the lens around, move the pointer to move the light, and use the sliders.</p>
+
+  <div class="panel" id="panel">
+    <label>Refraction <input type="range" id="refr" min="0" max="70" value="42"></label>
+    <label>Edge width <input type="range" id="bez" min="8" max="46" value="26"></label>
+    <label>Blur <input type="range" id="blur" min="0" max="14" value="1.5" step=".5"></label>
+    <label>Colour split <input type="range" id="disp" min="0" max="1" value=".5" step=".05"></label>
+    <label>Rim light <input type="range" id="rim" min="0" max="1" value=".9" step=".05"></label>
+    <label>Tint <input type="range" id="tint" min="0" max=".4" value=".08" step=".01"></label>
+    <div class="tg"><label class="tg"><input type="checkbox" id="fx" checked> Realistic refraction</label></div>
+    <div class="tg"><label class="tg"><input type="checkbox" id="dk"> Dark mode</label></div>
+  </div>
+
+  <div class="scene" id="scene">
+    <div class="mesh"></div><div class="stripes"></div>
+    <div class="big">73%<small>revised · 12 day streak</small></div>
+    <div class="chipsrow"><span>Atoms and isotopes</span><span>Electron configuration</span><span>Periodic trends</span><span>Ionic bonding</span><span>Chain rule</span><span>Integration</span><span>Protein synthesis</span><span>Energy flow</span></div>
+    <div class="grid" id="grid"></div>
+
+    <div class="glass lens" id="lens" data-mag="14"><div class="tag">drag me</div></div>
+    <div class="glass hero" data-r="30"><b>73%</b><span>revised · 4 topics due</span></div>
+    <div class="glass btn" data-r="28">Log revision</div>
+    <div class="glass switch on" id="sw" data-r="22"><div class="thumb"></div></div>
+    <div class="glass nav" data-r="35"><i class="on">Today</i><i>Topics</i><i>Progress</i><i>Shop</i><i>More</i></div>
+  </div>
+
+  <h2>What makes it read as glass</h2>
+  <div class="legend">
+    <div class="card"><h3>1 · Edge refraction</h3><p>A displacement map bends the backdrop only near the rim, the way a thick curved edge does. The centre stays calm, the edge visibly warps the stripes and chips behind it.</p></div>
+    <div class="card"><h3>2 · Colour split</h3><p>Red, green and blue are bent by slightly different amounts, giving the faint rainbow fringe real glass has.</p></div>
+    <div class="card"><h3>3 · Specular rim</h3><p>A hairline highlight that is brightest on the edge facing the light and fades around the far side. It follows your pointer, and on a phone it would follow the gyroscope.</p></div>
+    <div class="card"><h3>4 · Thickness</h3><p>Inner top highlight, inner bottom bounce, a soft inner glow and two shadows (a wide ambient one and a tight contact one) so each piece reads as a solid object floating above the page.</p></div>
+  </div>
+
+  <h2>How it would work in Spinwise</h2>
+  <div class="legend">
+    <div class="card"><h3>Where glass goes</h3><ul><li>Floating tab bar and Log revision button</li><li>Hero card and bottom sheets</li><li>The wheel's pointer becomes a small glass lens that magnifies the winning topic as it lands</li><li>Switches and sliders with a refracting thumb</li></ul></div>
+    <div class="card"><h3>Liquid motion <span class="badge">new</span></h3><ul><li>Press: the glass squashes and its refraction deepens</li><li>Tab change: the active pill melts across to the next tab</li><li>Sheet open: glass grows from the button that opened it</li></ul></div>
+    <div class="card"><h3>Performance plan</h3><ul><li>Works in Android's WebView (Chromium), not on very old devices</li><li>New setting: Glass quality · Realistic / Frosted / Off</li><li>Auto-drops to Frosted if frames get slow</li><li>Limits to about 4 refracting surfaces on screen at once</li></ul></div>
+    <div class="card"><h3>Themes still apply</h3><p>Every earned glass theme supplies the colourful backdrop that the glass bends, so Nebula, Ocean Deep and Cosmic will each look different through the same lens. Light and dark both supported.</p></div>
+  </div>
+</div>
+
+<script>
+const $ = (s,r=document)=>r.querySelector(s), $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const NS = "http://www.w3.org/2000/svg";
+const defs = document.createElementNS(NS,"svg"); defs.setAttribute("width","0"); defs.setAttribute("height","0"); defs.style.cssText="position:absolute"; document.body.appendChild(defs);
+const P = { refr:42, bez:26, blur:1.5, disp:.5, rim:.9, tint:.08, fx:true };
+$("#grid").innerHTML = "<i></i>".repeat(26*5);
+
+/* ---- displacement map for a rounded rectangle: only the bevel band moves the backdrop ---- */
+function makeMap(w,h,r,bezel,mag){
+  const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d"), img = x.createImageData(w,h), d = img.data;
+  r = Math.min(r, w/2, h/2);
+  for (let j=0;j<h;j++) for (let i=0;i<w;i++){
+    const px = i+.5, py = j+.5, cx = w/2, cy = h/2, qx = Math.abs(px-cx)-(w/2-r), qy = Math.abs(py-cy)-(h/2-r);
+    const dist = Math.hypot(Math.max(qx,0),Math.max(qy,0)) + Math.min(Math.max(qx,qy),0) - r, depth = -dist;
+    let dx = 0, dy = 0;
+    if (depth >= 0 && depth < bezel) {
+      const t = depth/bezel, m = Math.pow(1-t,2.4);                       // strongest at the very edge
+      let nx, ny;
+      if (qx>0 || qy>0) { nx = Math.sign(px-cx)*Math.max(qx,0); ny = Math.sign(py-cy)*Math.max(qy,0); const L = Math.hypot(nx,ny)||1; nx/=L; ny/=L; }
+      else if (qx>qy) { nx = Math.sign(px-cx); ny = 0; } else { nx = 0; ny = Math.sign(py-cy); }
+      dx = nx*m; dy = ny*m;
+    }
+    if (mag) { dx -= (px-cx)/(w/2)*mag/100; dy -= (py-cy)/(h/2)*mag/100; }   // gentle magnification for lenses
+    const k = (j*w+i)*4; d[k] = 128+127*Math.max(-1,Math.min(1,dx)); d[k+1] = 128+127*Math.max(-1,Math.min(1,dy)); d[k+2] = 128; d[k+3] = 255;
+  }
+  x.putImageData(img,0,0); return c.toDataURL();
+}
+let uid = 0;
+function build(el){
+  const w = Math.round(el.offsetWidth), h = Math.round(el.offsetHeight); if (!w || !h) return;
+  const r = parseFloat(el.dataset.r || getComputedStyle(el).getPropertyValue("--r")) || 28, id = el._fid || (el._fid = "lg"+(++uid)), S = P.refr, ds = P.disp;
+  const old = document.getElementById(id); if (old) old.remove();
+  const map = makeMap(w,h,r,P.bez,+el.dataset.mag||0), f = document.createElementNS(NS,"filter");
+  f.setAttribute("id",id); f.setAttribute("x","0"); f.setAttribute("y","0"); f.setAttribute("width",w); f.setAttribute("height",h); f.setAttribute("filterUnits","userSpaceOnUse"); f.setAttribute("color-interpolation-filters","sRGB");
+  const ch = (m,sc,res) => `<feDisplacementMap in="SourceGraphic" in2="map" scale="${sc}" xChannelSelector="R" yChannelSelector="G"/><feColorMatrix type="matrix" values="${m}" result="${res}"/>`;
+  f.innerHTML = `<feImage href="${map}" x="0" y="0" width="${w}" height="${h}" result="map" preserveAspectRatio="none"/>`
+    + ch("1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0", S, "cr")
+    + ch("0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0", S*(1-ds*.14), "cg")
+    + ch("0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0", S*(1-ds*.28), "cb")
+    + `<feBlend in="cr" in2="cg" mode="screen" result="rg"/><feBlend in="rg" in2="cb" mode="screen"/>`;
+  defs.appendChild(f); el._id = id; apply(el);
+}
+function apply(el){
+  el.style.setProperty("--rim",P.rim); el.style.setProperty("--tint",P.tint);
+  el.classList.toggle("nofx",!P.fx);
+  el.style.backdropFilter = el.style.webkitBackdropFilter = P.fx ? `url(#${el._id}) blur(${P.blur}px) saturate(1.45) brightness(1.06)` : "";
+}
+const glasses = $$(".glass");
+const ro = new ResizeObserver(es => es.forEach(e => build(e.target))); glasses.forEach(g => ro.observe(g));
+const rebuild = () => glasses.forEach(build);
+
+/* ---- controls ---- */
+[["refr","refr"],["bez","bez"],["blur","blur"],["disp","disp"],["rim","rim"],["tint","tint"]].forEach(([id,k]) => $("#"+id).addEventListener("input", e => { P[k] = +e.target.value; (k==="refr"||k==="bez"||k==="disp") ? rebuild() : glasses.forEach(apply); }));
+$("#fx").addEventListener("change", e => { P.fx = e.target.checked; glasses.forEach(apply); });
+$("#dk").addEventListener("change", e => document.body.classList.toggle("dark", e.target.checked));
+$("#sw").addEventListener("click", () => $("#sw").classList.toggle("on"));
+
+/* ---- light follows the pointer; lens is draggable ---- */
+const scene = $("#scene");
+scene.addEventListener("pointermove", e => { glasses.forEach(g => { const r = g.getBoundingClientRect(), a = Math.atan2(e.clientY-(r.top+r.height/2), e.clientX-(r.left+r.width/2))*180/Math.PI+90; g.style.setProperty("--a", (a+360)%360+"deg"); }); });
+const lens = $("#lens"); let drag = null;
+lens.addEventListener("pointerdown", e => { const r = lens.getBoundingClientRect(); drag = { dx:e.clientX-r.left, dy:e.clientY-r.top }; lens.setPointerCapture(e.pointerId); });
+lens.addEventListener("pointermove", e => { if (!drag) return; const s = scene.getBoundingClientRect();
+  lens.style.left = Math.max(0,Math.min(s.width-lens.offsetWidth, e.clientX-s.left-drag.dx))+"px"; lens.style.top = Math.max(0,Math.min(s.height-lens.offsetHeight, e.clientY-s.top-drag.dy))+"px"; });
+lens.addEventListener("pointerup", () => drag = null);
+</script>
+</body>
+</html>

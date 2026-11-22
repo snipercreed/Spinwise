@@ -2,6 +2,8 @@ package com.spinwise.app;
 
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.ComponentName;
+import android.content.pm.PackageManager;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -64,6 +66,18 @@ public class MainActivity extends Activity {
         }
         @JavascriptInterface public String loadState() {
             return getSharedPreferences(StreakWidget.PREFS, MODE_PRIVATE).getString("state", "");
+        }        @JavascriptInterface public void setIcon(final String key) {
+            runOnUiThread(new Runnable() { public void run() {
+                boolean known = false;
+                for (String k : IconKeys.ALL) if (k.equals(key)) known = true;
+                if (!known) return;
+                PackageManager pm = getPackageManager();
+                String pkg = getPackageName();
+                pm.setComponentEnabledSetting(new ComponentName(pkg, "com.spinwise.app.Icon_" + key), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+                for (String k : IconKeys.ALL) {
+                    if (!k.equals(key)) pm.setComponentEnabledSetting(new ComponentName(pkg, "com.spinwise.app.Icon_" + k), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                }
+            }});
         }        @JavascriptInterface public void copy(final String text) {
             runOnUiThread(new Runnable() { public void run() {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);

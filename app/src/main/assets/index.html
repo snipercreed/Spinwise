@@ -287,7 +287,7 @@ function norm(s){
   s.topics = s.topics||[]; s.goal = s.goal||1; s.log = s.log||[]; s.pick = s.pick||null;
   if (!s.themeV) { const old = s.theme; s.accent = ACCENTS[old]?old:"forest"; s.theme = "clear"; s.themeV = 2; delete s.bg; }
   s.accent = ACCENTS[s.accent]?s.accent:"forest"; s.theme = THEMES[s.theme]?s.theme:"clear";
-  s.mode = s.mode||"system"; s.wmode = s.wmode||"any"; s.view = s.view===undefined?"all":s.view; s.anim = s.anim!==false;
+  s.mode = s.mode||"system"; s.wmode = s.wmode||"any"; s.view = s.view===undefined?"all":s.view; s.anim = s.anim!==false; s.dynIcon = !!s.dynIcon;
   s.wskin = WSKINS[s.wskin]?s.wskin:"glass"; s.hp = HEATS[s.hp]?s.hp:"classic";
   if (s.coins===undefined) s.coins = 150; s.life = s.life||0; s.own = s.own||{}; s.eq = s.eq||{}; s.ms = s.ms||{};
   ["theme","wskin","hp"].forEach(g => { if (GROUPS[g][s[g]].price) s.own[g+":"+s[g]] = true; });
@@ -398,12 +398,24 @@ function applyTheme(){
 if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (S.mode==="system") { applyTheme(); render(true); } });
 
 /* ================= logo / icons ================= */
-const LOGO = `<svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fae65"/><stop offset="1" stop-color="#0f6b3a"/></linearGradient></defs>
-<rect width="108" height="108" rx="26" fill="url(#g)"/>
-<path d="M54,58L54,28A30,30 0 0 1 84,58Z" fill="#fff"/><path d="M54,58L84,58A30,30 0 0 1 54,88Z" fill="#bde5cb"/>
-<path d="M54,58L54,88A30,30 0 0 1 24,58Z" fill="#fff"/><path d="M54,58L24,58A30,30 0 0 1 54,28Z" fill="#bde5cb"/>
-<circle cx="54" cy="58" r="7" fill="#0f6b3a"/><path d="M54,17L46.5,29.5L61.5,29.5Z" fill="#fff"/></svg>`;
-const ICON = {
+/* App logo: follows the equipped glass theme (or accent colour) */
+function heroPair(){ const th = THEMES[S.theme]; return th.hero || ACCENTS[S.accent].l; }
+function logo(){
+  const h = heroPair(), a = mix(h[0],"#ffffff",.85), tint = mix(h[0],"#ffffff",.3);
+  return `<svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${h[1]}"/></linearGradient>
+<radialGradient id="lh" cx=".2" cy=".1" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+<rect width="108" height="108" rx="26" fill="url(#lg)"/><rect width="108" height="108" rx="26" fill="url(#lh)"/>
+<path d="M54,58L54,28A30,30 0 0 1 84,58Z" fill="#fff"/><path d="M54,58L84,58A30,30 0 0 1 54,88Z" fill="${tint}"/>
+<path d="M54,58L54,88A30,30 0 0 1 24,58Z" fill="#fff"/><path d="M54,58L24,58A30,30 0 0 1 54,28Z" fill="${tint}"/>
+<circle cx="54" cy="58" r="7" fill="${h[1]}"/><path d="M54,17L46.5,29.5L61.5,29.5Z" fill="#fff"/></svg>`;
+}
+/* Optional launcher icon that matches the theme (Android only, opt-in) */
+let lastIcon = null;
+function iconKey(){ return S.theme!=="clear" ? "t_"+S.theme : "a_"+S.accent; }
+function syncIcon(){
+  try { if (!window.Android || !Android.setIcon) return;
+    const k = S.dynIcon ? iconKey() : "a_forest"; if (k!==lastIcon) { lastIcon = k; Android.setIcon(k); } } catch(e){}
+}const ICON = {
   today:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>',
   list:'<svg viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>',
   prog:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
@@ -779,7 +791,7 @@ function subjBar(){
     S.subjects.map(s => `<button class="sc ${S.view===s.id?"on":""}" style="--c:${s.color}" data-a="view" data-v="${s.id}"><i class="dot"></i>${esc(s.name)}</button>`).join("") + `</div>`;
 }
 function viewToday(keep){
-  if (!S.subjects.length) return `<div class="card empty">${LOGO.replace("<svg","<svg style='border-radius:18px'")}<h2>Welcome to Spinwise</h2><p>Ask Claude to build checklists for all your subjects from what it already knows about you.</p><button data-a="tab" data-v="more">Set up with Claude</button><div><button class="link" data-a="subj-new">or add a subject manually</button></div></div>`;
+  if (!S.subjects.length) return `<div class="card empty">${logo().replace("<svg","<svg style='border-radius:18px'")}<h2>Welcome to Spinwise</h2><p>Ask Claude to build checklists for all your subjects from what it already knows about you.</p><button data-a="tab" data-v="more">Set up with Claude</button><div><button class="link" data-a="subj-new">or add a subject manually</button></div></div>`;
   const items = vis();
   if (!items.length) return subjBar()+`<div class="card empty"><h2>No topics yet</h2><p>Import this subject from Claude or add topics by hand.</p><button data-a="add">+ Add topic</button></div>`;
   const m = counts(), st = streaks(m), o = overall(), ex = nextExam(), pick = todayPick(), done = pick && loggedToday(pick.id), n = todayCount();
@@ -855,6 +867,7 @@ function viewMore(){
       <div class="seg glass">${[["system","System"],["light","Light"],["dark","Dark"]].map(([k,l])=>`<button class="${S.mode===k?"on":""}" data-a="mode" data-v="${k}">${l}</button>`).join("")}</div>
       <div class="sub" style="margin:4px 0 6px">Accent colour${S.theme!=="clear"?" · your glass theme sets its own":""}</div>
       <div class="swatches">${Object.keys(ACCENTS).map(k=>`<button class="sw ${S.accent===k?"on":""}" style="--c:${ACCENTS[k].l[0]}" data-a="accent" data-v="${k}" aria-label="${ACCENTS[k].n}"></button>`).join("")}</div>
+      <label class="check"><input type="checkbox" data-a="dynicon" ${S.dynIcon?"checked":""}> Match the launcher icon to my theme (experimental)</label>
       <div class="row"><div class="sp sub">Glass theme: <b style="color:var(--ink)">${esc(THEMES[S.theme].n)}</b></div><button class="ghost small" data-a="tab" data-v="shop">Browse themes</button></div></div>
     <div class="card"><h2>Motion</h2><p>Every animation is free. Pick any of 55 effects, or turn animation off.</p><button class="ghost full" data-a="tab" data-v="motion">Customise motion</button></div>
 <div class="card"><h2>Daily goal</h2>
@@ -869,7 +882,7 @@ function title(){
 }
 function render(keep, entry){
   applyTheme();
-  $("#logo").innerHTML = LOGO;
+  $("#logo").innerHTML = logo();
   $("#title").textContent = title();
   $("#subtitle").textContent = new Date().toLocaleDateString("en",{weekday:"long",day:"numeric",month:"long"});
   $("#wv").textContent = S.coins;
@@ -891,6 +904,7 @@ function render(keep, entry){
       const dt = new Date(c.dataset.d+"T00:00:00").toLocaleDateString("en",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
       const names = S.log.filter(e=>e.d===c.dataset.d).map(e=>(S.topics.find(t=>t.id===e.id)||{}).title).filter(Boolean);
       $("#tip").innerHTML = `<b style="color:var(--ink)">${names.length} revision${names.length===1?"":"s"}</b> on ${dt}`+(names.length?`<br>${names.map(esc).join(" · ")}`:""); }); }
+  syncIcon();
   if (entry) runEntry();
   if (tab==="today") startIdle();
 }
@@ -934,6 +948,7 @@ const act = {
   buy(v){ buy(v); },
   anim(v){ S.anim = v==="1"; save(); render(true); },
   accent(v){ S.accent = v; save(); render(true); },
+  dynicon(v,el){ S.dynIcon = el.checked; lastIcon = null; save(); render(true); toast(S.dynIcon?"Icon will follow your theme":"Icon reset"); },
   mpreset(v){ S.eq = {}; if (v!=="Default") MPRESETS[v].v.forEach(id => { const [c,i] = id.split(":"); (S.eq[c] = S.eq[c]||[]).push(+i); }); save(); render(true); toast(v==="Default"?"Motion reset":v+" applied"); },
   equip(v){ equipItem(v); save(); render(true); },
   preview(v){ openPreview(v); },
