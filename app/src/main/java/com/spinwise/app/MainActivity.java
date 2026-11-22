@@ -59,6 +59,11 @@ public class MainActivity extends Activity {
             runOnUiThread(new Runnable() { public void run() {
                 web.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
             }});
+        }        @JavascriptInterface public void saveState(String json) {
+            getSharedPreferences(StreakWidget.PREFS, MODE_PRIVATE).edit().putString("state", json).apply();
+        }
+        @JavascriptInterface public String loadState() {
+            return getSharedPreferences(StreakWidget.PREFS, MODE_PRIVATE).getString("state", "");
         }        @JavascriptInterface public void copy(final String text) {
             runOnUiThread(new Runnable() { public void run() {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);

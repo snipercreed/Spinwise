@@ -1,4 +1,4 @@
-﻿name: Build APK
+name: Build APK
 on:
   push:
   workflow_dispatch:
@@ -14,7 +14,14 @@ jobs:
         run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: 8.7 }
+      - name: Restore signing key (keeps updates installable over the old app)
+        env:
+          KS_B64: ${{ secrets.KS_B64 }}
+        run: |
+          if [ -n "$KS_B64" ]; then echo "$KS_B64" | base64 -d > app/spinwise.keystore; fi
       - run: gradle assembleRelease --no-daemon
+        env:
+          KS_PASSWORD: ${{ secrets.KS_PASSWORD }}
       - uses: actions/upload-artifact@v4
         with:
           name: Spinwise-apk

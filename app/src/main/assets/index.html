@@ -301,7 +301,10 @@ function norm(s){
   return s;
 }
 function load(){
-  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.topics) return norm(s); } catch(e){}
+  let raw = null;
+  try { raw = localStorage.getItem(KEY); } catch(e){}
+  if (!raw) { try { if (window.Android && Android.loadState) raw = Android.loadState() || null; } catch(e){} }   // native mirror survives cleared web storage
+  try { const s = JSON.parse(raw); if (s && s.topics) return norm(s); } catch(e){}
   try { const o = JSON.parse(localStorage.getItem("spinwise.v1")); if (o && o.topics) {
       const log = [];
       const topics = o.topics.map(t => { if (t.doneOn) log.push({d:t.doneOn,id:t.id,prev:{pct:0,revs:0,last:null}});
@@ -309,7 +312,12 @@ function load(){
       return norm({subject:o.subject,topics,log,pick:o.pick}); } } catch(e){}
   return norm({topics:[]});
 }
-function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} pushNative(); }
+function save(){
+  const json = JSON.stringify(S);
+  try { localStorage.setItem(KEY, json); } catch(e){}
+  try { if (window.Android && Android.saveState) Android.saveState(json); } catch(e){}
+  pushNative();
+}
 
 /* ================= derived ================= */
 const subj = id => S.subjects.find(s=>s.id===id);
@@ -851,7 +859,7 @@ function viewMore(){
     <div class="card"><h2>Motion</h2><p>Every animation is free. Pick any of 55 effects, or turn animation off.</p><button class="ghost full" data-a="tab" data-v="motion">Customise motion</button></div>
 <div class="card"><h2>Daily goal</h2>
       <div class="lbl"><span>Topics per day</span><span class="stepper"><button data-a="goal" data-v="-1">−</button><b id="gv">${S.goal}</b><button data-a="goal" data-v="1">+</button></span></div></div>
-    <div class="card"><h2>Backup</h2><p>Copy all your data (including ✦ and unlocks) to keep it safe. To restore, paste a backup into the box above and press Import.</p>
+    <div class="card"><h2>Backup</h2><p>Copy all your data (including ✦, unlocks and equipped motion) to keep it safe. To restore, paste a backup into the box above and press Import. Updates keep your data automatically; a backup is only needed if you ever uninstall the app.</p>
       <div class="row"><button class="ghost small sp" data-a="backup">Copy backup</button><button class="ghost small sp" data-a="resetp">Reset progress</button></div></div>`;
 }
 function title(){
