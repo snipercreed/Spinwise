@@ -8,7 +8,7 @@ const $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => [...(r || d
 const COL = ["#e5484d", "#f76b15", "#e0a100", "#30a46c", "#3e63dd", "#8e4ec6"];
 const haptic = () => { try { if (g.Android && g.Android.haptic) g.Android.haptic(); else if (navigator.vibrate) navigator.vibrate(8); } catch (e) {} };
 const eo4 = p => 1 - Math.pow(1 - p, 4), eo5 = p => 1 - Math.pow(1 - p, 5);
-const PRICES = [0, 40, 80, 120, 200], TIERS = ["Starter", "Uncommon", "Rare", "Epic", "Legendary"];
+const PRICES = [0, 0, 0, 0, 0], TIERS = ["", "", "", "", ""];
 
 /* ---------- particle effects (layer = element to draw in) ---------- */
 function origin(layer, pt) { const r = layer.getBoundingClientRect(); return { x: pt ? pt.x - r.left : r.width / 2, y: pt ? pt.y - r.top : r.height / 2, r }; }

@@ -32,11 +32,13 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--font)}
 body{min-height:100vh;padding:env(safe-area-inset-top) 0 calc(112px + env(safe-area-inset-bottom));font-weight:400;font-synthesis:none}
-.ambient{position:fixed;inset:0;z-index:-1;overflow:hidden;background:var(--bg)}
+.ambient{position:fixed;inset:0;z-index:-1;overflow:hidden;background:var(--basebg,var(--bg))}
 .ambient i{position:absolute;border-radius:50%;filter:blur(64px);opacity:.6}
 .ambient i:nth-child(1){left:-18%;top:-6%;width:70vw;height:70vw;background:var(--b1)}
 .ambient i:nth-child(2){right:-22%;top:22%;width:78vw;height:78vw;background:var(--b2)}
-.ambient i:nth-child(3){left:12%;bottom:-24%;width:72vw;height:72vw;background:var(--b3)}
+.ambient i:nth-child(3){left:6%;bottom:-24%;width:74vw;height:74vw;background:var(--b3)}
+.ambient i:nth-child(4){right:-12%;bottom:-8%;width:56vw;height:56vw;background:var(--b4)}
+.ambient i:nth-child(5){left:28%;top:36%;width:52vw;height:52vw;background:var(--b5);opacity:.45}
 :root[data-mode="dark"] .ambient i{opacity:.5}
 .glass,.card,.stat,.unit,.sc,.seg,.search,.toast,.wallet,.filters button,.list-glass{
   background:var(--glass);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);border:1px solid var(--gborder);box-shadow:var(--gshadow)}
@@ -165,6 +167,8 @@ label.check{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--m
 .look{border-radius:18px;padding:10px 6px 8px;text-align:center;font-size:12px;background:rgba(127,140,150,.1);border:1px solid var(--line);color:var(--ink);box-shadow:none}
 .look .pv{height:34px;border-radius:12px;margin-bottom:6px}
 .look.on{outline:2.5px solid var(--acc)}
+.lookgrid.wide{grid-template-columns:repeat(2,1fr)}
+.lookgrid.wide .pv{height:78px}
 .look small{display:block;color:var(--mute);font-family:var(--font);font-weight:400}
 /* sheet */
 .scrim{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center}
@@ -187,7 +191,7 @@ input,select,.search{font-family:var(--font)}
 </style>
 </head>
 <body>
-<div class="ambient"><i></i><i></i><i></i></div>
+<div class="ambient"><i></i><i></i><i></i><i></i><i></i></div>
 <header>
   <div id="logo"></div>
   <div><h1 id="title">Spinwise</h1><div class="sub" id="subtitle"></div></div>
@@ -214,22 +218,60 @@ let S, tab = "today", spinning = false, rotDeg = 0, wheelSlices = [];
 let flt = "all", selDay = null, editSid = null, editColor = PAL[0], shopTab = "motion", tabDir = 1, lastPt = null; const openUnits = new Set(), openShop = new Set();
 let idleStops = [];
 
-/* ----- look catalogue (shop) ----- */
+/* ----- free accent colours (used by the Clear theme) ----- */
+const ACCENTS = {
+  forest:{n:"Forest",l:["#1f8a4c","#0f6b3a"],d:["#3fb96f","#1f8a4c"]},
+  ocean:{n:"Ocean",l:["#1d6fd1","#114b9a"],d:["#58a6ff","#1d6fd1"]},
+  violet:{n:"Violet",l:["#7a48d8","#53289f"],d:["#a78bfa","#7a48d8"]},
+  sunset:{n:"Sunset",l:["#e0662a","#b0431a"],d:["#ff9a5c","#e0662a"]},
+  rose:{n:"Rose",l:["#d6336c","#a31d4c"],d:["#ff7ba5","#d6336c"]},
+  slate:{n:"Slate",l:["#3f4a54","#1d252c"],d:["#aeb8c2","#6b7783"]}
+};
+/* ----- cosmetics earned with ✦: glass themes (blurred gradient backdrops), wheel skins, heatmap palettes ----- */
+const G = (base,b) => ({ base, b });
 const THEMES = {
-  forest:{n:"Forest",l:["#1f8a4c","#0f6b3a"],d:["#3fb96f","#1f8a4c"],price:0},
-  ocean:{n:"Ocean",l:["#1d6fd1","#114b9a"],d:["#58a6ff","#1d6fd1"],price:50},
-  violet:{n:"Violet",l:["#7a48d8","#53289f"],d:["#a78bfa","#7a48d8"],price:50},
-  sunset:{n:"Sunset",l:["#e0662a","#b0431a"],d:["#ff9a5c","#e0662a"],price:50},
-  rose:{n:"Rose",l:["#d6336c","#a31d4c"],d:["#ff7ba5","#d6336c"],price:50},
-  slate:{n:"Slate",l:["#3f4a54","#1d252c"],d:["#aeb8c2","#6b7783"],price:50}
+  clear:{n:"Clear",price:0,acc:null,hero:null,
+    L:G("linear-gradient(160deg,#f3f6fa,#e6ebf2)",["#b8d9ff","#d6c8ff","#ffd9c2","#c9f0dc","#f5f7fb"]),
+    D:G("linear-gradient(160deg,#0d1116,#0a0d11)",["#16324f","#2b2552","#3a2a30","#15382f","#10151b"])},
+  aurora:{n:"Aurora",price:120,acc:[["#1fa56a","#0b7a4b"],["#46d68f","#1fa56a"]],hero:["#1fa56a","#2a6fd6"],
+    L:G("linear-gradient(160deg,#e9fbf3,#e6eeff)",["#7fe3b6","#8fb8ff","#c1a9ff","#a6f0e0","#ffe3c9"]),
+    D:G("linear-gradient(160deg,#071a16,#0a1230)",["#0f7a55","#2a4bd0","#6a3fd0","#0f8a8a","#3a2a60"])},
+  dusk:{n:"Dusk",price:120,acc:[["#e0662a","#b0431a"],["#ff9a5c","#e0662a"]],hero:["#e8613a","#8a3fd0"],
+    L:G("linear-gradient(160deg,#fff1ea,#efe8ff)",["#ffb199","#c3a6ff","#ff9ec0","#8fb4ff","#ffd9a8"]),
+    D:G("linear-gradient(160deg,#1c0d18,#0e1030)",["#8a3a4a","#4a2a8a","#a03a6a","#1f3a8a","#7a4a2a"])},
+  ocean:{n:"Ocean Deep",price:140,acc:[["#1d6fd1","#114b9a"],["#58a6ff","#1d6fd1"]],hero:["#1d6fd1","#0a3a8a"],
+    L:G("linear-gradient(160deg,#e9f4ff,#dff3f7)",["#7fb6ff","#6fd3e8","#9fa8ff","#b6e3ff","#d6f5f0"]),
+    D:G("linear-gradient(160deg,#04101f,#06223a)",["#0f4fa8","#0a7a9a","#2a3a9a","#0f6a8a","#0a2a4a"])},
+  sakura:{n:"Sakura",price:140,acc:[["#d6336c","#a31d4c"],["#ff7ba5","#d6336c"]],hero:["#e0457b","#a05acd"],
+    L:G("linear-gradient(160deg,#fff0f5,#f3ecff)",["#ffb3cb","#e3c9ff","#ffd6e0","#ffe8c9","#fff3f7"]),
+    D:G("linear-gradient(160deg,#1c0b14,#150f26)",["#8a2a50","#4a2a7a","#a03a60","#6a3a2a","#2a1020"])},
+  mint:{n:"Mint Fog",price:140,acc:[["#0f9d77","#0a7a5c"],["#3fd1a6","#0f9d77"]],hero:["#14a37f","#3a8fd6"],
+    L:G("linear-gradient(160deg,#ecfbf5,#f4f8ee)",["#9fe6cc","#c5f0d0","#cfe8ff","#e8f5b8","#ffffff"]),
+    D:G("linear-gradient(160deg,#06180f,#0a1a1a)",["#0f6a4f","#1f6a3a","#0f4a6a","#4a6a1f","#0a2a22"])},
+  glacier:{n:"Glacier",price:160,acc:[["#2f7fd8","#1b57b5"],["#8cc4ff","#2f7fd8"]],hero:["#3b8fe0","#7a6ae0"],
+    L:G("linear-gradient(160deg,#f2f8ff,#eef0ff)",["#bfe0ff","#d9d3ff","#e6f3ff","#c9e8f5","#ffffff"]),
+    D:G("linear-gradient(160deg,#0a121c,#0d1226)",["#1f4a7a","#3a3a8a","#1f5a7a","#2a3a5a","#101826"])},
+  nebula:{n:"Nebula",price:180,acc:[["#7a48d8","#53289f"],["#b49bff","#7a48d8"]],hero:["#7a48d8","#d040a0"],
+    L:G("linear-gradient(160deg,#f4eeff,#ffeaf6)",["#c3a6ff","#ff9ed8","#8fb4ff","#7fe3e0","#ffd6f0"]),
+    D:G("linear-gradient(160deg,#0f0820,#1c0a2e)",["#5a2ab0","#b02a8a","#2a3aa0","#0f7a8a","#3a1a5a"])},
+  ember:{n:"Ember",price:180,acc:[["#d9441f","#a02a0a"],["#ff7a4d","#d9441f"]],hero:["#e0451f","#f0a020"],
+    L:G("linear-gradient(160deg,#fff1e6,#ffe9e6)",["#ffa077","#ffd27a","#ff8a8a","#ffc2a0","#fff0c9"]),
+    D:G("linear-gradient(160deg,#1c0a06,#220e08)",["#a0321a","#a06a0a","#8a1a2a","#7a3a1a","#3a1a0a"])},
+  lagoon:{n:"Lagoon",price:200,acc:[["#0aa6a6","#087a7a"],["#3fe0d6","#0aa6a6"]],hero:["#0fb5a5","#2a8fd0"],
+    L:G("linear-gradient(160deg,#e6fbfa,#eaf7e6)",["#7fe6dc","#8fd0ff","#c9f58f","#a6f0c8","#e6fff8"]),
+    D:G("linear-gradient(160deg,#04181a,#06201a)",["#0a7a7a","#0f5a9a","#4a8a1f","#0a8a5a","#0a2a2a"])},
+  obsidian:{n:"Obsidian Gold",price:220,acc:[["#b8860b","#8a6408"],["#f0c060","#c99a2e"]],hero:["#2a2f38","#8a6a2a"],
+    L:G("linear-gradient(160deg,#f1efe9,#e8e6e0)",["#e6d3a0","#cfd6df","#f0e0b8","#d6d0c0","#ffffff"]),
+    D:G("linear-gradient(160deg,#07080a,#101216)",["#4a3a10","#1f3a4a","#5a4a1a","#2a2f38","#14161a"])},
+  golden:{n:"Golden Hour",price:240,acc:[["#d98a0b","#a86404"],["#ffc247","#d98a0b"]],hero:["#f0a020","#e0603a"],
+    L:G("linear-gradient(160deg,#fff7e0,#ffeedd)",["#ffd27a","#ffb08a","#ffe89a","#ffc2c2","#fff5cf"]),
+    D:G("linear-gradient(160deg,#1a1204,#1c0e08)",["#a0700a","#a0421a","#7a6a0a","#7a2a2a","#3a2a0a"])},
+  cosmic:{n:"Cosmic",price:300,acc:[["#5b4bdb","#3a2aa8"],["#9a8cff","#5b4bdb"]],hero:["#5b4bdb","#e0409a"],
+    L:G("linear-gradient(160deg,#eee9ff,#ffe9f3)",["#8f7dff","#ff7dc0","#6fd0ff","#ffd36e","#7dffc0"]),
+    D:G("linear-gradient(160deg,#080618,#12061c)",["#4a2ad0","#c02a80","#0f7ad0","#c08a0f","#0fc08a"])}
 };
-const BGS = {
-  aurora:{n:"Aurora",price:0,l:["#8fd3b0","#a9b8ff","#ffc9a0"],d:["#1f6a4f","#2a3a8f","#7a3f2a"]},
-  dusk:{n:"Dusk",price:60,l:["#ffb199","#c3a6ff","#8fb4ff"],d:["#7a3a4a","#3d2a7a","#1f3a7a"]},
-  mist:{n:"Mist",price:60,l:["#d5e0ea","#e6ecf2","#cfd8e3"],d:["#26323d","#1b242d","#2d3945"]},
-  midnight:{n:"Midnight",price:80,l:["#9fb4ff","#7ea1d6","#b7a6e8"],d:["#0f2a6b","#1a1f5e","#2a1560"]},
-  sunrise:{n:"Sunrise",price:80,l:["#ffd3a3","#ffb7c5","#fff0a8"],d:["#7a4a1f","#7a2a4a","#6a5a1f"]}
-};
+const meshCSS = (th,dark) => { const m = dark?th.D:th.L, b = m.b;
+  return `radial-gradient(60% 70% at 0% 0%,${b[0]},transparent 70%),radial-gradient(60% 70% at 100% 30%,${b[1]},transparent 70%),radial-gradient(70% 70% at 20% 100%,${b[2]},transparent 70%),radial-gradient(50% 60% at 100% 100%,${b[3]},transparent 70%),radial-gradient(40% 40% at 50% 45%,${b[4]},transparent 75%),${m.base}`; };
 const WSKINS = { glass:{n:"Glass",price:0,pv:["#6fd0a0","#a9b8ff"]}, candy:{n:"Candy",price:70,pv:["#ff7aa8","#ffd36e"]}, mono:{n:"Mono",price:70,pv:["#9aa3ab","#5d666e"]}, neon:{n:"Neon",price:110,pv:["#0b0e12","#37f5a6"]} };
 const HEATS = {
   classic:{n:"Classic",price:0},
@@ -237,15 +279,18 @@ const HEATS = {
   sunset:{n:"Sunset",price:50,l:["#ffe1b8","#ffb878","#f07f3a","#c4491a"],d:["#4a2a12","#8a4a1f","#e0803a","#ffb06a"]},
   mono:{n:"Mono",price:50,l:["#d8dce0","#aab1b8","#6f7881","#363d44"],d:["#2a3035","#4a545d","#8a949b","#d5dbe0"]}
 };
-const GROUPS = { theme:THEMES, bg:BGS, wskin:WSKINS, hp:HEATS };
+const GROUPS = { theme:THEMES, wskin:WSKINS, hp:HEATS };
 S = load();
+
 
 function norm(s){
   s.topics = s.topics||[]; s.goal = s.goal||1; s.log = s.log||[]; s.pick = s.pick||null;
-  s.theme = THEMES[s.theme]?s.theme:"forest"; s.mode = s.mode||"system"; s.wmode = s.wmode||"any"; s.view = s.view===undefined?"all":s.view;
-  s.bg = BGS[s.bg]?s.bg:"aurora"; s.wskin = WSKINS[s.wskin]?s.wskin:"glass"; s.hp = HEATS[s.hp]?s.hp:"classic";
+  if (!s.themeV) { const old = s.theme; s.accent = ACCENTS[old]?old:"forest"; s.theme = "clear"; s.themeV = 2; delete s.bg; }
+  s.accent = ACCENTS[s.accent]?s.accent:"forest"; s.theme = THEMES[s.theme]?s.theme:"clear";
+  s.mode = s.mode||"system"; s.wmode = s.wmode||"any"; s.view = s.view===undefined?"all":s.view; s.anim = s.anim!==false;
+  s.wskin = WSKINS[s.wskin]?s.wskin:"glass"; s.hp = HEATS[s.hp]?s.hp:"classic";
   if (s.coins===undefined) s.coins = 150; s.life = s.life||0; s.own = s.own||{}; s.eq = s.eq||{}; s.ms = s.ms||{};
-  ["theme","bg","wskin","hp"].forEach(g => { if (GROUPS[g][s[g]].price) s.own[g+":"+s[g]] = true; });
+  ["theme","wskin","hp"].forEach(g => { if (GROUPS[g][s[g]].price) s.own[g+":"+s[g]] = true; });
   if (!s.subjects || !s.subjects.length) {
     s.subjects = (s.topics.length || s.subject) ? [{ id:0, name:s.subject||"My course", color:PAL[3], examDate:s.examDate||"" }] : [];
   }
@@ -329,16 +374,17 @@ const rgb = h => [1,3,5].map(i=>parseInt(h.substr(i,2),16));
 const mix = (a,b,t) => { const A = rgb(a), B = rgb(b); return "#"+A.map((v,i)=>Math.round(v*t+B[i]*(1-t)).toString(16).padStart(2,"0")).join(""); };
 const isDark = () => S.mode==="dark" || (S.mode!=="light" && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
 function applyTheme(){
-  const dark = isDark(), th = THEMES[S.theme], pair = dark?th.d:th.l, a = pair[0], a2 = pair[1];
+  const dark = isDark(), th = THEMES[S.theme], ac = ACCENTS[S.accent];
+  const pair = th.acc ? th.acc[dark?1:0] : (dark?ac.d:ac.l), hero = th.hero || ac.l, a = pair[0], a2 = pair[1];
   const bg = dark?"#171c21":"#ffffff", st = document.documentElement.style;
   document.documentElement.dataset.mode = dark?"dark":"light";
   st.setProperty("--acc",a); st.setProperty("--acc2",a2); st.setProperty("--acc-ink",dark?"#071009":"#ffffff");
   st.setProperty("--glow",a+"73"); st.setProperty("--acc-soft",a+(dark?"30":"24"));
-  st.setProperty("--hero1",th.l[0]); st.setProperty("--hero2",th.l[1]);
+  st.setProperty("--hero1",hero[0]); st.setProperty("--hero2",hero[1]);
   let l = [mix(a,bg,dark?.3:.32), mix(a,bg,dark?.55:.6), mix(a,bg,dark?.8:.88), dark?a:a2];
   const hp = HEATS[S.hp]; if (hp && hp.l) l = dark?hp.d:hp.l;
   l.forEach((c,i)=>st.setProperty("--l"+(i+1),c));
-  const bgc = (BGS[S.bg]||BGS.aurora)[dark?"d":"l"]; bgc.forEach((c,i)=>st.setProperty("--b"+(i+1),c));
+  const m = dark?th.D:th.L; m.b.forEach((c,i)=>st.setProperty("--b"+(i+1),c)); st.setProperty("--basebg",m.base);
   try { if (window.Android && Android.setMode) Android.setMode(dark); } catch(e){}
 }
 if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (S.mode==="system") { applyTheme(); render(true); } });
@@ -363,7 +409,7 @@ function ring(p,size,stroke,track,col){
 }
 
 /* ================= motion engine ================= */
-const RM = () => M.RM();
+const RM = () => M.RM() || S.anim===false;
 function equipped(cat){
   const e = (S.eq[cat]||[]).filter(i => owned(cat+":"+i)); return e.length ? e : [0];
 }
@@ -450,11 +496,11 @@ const nextId = () => S.topics.length ? Math.max(...S.topics.map(t=>t.id))+1 : 0;
 /* ================= shop ================= */
 function owned(id){
   const [g,k] = id.split(":");
-  if (M.byId(g)) return +k===0 || !!S.own[id];
-  const gr = GROUPS[g]; return !!gr && (gr[k] ? gr[k].price===0 || !!S.own[id] : false);
+  if (M.byId(g)) return true;               // animations are free
+  const gr = GROUPS[g]; return !!gr && !!gr[k] && (gr[k].price===0 || !!S.own[id]);
 }
-function priceOf(id){ const [g,k] = id.split(":"); const c = M.byId(g); if (c) return c.opts[+k].price; return GROUPS[g][k].price; }
-function nameOf(id){ const [g,k] = id.split(":"); const c = M.byId(g); if (c) return c.opts[+k].name+" ("+c.title+")"; return GROUPS[g][k].n; }
+function priceOf(id){ const [g,k] = id.split(":"); return GROUPS[g][k].price; }
+function nameOf(id){ const [g,k] = id.split(":"); return GROUPS[g][k].n; }
 function buy(id){
   const p = priceOf(id); if (owned(id)) return;
   if (S.coins < p) { toast(`Need ${p-S.coins} more ✦`); return; }
@@ -476,24 +522,36 @@ function openPreview(id){
   const st = $("#pvstage"); M.initStage(c, st, +k); setTimeout(()=>M.demoPlay(c, st, +k), 350);
 }
 function viewShop(){
+  const dark = isDark(), T = {theme:"Glass themes",wskin:"Wheel skins",hp:"Heatmap palettes"},
+    D = {theme:"Full-screen blurred gradient backdrops, each with its own accent colour.",wskin:"Restyle the spin wheel.",hp:"Recolour the days-tracked grid."};
+  const sections = Object.keys(GROUPS).map(g => `<div class="card"><h2>${T[g]}</h2><p>${D[g]}</p><div class="lookgrid ${g==="theme"?"wide":""}">${Object.keys(GROUPS[g]).map(k => {
+    const it = GROUPS[g][k], id = g+":"+k, own = owned(id), on = S[g]===k; let pv = "background:#999";
+    if (g==="theme") pv = `background:${meshCSS(it,dark)}`;
+    if (g==="wskin") pv = `background:conic-gradient(${it.pv[0]},${it.pv[1]},${it.pv[0]},${it.pv[1]},${it.pv[0]})`;
+    if (g==="hp") { const L = it.l || ["#bde5cb","#74c794","#2f9e5b","#16673a"]; pv = `background:linear-gradient(90deg,${L.join(",")})`; }
+    return `<button class="look ${on?"on":""}" data-a="${own?"look":"buy"}" data-v="${id}"><div class="pv" style="${pv}"></div>${esc(it.n)}<small>${on?"Equipped":own?"Owned":it.price+" ✦"}</small></button>`; }).join("")}</div></div>`).join("");
+  return `<div class="card hero" style="justify-content:space-between"><div><b class="big">${S.coins} ✦</b><span class="sub">${S.life} earned in total</span></div><div style="position:relative;z-index:1;text-align:right;font-size:12px;max-width:160px" class="sub">Spend ✦ on cosmetics. Animations are free in More › Motion.</div></div>
+    <div class="card"><h2>How to earn ✦</h2><div class="earn"><span>Log a revision</span><span>12</span><span>Streak bonus</span><span>up to +8</span><span>Big confidence jump</span><span>+5</span><span>Revising a due topic</span><span>+5</span><span>First time on a topic</span><span>+5</span><span>Hit your daily goal</span><span>+25</span><span>Streak milestones</span><span>up to +400</span></div></div>
+    ${sections}`;
+}
+const MPRESETS = {
+  Calm:{v:["trans:0","btn:0","wheel:0","reveal:0","ring:0","list:0","sheet:0","heat:0","celeb:2","toast:0","idle:0"]},
+  Snappy:{v:["trans:1","btn:0","btn:4","wheel:3","reveal:0","ring:0","list:1","sheet:0","heat:3","celeb:4","toast:3","idle:0"]},
+  Playful:{v:["trans:4","btn:0","btn:1","wheel:2","wheel:4","reveal:2","ring:2","list:2","sheet:1","heat:1","celeb:0","celeb:3","toast:1","toast:4","idle:1"]},
+  Luxe:{v:["trans:3","btn:3","wheel:1","reveal:4","ring:4","list:3","sheet:3","heat:4","celeb:4","toast:0","idle:3","idle:4"]}
+};
+function viewMotion(){
   const rows = M.cats.map(c => { const eqn = equipped(c.id);
     return `<details class="card shopcat" style="padding:0;overflow:hidden" ${openShop.has(c.id)?"open":""} data-sc="${c.id}"><summary><b>${esc(c.title)}</b><em>${eqn.length} equipped${c.layer?" · stack":""}</em></summary>
-      ${c.opts.map(o => { const id = o.id, own = owned(id), on = own && equipped(c.id).includes(o.i);
-        return `<div class="opt"><div class="top"><div class="nm">${esc(o.name)}<div class="ds">${esc(o.desc)}</div></div><span class="tier t${o.i}">${o.tier}</span></div>
-        <div class="btns"><button class="ghost" data-a="preview" data-v="${id}">Preview</button>
-        ${own ? `<button class="${on?"ghost":""}" data-a="equip" data-v="${id}">${on?"Equipped ✓":"Equip"}</button>` : `<button data-a="buy" data-v="${id}">${o.price} ✦</button>`}</div></div>`; }).join("")}</details>`; }).join("");
-  const looks = Object.keys(GROUPS).map(g => { const T = {theme:"Theme colours",bg:"Backgrounds",wskin:"Wheel skins",hp:"Heatmap palettes"}[g];
-    return `<div class="card"><h2>${T}</h2><div class="lookgrid">${Object.keys(GROUPS[g]).map(k => { const it = GROUPS[g][k], id = g+":"+k, own = owned(id), on = S[g]===k;
-      let pv = "background:#999";
-      if (g==="theme") pv = `background:linear-gradient(135deg,${it.l[0]},${it.l[1]})`;
-      if (g==="bg") pv = `background:linear-gradient(135deg,${it.l[0]},${it.l[1]},${it.l[2]})`;
-      if (g==="wskin") pv = `background:conic-gradient(${it.pv[0]},${it.pv[1]},${it.pv[0]},${it.pv[1]},${it.pv[0]})`;
-      if (g==="hp") { const L = it.l || [ "#bde5cb","#74c794","#2f9e5b","#16673a" ]; pv = `background:linear-gradient(90deg,${L.join(",")})`; }
-      return `<button class="look ${on?"on":""}" data-a="${own?"look":"buy"}" data-v="${own?g+":"+k:id}"><div class="pv" style="${pv}"></div>${esc(it.n)}<small>${on?"Equipped":own?"Owned":it.price+" ✦"}</small></button>`; }).join("")}</div></div>`; }).join("");
-  return `<div class="card hero" style="justify-content:space-between"><div><b class="big">${S.coins} ✦</b><span class="sub">${S.life} earned in total</span></div><div style="position:relative;z-index:1;text-align:right;font-size:12px;max-width:150px" class="sub">Revise topics to earn ✦ and unlock cosmetics</div></div>
-    <div class="card"><h2>How to earn ✦</h2><div class="earn"><span>Log a revision</span><span>12</span><span>Streak bonus</span><span>up to +8</span><span>Big confidence jump</span><span>+5</span><span>Revising a due topic</span><span>+5</span><span>First time on a topic</span><span>+5</span><span>Hit your daily goal</span><span>+25</span><span>Streak milestones</span><span>up to +400</span></div></div>
-    <div class="seg glass" style="margin-top:12px"><button class="${shopTab==="motion"?"on":""}" data-a="shoptab" data-v="motion">Motion · 55</button><button class="${shopTab==="looks"?"on":""}" data-a="shoptab" data-v="looks">Looks</button></div>
-    ${shopTab==="motion" ? `<p style="margin:0 4px 4px">Equip several in a category and they play at random. Button, celebration and idle effects stack together.</p>${rows}` : looks}`;
+      ${c.opts.map(o => { const on = equipped(c.id).includes(o.i);
+        return `<div class="opt"><div class="top"><div class="nm">${esc(o.name)}<div class="ds">${esc(o.desc)}</div></div></div>
+        <div class="btns"><button class="ghost" data-a="preview" data-v="${o.id}">Preview</button><button class="${on?"ghost":""}" data-a="equip" data-v="${o.id}">${on?"Equipped ✓":"Equip"}</button></div></div>`; }).join("")}</details>`; }).join("");
+  return `<button class="link" data-a="tab" data-v="more" style="margin-top:8px">‹ More</button>
+    <div class="card" style="margin-top:0"><h2>Motion</h2><p>All 55 effects are free. Equip as many as you like in each place. Several in one place play at random, while button, celebration and idle effects stack together.</p>
+      <div class="seg glass"><button class="${S.anim?"on":""}" data-a="anim" data-v="1">Animations on</button><button class="${!S.anim?"on":""}" data-a="anim" data-v="0">Off</button></div>
+      <div class="sub" style="margin-bottom:6px">Presets</div>
+      <div class="pills" style="margin-bottom:0">${Object.keys(MPRESETS).map(k=>`<button data-a="mpreset" data-v="${k}">${k}</button>`).join("")}<button data-a="mpreset" data-v="Default">Reset</button></div></div>
+    ${rows}`;
 }
 
 /* ================= Claude sync text ================= */
@@ -705,7 +763,7 @@ function spin(){
 /* ================= views ================= */
 function renderNav(){
   $("#nav").innerHTML = [["today","Today","today"],["list","Topics","list"],["prog","Progress","prog"],["shop","Shop","shop"],["more","More","more"]]
-    .map(([k,l,i]) => `<button class="${tab===k?"on":""}" data-a="tab" data-v="${k}">${ICON[i]}${l}</button>`).join("");
+    .map(([k,l,i]) => `<button class="${tab===k||(k==="more"&&tab==="motion")?"on":""}" data-a="tab" data-v="${k}">${ICON[i]}${l}</button>`).join("");
 }
 function subjBar(){
   if (S.subjects.length<2) return "";
@@ -784,17 +842,20 @@ function viewMore(){
       <button class="ghost full" data-a="cp-out" ${S.topics.length?"":"disabled"}>Copy progress for Claude</button></div>
     <div class="card"><div class="row"><h2 class="sp">Subjects</h2><button class="ghost small" data-a="subj-new">+ Add</button></div><p>Each subject gets its own colour on the wheel and in your lists.</p>
       ${S.subjects.length?S.subjects.map(s=>`<div class="list-row" data-a="subj-edit" data-v="${s.id}" style="cursor:pointer"><i class="dot" style="--c:${s.color};width:14px;height:14px"></i><div class="t">${esc(s.name)}<div class="sub" style="font-family:var(--font);font-weight:400">${S.topics.filter(t=>t.sid===s.id).length} topics${s.examDate?" · exam "+esc(s.examDate):""}</div></div><span class="sub">Edit</span></div>`).join(""):`<div class="sub">No subjects yet.</div>`}</div>
-    <div class="card"><h2>Appearance</h2><div class="sub" style="margin:6px 0">Theme colour <span style="opacity:.7">· more in the Shop</span></div>
-      <div class="swatches">${Object.keys(THEMES).map(k=>{ const own = owned("theme:"+k); return `<button class="sw ${S.theme===k?"on":""} ${own?"":"lock"}" style="--c:${THEMES[k].l[0]}" data-a="${own?"theme":"gotoshop"}" data-v="${k}" aria-label="${THEMES[k].n}"></button>`; }).join("")}</div>
-      <div class="sub" style="margin-bottom:6px">Mode</div>
-      <div class="seg glass" style="margin-bottom:0">${[["system","System"],["light","Light"],["dark","Dark"]].map(([k,l])=>`<button class="${S.mode===k?"on":""}" data-a="mode" data-v="${k}">${l}</button>`).join("")}</div></div>
-    <div class="card"><h2>Daily goal</h2>
+    <div class="card"><h2>Appearance</h2>
+      <div class="sub" style="margin:6px 0">Mode</div>
+      <div class="seg glass">${[["system","System"],["light","Light"],["dark","Dark"]].map(([k,l])=>`<button class="${S.mode===k?"on":""}" data-a="mode" data-v="${k}">${l}</button>`).join("")}</div>
+      <div class="sub" style="margin:4px 0 6px">Accent colour${S.theme!=="clear"?" · your glass theme sets its own":""}</div>
+      <div class="swatches">${Object.keys(ACCENTS).map(k=>`<button class="sw ${S.accent===k?"on":""}" style="--c:${ACCENTS[k].l[0]}" data-a="accent" data-v="${k}" aria-label="${ACCENTS[k].n}"></button>`).join("")}</div>
+      <div class="row"><div class="sp sub">Glass theme: <b style="color:var(--ink)">${esc(THEMES[S.theme].n)}</b></div><button class="ghost small" data-a="tab" data-v="shop">Browse themes</button></div></div>
+    <div class="card"><h2>Motion</h2><p>Every animation is free. Pick any of 55 effects, or turn animation off.</p><button class="ghost full" data-a="tab" data-v="motion">Customise motion</button></div>
+<div class="card"><h2>Daily goal</h2>
       <div class="lbl"><span>Topics per day</span><span class="stepper"><button data-a="goal" data-v="-1">−</button><b id="gv">${S.goal}</b><button data-a="goal" data-v="1">+</button></span></div></div>
     <div class="card"><h2>Backup</h2><p>Copy all your data (including ✦ and unlocks) to keep it safe. To restore, paste a backup into the box above and press Import.</p>
       <div class="row"><button class="ghost small sp" data-a="backup">Copy backup</button><button class="ghost small sp" data-a="resetp">Reset progress</button></div></div>`;
 }
 function title(){
-  if (tab==="shop") return "Shop";
+  if (tab==="shop") return "Shop"; if (tab==="motion") return "Motion";
   if (S.view!=="all") return (subj(S.view)||{}).name || "Spinwise";
   return S.subjects.length===1 ? S.subjects[0].name : "Spinwise";
 }
@@ -805,7 +866,7 @@ function render(keep, entry){
   $("#subtitle").textContent = new Date().toLocaleDateString("en",{weekday:"long",day:"numeric",month:"long"});
   $("#wv").textContent = S.coins;
   stopIdle();
-  $("#main").innerHTML = tab==="today"?viewToday(keep):tab==="list"?viewList():tab==="prog"?viewProg():tab==="shop"?viewShop():viewMore();
+  $("#main").innerHTML = tab==="today"?viewToday(keep):tab==="list"?viewList():tab==="prog"?viewProg():tab==="shop"?viewShop():tab==="motion"?viewMotion():viewMore();
   renderNav();
   if (tab==="today") drawWheel();
   if (tab==="list") {
@@ -815,7 +876,7 @@ function render(keep, entry){
         d.querySelectorAll(".item").forEach(i => { const show = !v || i.dataset.s.includes(v); i.style.display = show?"":"none"; any = any||show; });
         d.style.display = any?"":"none"; if (v && any) d.open = true; }); });
   }
-  if (tab==="shop") document.querySelectorAll("details.shopcat").forEach(d => d.addEventListener("toggle", () => d.open ? openShop.add(d.dataset.sc) : openShop.delete(d.dataset.sc)));
+  if (tab==="motion") document.querySelectorAll("details.shopcat").forEach(d => d.addEventListener("toggle", () => d.open ? openShop.add(d.dataset.sc) : openShop.delete(d.dataset.sc)));
   if (tab==="prog") { const h = $("#heat"); if (h) h.scrollLeft = h.scrollWidth;
     document.querySelectorAll(".cell[data-d]").forEach(c => c.onclick = () => {
       document.querySelectorAll(".cell.sel").forEach(x=>x.classList.remove("sel")); c.classList.add("sel"); selDay = c.dataset.d;
@@ -827,10 +888,9 @@ function render(keep, entry){
 }
 
 /* ================= actions ================= */
-const TABS = ["today","list","prog","shop","more"];
+const TABS = ["today","list","prog","shop","more","motion"];
 const act = {
   tab(v){ if (spinning) return; tabDir = TABS.indexOf(v) >= TABS.indexOf(tab) ? 1 : -1; tab = v; render(false,true); window.scrollTo(0,0); },
-  gotoshop(){ shopTab = "looks"; act.tab("shop"); },
   view(v){ if (spinning) return; S.view = v==="all" ? "all" : +v; wheelSlices = []; save(); render(false,true); },
   wmode(v){ S.wmode = v; wheelSlices = []; save(); render(); },
   spin(){ spin(); },
@@ -864,10 +924,12 @@ const act = {
   mode(v){ S.mode = v; save(); render(true); },
   look(v){ const [g,k] = v.split(":"); S[g] = k; save(); render(true); toast("Equipped"); },
   buy(v){ buy(v); },
+  anim(v){ S.anim = v==="1"; save(); render(true); },
+  accent(v){ S.accent = v; save(); render(true); },
+  mpreset(v){ S.eq = {}; if (v!=="Default") MPRESETS[v].v.forEach(id => { const [c,i] = id.split(":"); (S.eq[c] = S.eq[c]||[]).push(+i); }); save(); render(true); toast(v==="Default"?"Motion reset":v+" applied"); },
   equip(v){ equipItem(v); save(); render(true); },
   preview(v){ openPreview(v); },
   replay(v){ const [g,k] = v.split(":"), c = M.byId(g); M.demoPlay(c, $("#pvstage"), +k); },
-  shoptab(v){ shopTab = v; render(true); },
   "cp-in"(){ copyText(PROMPT_IN); },
   "cp-out"(){ copyText(progressText()); },
   import(){ doImport(); },

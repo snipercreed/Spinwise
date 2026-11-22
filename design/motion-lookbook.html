@@ -91,7 +91,7 @@ b,button{font-family:var(--ui);font-weight:600}
 <div class="amb"><i style="left:-10%;top:-5%;width:55vw;height:55vw;background:var(--b1)"></i><i style="right:-15%;top:25%;width:60vw;height:60vw;background:var(--b2)"></i><i style="left:20%;bottom:-20%;width:55vw;height:55vw;background:var(--b3)"></i></div>
 <div class="wrap">
   <h1>Motion lookbook</h1>
-  <p><b>55 customisations</b> across 11 places the app can move, five options each. Tap <b>Play</b> to replay, then <b>Pick</b> as many as you like (several per category is fine). In the app each one is a Shop item you earn by revising; equip more than one and they play randomly, or together for button, celebration and idle effects.</p>
+  <p><b>55 customisations</b> across 11 places the app can move, five options each. Tap <b>Play</b> to replay, then <b>Pick</b> as many as you like (several per category is fine). In the app every one is free: equip any mix under More › Motion. Several in one place play at random, while button, celebration and idle effects stack. Cosmetics you earn with ✦ (glass themes, wheel skins, heatmap palettes) never include animation.</p>
   <div class="presets" id="presets"></div>
   <div id="demos"></div>
 </div>
@@ -108,7 +108,7 @@ const $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => [...(r || d
 const COL = ["#e5484d", "#f76b15", "#e0a100", "#30a46c", "#3e63dd", "#8e4ec6"];
 const haptic = () => { try { if (g.Android && g.Android.haptic) g.Android.haptic(); else if (navigator.vibrate) navigator.vibrate(8); } catch (e) {} };
 const eo4 = p => 1 - Math.pow(1 - p, 4), eo5 = p => 1 - Math.pow(1 - p, 5);
-const PRICES = [0, 40, 80, 120, 200], TIERS = ["Starter", "Uncommon", "Rare", "Epic", "Legendary"];
+const PRICES = [0, 0, 0, 0, 0], TIERS = ["", "", "", "", ""];
 
 /* ---------- particle effects (layer = element to draw in) ---------- */
 function origin(layer, pt) { const r = layer.getBoundingClientRect(); return { x: pt ? pt.x - r.left : r.width / 2, y: pt ? pt.y - r.top : r.height / 2, r }; }
@@ -311,7 +311,7 @@ MOTION.cats.forEach((cat,ci)=>{
   const vars=$(".vars",sec);
   cat.opts.forEach(o=>{
     const v=document.createElement("div"); v.className="var glass"; v.dataset.id=o.id;
-    v.innerHTML=`<header><i>${L[o.i]}</i><b>${o.name}</b></header><div class="m-stage">${MOTION.stage(cat)}</div><div class="desc">${o.desc}</div><div class="price">${o.tier}${o.price?` · ${o.price} ✦`:" · free"}</div><div class="row"><button data-p>Play</button><button data-k>Pick</button></div>`;
+    v.innerHTML=`<header><i>${L[o.i]}</i><b>${o.name}</b></header><div class="m-stage">${MOTION.stage(cat)}</div><div class="desc">${o.desc}</div><div class="row"><button data-p>Play</button><button data-k>Pick</button></div>`;
     vars.appendChild(v); const st=$(".m-stage",v); MOTION.initStage(cat,st,o.i);
     $("[data-p]",v).onclick=()=>MOTION.demoPlay(cat,st,o.i); $("[data-k]",v).onclick=()=>toggle(o.id);
     new IntersectionObserver((en,ob)=>{ if(en[0].isIntersecting){ ob.disconnect(); setTimeout(()=>MOTION.demoPlay(cat,st,o.i),250+o.i*140); } },{threshold:.6}).observe(v);
@@ -323,8 +323,7 @@ function toggle(id){ picks.has(id)?picks.delete(id):picks.add(id); render(); }
 function render(){
   $$(".var").forEach(v=>{ const on=picks.has(v.dataset.id); v.classList.toggle("pick",on); const b=$("[data-k]",v); b.classList.toggle("sel",on); b.textContent=on?"Picked ✓":"Pick"; });
   const list=MOTION.cats.map((c,ci)=>{ const p=c.opts.filter(o=>picks.has(o.id)).map(o=>L[o.i]).join(""); return p?`${ci+1}${p}`:null; }).filter(Boolean).join("  ");
-  const cost=ALL.filter(o=>picks.has(o.id)).reduce((a,o)=>a+o.price,0);
-  $("#sum").textContent = picks.size ? `${picks.size} picked · ${cost} ✦ in the shop · ${list}` : "No picks yet";
+  $("#sum").textContent = picks.size ? `${picks.size} picked · ${list}` : "No picks yet";
 }
 const PRESETS = {
   Calm:{d:"Quiet and fast",v:["trans:0","btn:0","wheel:0","reveal:0","ring:0","list:0","sheet:0","heat:0","celeb:2","toast:0","idle:0"]},
