@@ -16,6 +16,7 @@ import java.util.Locale;
 public class StreakWidget extends AppWidgetProvider {
     static final String PREFS = "spinwise";
     static final String KEY = "summary";
+    static final int[] LEVELS = {R.drawable.sq_l0, R.drawable.sq_l1, R.drawable.sq_l2, R.drawable.sq_l3, R.drawable.sq_l4};
 
     @Override public void onUpdate(Context c, AppWidgetManager m, int[] ids) {
         for (int id : ids) m.updateAppWidget(id, build(c));
@@ -29,10 +30,6 @@ public class StreakWidget extends AppWidgetProvider {
 
     static RemoteViews build(Context c) {
         RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget);
-        boolean night = (c.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-        int[] shades = night
-            ? new int[]{0xFF1E2327, 0xFF173A26, 0xFF1F6A3F, 0xFF2E9A5B, 0xFF55D68A}
-            : new int[]{0xFFE7EBE6, 0xFFBDE5CB, 0xFF74C794, 0xFF2F9E5B, 0xFF16673A};
 
         int pct = 0, goal = 1, total = 0;
         String pickTitle = null, subject = "Spinwise";
@@ -74,7 +71,7 @@ public class StreakWidget extends AppWidgetProvider {
             int n = days.optInt(f.format(d.getTime()), 0);
             int lvl = n == 0 ? 0 : n == 1 ? 1 : n <= 3 ? 2 : n <= 5 ? 3 : 4;
             int id = c.getResources().getIdentifier("sq" + i, "id", c.getPackageName());
-            v.setInt(id, "setColorFilter", shades[lvl]);
+            v.setImageViewResource(id, LEVELS[lvl]);
         }
 
         v.setTextViewText(R.id.w_subject, subject);

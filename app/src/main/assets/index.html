@@ -15,17 +15,13 @@
   --display:"Clash","Jakarta",system-ui,sans-serif;
   --ui:"Chillax","Jakarta",system-ui,sans-serif;
   --bg:#f4f6f3; --card:#ffffff; --ink:#12161a; --mute:#677078; --line:#e2e6e1;
-  --acc:#1f8a4c; --acc2:#0f6b3a; --acc-ink:#ffffff; --acc-soft:#e3f2e9; --warn:#d98a1f;
+  --acc:#1f8a4c; --acc2:#0f6b3a; --acc-ink:#ffffff; --warn:#d98a1f; --hero1:#1f8a4c; --hero2:#0f6b3a;
   --l0:#e7ebe6; --l1:#bde5cb; --l2:#74c794; --l3:#2f9e5b; --l4:#16673a;
-  --w1:#ffffff; --w2:#edf1ec; --shadow:0 1px 2px rgba(20,30,20,.05),0 6px 20px rgba(20,30,20,.05);
+  --shadow:0 1px 2px rgba(20,30,20,.05),0 6px 20px rgba(20,30,20,.05);
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#0d1012; --card:#161a1d; --ink:#edf1f2; --mute:#8a949b; --line:#252b2f;
-    --acc:#3fb96f; --acc2:#1f8a4c; --acc-ink:#06130b; --acc-soft:#13271b; --warn:#e7a23a;
-    --l0:#1e2327; --l1:#173a26; --l2:#1f6a3f; --l3:#2e9a5b; --l4:#55d68a;
-    --w1:#1b2024; --w2:#242a2f; --shadow:none;
-  }
+:root[data-mode="dark"]{
+  --bg:#0d1012; --card:#161a1d; --ink:#edf1f2; --mute:#8a949b; --line:#252b2f; --warn:#e7a23a;
+  --l0:#1e2327; --shadow:none;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--font)}
@@ -36,35 +32,42 @@ h1{font-size:21px;margin:0;letter-spacing:-.02em;line-height:1.15}
 .sub{color:var(--mute);font-size:13px}
 main{padding:6px 16px 16px;max-width:640px;margin:0 auto}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:12px;box-shadow:var(--shadow)}
-.hero{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:0;display:flex;gap:16px;align-items:center}
-.hero .sub{color:rgba(255,255,255,.78)}
+.hero{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#fff;border:0;display:flex;gap:16px;align-items:center}
+.hero .sub{color:rgba(255,255,255,.8)}
 .hero b.big{font-size:26px;letter-spacing:-.02em;display:block;line-height:1.1}
 .ringwrap{position:relative;flex:none}
-.ringwrap .lab{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:20px;letter-spacing:-.02em}
+.ringwrap .lab{position:absolute;inset:0;display:grid;place-items:center;font-size:20px;letter-spacing:-.02em}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.chip{background:rgba(255,255,255,.18);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:600}
+.chip{background:rgba(255,255,255,.2);border-radius:99px;padding:3px 10px;font-size:12px}
 .row{display:flex;gap:10px;align-items:center}
 .sp{flex:1}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow)}
 .stat b{display:block;font-size:22px;letter-spacing:-.02em}
 .stat span{font-size:12px;color:var(--mute)}
-button{font:inherit;border:0;border-radius:12px;padding:13px 16px;background:var(--acc);color:var(--acc-ink);font-weight:650;cursor:pointer}
+button{font:inherit;border:0;border-radius:12px;padding:13px 16px;background:var(--acc);color:var(--acc-ink);cursor:pointer}
 button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-button.link{background:none;color:var(--mute);padding:8px;font-weight:550;font-size:13px}
+button.link{background:none;color:var(--mute);padding:8px;font-size:13px}
 button.small{padding:8px 12px;font-size:13px}
 button:disabled{opacity:.45}
 button.full{width:100%}
 nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
-nav button{flex:1;background:none;color:var(--mute);border-radius:0;padding:11px 0 9px;font-size:11.5px;font-weight:650}
+nav button{flex:1;background:none;color:var(--mute);border-radius:0;padding:11px 0 9px;font-size:11px}
 nav button.on{color:var(--acc)}
 nav svg{display:block;margin:0 auto 3px;width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.subj{display:flex;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:2px}
+.sc{display:flex;align-items:center;gap:7px;padding:8px 13px;border-radius:99px;background:var(--card);color:var(--ink);border:1px solid var(--line);white-space:nowrap;font-size:13px}
+.sc.on{box-shadow:inset 0 0 0 2px var(--c);border-color:var(--c)}
+.dot{width:10px;height:10px;border-radius:99px;background:var(--c);display:inline-block;flex:none}
 .wheelwrap{position:relative;width:min(100%,310px);margin:2px auto 14px;aspect-ratio:1}
 canvas{width:100%;height:100%;display:block}
 .ptr{position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:20px solid var(--ink);filter:drop-shadow(0 1px 1px rgba(0,0,0,.3));z-index:2}
-.topic{border-left:3px solid var(--acc);padding:4px 0 4px 12px;margin:2px 0 14px}
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.seg button{flex:1;border-radius:0;background:transparent;color:var(--mute);padding:9px 6px;font-size:13px}
+.seg button.on{background:var(--acc);color:var(--acc-ink)}
+.topic{border-left:3px solid var(--c,var(--acc));padding:4px 0 4px 12px;margin:2px 0 14px}
 .topic small{color:var(--mute);text-transform:uppercase;letter-spacing:.06em;font-size:11px}
-.topic div{font-size:19px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
+.topic div{font-size:19px;letter-spacing:-.01em;margin-top:2px}
 .bar{height:8px;border-radius:99px;background:var(--l0);overflow:hidden}
 .bar i{display:block;height:100%;background:var(--acc);border-radius:99px}
 .bar.warn i{background:var(--warn)}
@@ -72,18 +75,20 @@ canvas{width:100%;height:100%;display:block}
 .filters{display:flex;gap:6px;margin-top:10px;overflow-x:auto}
 .filters button{padding:7px 12px;font-size:13px;background:var(--card);color:var(--mute);border:1px solid var(--line);white-space:nowrap}
 .filters button.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
-.unit{margin-top:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.unit{margin-top:12px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--sc,var(--line));border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
 .unit>summary{list-style:none;padding:14px 16px;cursor:pointer}
 .unit>summary::-webkit-details-marker{display:none}
-.unit>summary .row b{font-weight:700}
 .unit>summary em{font-style:normal;color:var(--mute);font-size:13px}
 .unit>summary .bar{margin-top:9px;height:6px}
+.unit .tag{font-size:11px;color:var(--mute)}
 .item{display:flex;gap:12px;align-items:center;padding:11px 16px;border-top:1px solid var(--line);cursor:pointer}
-.badge{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none;background:var(--l0);color:var(--ink)}
+.badge{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:13px;flex:none;background:var(--l0);color:var(--ink)}
 .badge[data-l="1"]{background:var(--l1)}.badge[data-l="2"]{background:var(--l2)}
 .badge[data-l="3"]{background:var(--l3);color:#fff}.badge[data-l="4"]{background:var(--l4);color:#fff}
-.item .t{font-weight:600;line-height:1.25}
+.item .t{line-height:1.25}
 .item .m{font-size:12px;color:var(--mute)}
+.pill{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:99px;background:var(--l1);color:var(--ink);margin-left:6px;vertical-align:middle;font-family:var(--ui)}
+.pill.due{background:var(--warn);color:#fff}
 .heat{overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
 .grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,13px);gap:3px;width:max-content}
 .cell{width:13px;height:13px;border-radius:3px;background:var(--l0)}
@@ -94,7 +99,7 @@ canvas{width:100%;height:100%;display:block}
 .legend{display:flex;gap:4px;align-items:center;font-size:11px;color:var(--mute);justify-content:flex-end;margin-top:8px}
 .legend .cell{width:11px;height:11px}
 .tip{min-height:20px;font-size:13px;color:var(--mute);margin-top:8px}
-textarea,input[type=text],input[type=date]{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px;padding:11px 12px}
+textarea,input[type=text],input[type=date],select{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px;padding:11px 12px}
 textarea{min-height:130px;resize:vertical;font:13px/1.4 ui-monospace,Consolas,monospace}
 pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;font:12px/1.4 ui-monospace,Consolas,monospace;margin:8px 0;max-height:190px;overflow:auto}
 h2{font-size:16px;margin:0 0 4px;letter-spacing:-.01em}
@@ -103,30 +108,36 @@ p{margin:4px 0 10px;color:var(--mute);font-size:13px}
 .msg{font-size:13px;margin-top:8px;min-height:18px}
 .empty{text-align:center;padding:30px 10px;color:var(--mute)}
 .empty svg{width:64px;height:64px;margin-bottom:10px}
-details.how>summary{cursor:pointer;color:var(--acc);font-weight:600;font-size:13px;margin:4px 0}
+details.how>summary{cursor:pointer;color:var(--acc);font-size:13px;margin:4px 0}
 .lbl{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:9px 0}
 .stepper{display:flex;align-items:center;gap:10px}
 .stepper button{width:34px;height:34px;padding:0;border-radius:10px}
 label.check{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mute);margin:10px 0 2px}
 .list-row{display:flex;gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
 .list-row:first-of-type{border-top:0}
-.list-row .t{flex:1;font-weight:600;line-height:1.25}
+.list-row .t{flex:1;line-height:1.25}
 .list-row .bar{width:70px;flex:none;height:6px}
 .list-row .n{width:36px;text-align:right;font-size:13px;color:var(--mute);font-variant-numeric:tabular-nums}
+.rec{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.rec:first-of-type{border-top:0}
+.rec .t{flex:1;line-height:1.25}
+.swatches{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 14px}
+.sw{width:38px;height:38px;border-radius:99px;padding:0;background:var(--c);border:0}
+.sw.on{outline:3px solid var(--ink);outline-offset:2px}
 /* sheet */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
 .sheet{background:var(--card);width:100%;max-width:640px;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));max-height:92vh;overflow:auto;animation:up .2s}
 .sheet .grab{width:38px;height:4px;border-radius:9px;background:var(--line);margin:-6px auto 14px}
-.big-pct{font-size:44px;font-weight:750;letter-spacing:-.03em;line-height:1}
+.big-pct{font-size:44px;letter-spacing:-.03em;line-height:1}
 input[type=range]{width:100%;accent-color:var(--acc);margin:12px 0 6px}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px}
 .pills button{padding:7px 11px;font-size:13px;background:var(--bg);color:var(--ink);border:1px solid var(--line)}
 @keyframes fade{from{opacity:0}}@keyframes up{from{transform:translateY(30px);opacity:.6}}
 body{font-weight:400;font-synthesis:none}
 h1,h2,h3,.hero b.big,.big-pct,.stat b,.topic div,.ringwrap .lab,.badge,.chip{font-family:var(--display);font-weight:600}
-b,strong,button,.item .t,.list-row .t,.toast,details.how>summary,.unit>summary .row b{font-family:var(--ui);font-weight:600}
-input,.search{font-family:var(--font)}
-.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:13px;font-weight:600;z-index:30;animation:fade .15s}
+b,strong,button,.item .t,.list-row .t,.rec .t,.toast,details.how>summary{font-family:var(--ui);font-weight:600}
+input,select,.search{font-family:var(--font)}
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:99px;font-size:13px;z-index:30;animation:fade .15s}
 </style>
 </head>
 <body>
@@ -145,33 +156,45 @@ const z2 = n => String(n).padStart(2,"0");
 const ymd = d => d.getFullYear()+"-"+z2(d.getMonth()+1)+"-"+z2(d.getDate());
 const today = () => ymd(new Date());
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const PAL = ["#e5484d","#f76b15","#e0a100","#30a46c","#12a594","#3e63dd","#8e4ec6","#d6409f","#6f7a83"];
 let S = load(), tab = "today", spinning = false, rot = 0, wheelSlices = [];
-let flt = "all", selDay = null; const openUnits = new Set();
+let flt = "all", selDay = null, editSid = null, editColor = PAL[0]; const openUnits = new Set();
 
 function norm(s){
-  s.goal = s.goal||1; s.examDate = s.examDate||""; s.log = s.log||[]; s.pick = s.pick||null; s.subject = s.subject||"";
-  s.topics.forEach(t => { t.pct = t.pct||0; t.revs = t.revs||0; t.notes = t.notes||""; t.last = t.last||null; });
+  s.topics = s.topics||[]; s.goal = s.goal||1; s.log = s.log||[]; s.pick = s.pick||null;
+  s.theme = s.theme||"forest"; s.mode = s.mode||"system"; s.wmode = s.wmode||"any"; s.view = s.view===undefined?"all":s.view;
+  if (!s.subjects || !s.subjects.length) {
+    s.subjects = (s.topics.length || s.subject) ? [{ id:0, name:s.subject||"My course", color:PAL[3], examDate:s.examDate||"" }] : [];
+  }
+  s.topics.forEach(t => { if (t.sid===undefined) t.sid = s.subjects.length ? s.subjects[0].id : 0;
+    t.pct = t.pct||0; t.revs = t.revs||0; t.notes = t.notes||""; t.last = t.last||null; t.rel = t.rel||[]; });
+  delete s.subject; delete s.examDate;
+  if (s.view!=="all" && !s.subjects.some(x=>x.id===s.view)) s.view = "all";
   return s;
 }
 function load(){
   try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.topics) return norm(s); } catch(e){}
-  try { // migrate v1
-    const o = JSON.parse(localStorage.getItem("spinwise.v1")); if (o && o.topics) {
+  try { const o = JSON.parse(localStorage.getItem("spinwise.v1")); if (o && o.topics) {
       const log = [];
       const topics = o.topics.map(t => { if (t.doneOn) log.push({d:t.doneOn,id:t.id,prev:{pct:0,revs:0,last:null}});
         return {id:t.id,unit:t.unit,title:t.title,pct:t.doneOn?60:0,revs:t.doneOn?1:0,last:t.doneOn||null,notes:""}; });
-      return norm({subject:o.subject,topics,log,pick:o.pick});
-    }
-  } catch(e){}
+      return norm({subject:o.subject,topics,log,pick:o.pick}); } } catch(e){}
   return norm({topics:[]});
 }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} pushNative(); }
 
 /* ================= derived ================= */
+const subj = id => S.subjects.find(s=>s.id===id);
+const colorOf = t => (subj(t.sid)||{color:"#6f7a83"}).color;
+const vis = () => S.view==="all" ? S.topics : S.topics.filter(t=>t.sid===S.view);
+const visSubjects = () => S.view==="all" ? S.subjects : S.subjects.filter(s=>s.id===S.view);
 const counts = () => { const m = {}; S.log.forEach(e => m[e.d] = (m[e.d]||0)+1); return m; };
-const overall = () => S.topics.length ? Math.round(S.topics.reduce((a,t)=>a+t.pct,0)/S.topics.length) : 0;
-const unitPct = items => items.length ? Math.round(items.reduce((a,t)=>a+t.pct,0)/items.length) : 0;
+const avg = items => items.length ? Math.round(items.reduce((a,t)=>a+t.pct,0)/items.length) : 0;
+const overall = () => avg(vis());
 const level = p => p<=0?0:p<35?1:p<60?2:p<85?3:4;
+const sinceDays = d => Math.round((new Date(today()+"T00:00:00") - new Date(d+"T00:00:00"))/864e5);
+const dueInt = p => p<40?2:p<60?4:p<80?7:p<95?14:30;
+const isDue = t => t.revs>0 && t.last && sinceDays(t.last) >= dueInt(t.pct);
 function streaks(m){
   let cur = 0, d = new Date();
   if (!m[ymd(d)]) d.setDate(d.getDate()-1);
@@ -181,15 +204,65 @@ function streaks(m){
     run = prev && Math.round((dt-prev)/864e5)===1 ? run+1 : 1; best = Math.max(best,run); prev = dt; });
   return { cur, best };
 }
-function ago(d){
-  if (!d) return "not started";
-  const n = Math.round((new Date(today()+"T00:00:00") - new Date(d+"T00:00:00"))/864e5);
-  return n<=0 ? "today" : n===1 ? "yesterday" : n+"d ago";
+function ago(d){ if (!d) return "not started"; const n = sinceDays(d); return n<=0 ? "today" : n===1 ? "yesterday" : n+"d ago"; }
+function nextExam(){
+  let best = null;
+  visSubjects().forEach(s => { if (!s.examDate) return;
+    const d = Math.ceil((new Date(s.examDate+"T00:00:00") - new Date(today()+"T00:00:00"))/864e5);
+    if (d>=0 && (!best || d<best.d)) best = { d, name:s.name }; });
+  return best;
 }
-const examDays = () => S.examDate ? Math.ceil((new Date(S.examDate+"T00:00:00") - new Date(today()+"T00:00:00"))/864e5) : null;
 const todayPick = () => S.pick && S.pick.date===today() ? S.topics.find(t=>t.id===S.pick.id) : null;
 const loggedToday = id => S.log.some(e => e.d===today() && e.id===id);
 const todayCount = () => S.log.filter(e => e.d===today()).length;
+function lastTopic(){ for (let i=S.log.length-1;i>=0;i--) { const t = S.topics.find(x=>x.id===S.log[i].id); if (t) return t; } return null; }
+
+/* ================= relevance / recommendations ================= */
+const STOP = new Set(["the","and","for","with","from","that","this","into","their","of","in","on","to","a","an","its","are","how","what","use","using","between","types","type","introduction","basic","basics","principles","structure","function"]);
+const toks = s => new Set(String(s).toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(w=>w.length>3 && !STOP.has(w)));
+function relScore(a,b){
+  if (!a || a.id===b.id) return 0;
+  let s = 0;
+  const al = (a.rel||[]).map(x=>String(x).toLowerCase()), bl = (b.rel||[]).map(x=>String(x).toLowerCase());
+  if (al.includes(b.title.toLowerCase())) s += 6;
+  if (bl.includes(a.title.toLowerCase())) s += 6;
+  if (a.sid===b.sid) { s += 1;
+    if (a.unit===b.unit) { s += 3; const d = Math.abs(S.topics.indexOf(a)-S.topics.indexOf(b)); if (d===1) s += 2; else if (d===2) s += 1; } }
+  const ta = toks(a.title), tb = toks(b.title); let k = 0; ta.forEach(w => { if (tb.has(w)) k++; }); s += Math.min(3,k);
+  return s;
+}
+function recs(n){
+  const last = lastTopic();
+  return vis().filter(t => t.pct<100 && (!last || t.id!==last.id)).map(t => {
+    const r = relScore(last,t), due = isDue(t), weak = (100-t.pct)/100;
+    const sc = r*(0.6+weak) + (due?2:0) + (t.revs?0:.6) + weak*1.5 - (t.last===today()?3:0);
+    return { t, sc, r, due };
+  }).sort((a,b)=>b.sc-a.sc).slice(0,n);
+}
+const recTag = x => x.r>=3 ? "Related" : x.due ? "Due" : !x.t.revs ? "New" : "Weak";
+
+/* ================= themes ================= */
+const THEMES = {
+  forest:{n:"Forest",l:["#1f8a4c","#0f6b3a"],d:["#3fb96f","#1f8a4c"]},
+  ocean:{n:"Ocean",l:["#1d6fd1","#114b9a"],d:["#58a6ff","#1d6fd1"]},
+  violet:{n:"Violet",l:["#7a48d8","#53289f"],d:["#a78bfa","#7a48d8"]},
+  sunset:{n:"Sunset",l:["#e0662a","#b0431a"],d:["#ff9a5c","#e0662a"]},
+  rose:{n:"Rose",l:["#d6336c","#a31d4c"],d:["#ff7ba5","#d6336c"]},
+  slate:{n:"Slate",l:["#3f4a54","#1d252c"],d:["#aeb8c2","#6b7783"]}
+};
+const rgb = h => [1,3,5].map(i=>parseInt(h.substr(i,2),16));
+const mix = (a,b,t) => { const A = rgb(a), B = rgb(b); return "#"+A.map((v,i)=>Math.round(v*t+B[i]*(1-t)).toString(16).padStart(2,"0")).join(""); };
+const isDark = () => S.mode==="dark" || (S.mode!=="light" && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
+function applyTheme(){
+  const dark = isDark(), th = THEMES[S.theme]||THEMES.forest, pair = dark?th.d:th.l, a = pair[0], a2 = pair[1];
+  const bg = dark?"#161a1d":"#ffffff", st = document.documentElement.style;
+  document.documentElement.dataset.mode = dark?"dark":"light";
+  st.setProperty("--acc",a); st.setProperty("--acc2",a2); st.setProperty("--acc-ink",dark?"#071009":"#ffffff");
+  st.setProperty("--hero1",th.l[0]); st.setProperty("--hero2",th.l[1]);
+  st.setProperty("--l1",mix(a,bg,dark?.3:.32)); st.setProperty("--l2",mix(a,bg,dark?.55:.6)); st.setProperty("--l3",mix(a,bg,dark?.8:.88)); st.setProperty("--l4",dark?a:a2);
+  try { if (window.Android && Android.setMode) Android.setMode(dark); } catch(e){}
+}
+if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { if (S.mode==="system") { applyTheme(); render(true); } });
 
 /* ================= logo / icons ================= */
 const LOGO = `<svg viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fae65"/><stop offset="1" stop-color="#0f6b3a"/></linearGradient></defs>
@@ -201,7 +274,8 @@ const ICON = {
   today:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>',
   list:'<svg viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>',
   prog:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
-  sync:'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9z"/></svg>'
+  sync:'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9z"/></svg>',
+  set:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'
 };
 function ring(p,size,stroke,track,col){
   const r=(size-stroke)/2, c=2*Math.PI*r;
@@ -209,7 +283,7 @@ function ring(p,size,stroke,track,col){
   <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${col}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p/100)}" transform="rotate(-90 ${size/2} ${size/2})"/></svg>`;
 }
 
-/* ================= helpers: toast / confirm / copy ================= */
+/* ================= helpers ================= */
 function toast(t){ const e = document.createElement("div"); e.className="toast"; e.textContent=t; document.body.appendChild(e); setTimeout(()=>e.remove(),2200); }
 function modal(html){ closeModal(); const s = document.createElement("div"); s.className="scrim"; s.id="scrim";
   s.innerHTML = `<div class="sheet"><div class="grab"></div>${html}</div>`;
@@ -225,82 +299,99 @@ function copyText(text){
   if (!ok) try { navigator.clipboard.writeText(text); ok = true; } catch(e){}
   toast(ok ? "Copied to clipboard" : "Couldn't copy"); return ok;
 }
+function newSubject(name){
+  const used = new Set(S.subjects.map(s=>s.color)), id = S.subjects.length ? Math.max(...S.subjects.map(s=>s.id))+1 : 0;
+  const s = { id, name, color: PAL.find(c=>!used.has(c)) || PAL[id%PAL.length], examDate:"" };
+  S.subjects.push(s); return s;
+}
+const nextId = () => S.topics.length ? Math.max(...S.topics.map(t=>t.id))+1 : 0;
 
 /* ================= Claude sync text ================= */
-const FORMAT = `{"subject":"<course name>","examDate":"<YYYY-MM-DD or empty>","units":[{"name":"<unit>","topics":[{"title":"<topic>","pct":0,"notes":"<optional short note>"}]}]}`;
+const ONE = `{"subject":"<course name>","examDate":"<YYYY-MM-DD or empty>","units":[{"name":"<unit>","topics":[{"title":"<topic>","pct":0,"notes":"<optional one-line note>","related":["<title of 1-3 connected topics>"]}]}]}`;
 const PROMPT_IN = `Set up my Spinwise revision app.
 
-You already know my education from our conversations and memory (my courses, exam boards, specification, target grades, weak areas, anything I've told you). Use that. Do NOT ask me to paste the spec unless you genuinely don't have it. If I take several subjects, ask which one to build first (one subject per checklist).
+You already know my education from our conversations and memory (my subjects, exam boards, specifications, target grades, weak areas, anything I've told you). Use that. Do NOT ask me to paste a spec unless you genuinely don't have it.
 
-Build the checklist:
+Build a checklist for EVERY subject I take:
 - Units = the main spec sections. Topics = small, individually revisable chunks (20-60 min each), using the exam board's own wording.
-- "pct" = how well you think I currently know that topic (0-100), based on what I've told you or shown you. Use 0 if unknown.
+- "pct" = how well you think I currently know the topic (0-100) based on what I've told you or shown you. Use 0 if unknown.
 - "notes" = optional one-line reminder (key formula, common mistake, past feedback).
+- "related" = titles of 1-3 other topics (in the same subject) that connect to it as prerequisites or follow-ons. The app uses this to suggest what to revise next.
 - "examDate" if you know it.
 
-Reply with ONLY valid JSON in exactly this shape, nothing else:
-${FORMAT}`;
+Reply with ONLY valid JSON, nothing else, in this shape (one entry per subject):
+{"subjects":[ ${ONE} ]}`;
 
 function progressText(){
-  const m = counts(), st = streaks(m), ed = examDays();
-  const units = []; S.topics.forEach(t => { let u = units.find(x=>x.name===t.unit); if (!u) { u={name:t.unit,items:[]}; units.push(u); } u.items.push(t); });
+  const m = counts(), st = streaks(m), week = S.log.filter(e => sinceDays(e.d) < 7).length;
+  const subs = S.subjects.map(s => {
+    const items = S.topics.filter(t=>t.sid===s.id), units = [];
+    items.forEach(t => { let u = units.find(x=>x.name===t.unit); if (!u) { u={name:t.unit,topics:[]}; units.push(u); } u.topics.push({title:t.title,pct:t.pct,revisions:t.revs,last:t.last}); });
+    return { subject:s.name, examDate:s.examDate, overall:avg(items), units };
+  });
   const weak = S.topics.slice().sort((a,b)=>a.pct-b.pct).slice(0,6);
-  const week = S.log.filter(e => (new Date(today()+"T00:00:00") - new Date(e.d+"T00:00:00"))/864e5 < 7).length;
-  const snap = { subject:S.subject, examDate:S.examDate, units: units.map(u => ({name:u.name, topics:u.items.map(t=>({title:t.title,pct:t.pct,revisions:t.revs,last:t.last}))})) };
-  return `Here is my latest Spinwise progress (${today()}). Please acknowledge it, tell me what to focus on this week, and keep it in mind for next time. If you want to change my checklist, reply with JSON in the same shape as before and I'll import it.
+  const due = S.topics.filter(isDue).length;
+  const lines = subs.map(s => `- ${s.subject}: ${s.overall}%${s.examDate?` (exam ${s.examDate}, ${Math.ceil((new Date(s.examDate+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5)} days)`:""}`).join("\n");
+  return `Here is my latest Spinwise progress (${today()}). Please acknowledge it, tell me what to focus on this week, and keep it in mind for next time. If you want to change my checklists, reply with JSON in the same shape as before and I'll import it.
 
-Subject: ${S.subject||"(unnamed)"}
-Overall revised: ${overall()}%  |  Topics started: ${S.topics.filter(t=>t.revs).length}/${S.topics.length}
-Streak: ${st.cur} days (best ${st.best})  |  Revisions in the last 7 days: ${week}
-${ed!==null?`Exam: ${S.examDate} (${ed} days away)\n`:""}Units: ${units.map(u=>`${u.name} ${unitPct(u.items)}%`).join(", ")}
-Weakest topics: ${weak.map(t=>`${t.title} (${t.pct}%)`).join("; ")}
+Streak: ${st.cur} days (best ${st.best}) | Revisions in the last 7 days: ${week} | Topics due for review: ${due}
+Subjects:
+${lines}
+Weakest topics: ${weak.map(t=>`${t.title} [${(subj(t.sid)||{}).name}] ${t.pct}%`).join("; ")}
 
 Full data:
-${JSON.stringify(snap)}`;
+${JSON.stringify({subjects:subs})}`;
 }
 
 /* ================= import ================= */
+function toSpec(j){
+  const topics = [];
+  (j.units||[]).forEach(u => (u.topics||[]).forEach(t => { const o = typeof t==="string" ? {title:t} : t;
+    topics.push({ unit:String(u.name||"General"), title:String(o.title||o.name||"").trim(), pct:Math.max(0,Math.min(100,+(o.pct??0)||0)),
+      notes:String(o.notes||""), rel:(Array.isArray(o.related)?o.related:[]).map(String) }); }));
+  return { subject:String(j.subject||""), examDate:/^\d{4}-\d\d-\d\d$/.test(j.examDate||"")?j.examDate:"", topics };
+}
 function parseSpec(text){
   text = text.trim(); if (!text) throw new Error("Nothing pasted.");
   const a = text.indexOf("{"), b = text.lastIndexOf("}");
   if (a>=0 && b>a) { try {
     const j = JSON.parse(text.slice(a,b+1));
-    if (j.version===2 && Array.isArray(j.topics)) return { backup:j };
-    if (Array.isArray(j.units)) {
-      const topics = [];
-      j.units.forEach(u => (u.topics||[]).forEach(t => { const o = typeof t==="string" ? {title:t} : t;
-        topics.push({ unit:String(u.name||"General"), title:String(o.title||o.name||"").trim(), pct:Math.max(0,Math.min(100,+o.pct||0)), notes:String(o.notes||"") }); }));
-      return { subject:String(j.subject||""), examDate:/^\d{4}-\d\d-\d\d$/.test(j.examDate||"")?j.examDate:"", topics };
-    }
+    if (j.version>=2 && Array.isArray(j.topics)) return { backup:j };
+    if (Array.isArray(j.subjects)) return { specs: j.subjects.map(toSpec) };
+    if (Array.isArray(j.units)) return { specs:[toSpec(j)] };
   } catch(e){} }
   let unit = "General", subject = "", topics = [], first = true;
   text.split(/\r?\n/).forEach(line => { const l = line.trim(); if (!l) return;
     const h = l.match(/^#{1,3}\s+(.*)/);
     if (h) { if (first && /^#\s/.test(l)) { subject = h[1]; first = false; } else unit = h[1]; return; }
     const li = l.match(/^(?:[-*•]|\d+[.)])\s+(.*)/);
-    if (li) topics.push({ unit, title:li[1].trim(), pct:0, notes:"" }); else if (/:$/.test(l)) unit = l.slice(0,-1); });
+    if (li) topics.push({ unit, title:li[1].trim(), pct:0, notes:"", rel:[] }); else if (/:$/.test(l)) unit = l.slice(0,-1); });
   if (!topics.length) throw new Error("Couldn't find any topics. Ask Claude for the JSON format.");
-  return { subject, examDate:"", topics };
+  return { specs:[{ subject, examDate:"", topics }] };
 }
 function doImport(){
   const msg = $("#imsg");
   try {
     const r = parseSpec($("#paste").value);
     if (r.backup) { S = norm(r.backup); save(); tab="today"; render(); toast("Backup restored"); return; }
-    const replace = $("#replace") && $("#replace").checked;
-    const clean = r.topics.filter(t => t.title);
-    if (!clean.length) throw new Error("No topics found.");
-    if (!S.topics.length || replace) {
-      S = norm({ subject:r.subject||S.subject||"My course", examDate:r.examDate, topics:clean.map((t,i)=>({id:i,unit:t.unit,title:t.title,pct:t.pct,revs:0,notes:t.notes,last:null})), log:[], pick:null });
-      toast(`Imported ${clean.length} topics`);
-    } else {
-      let add = 0, upd = 0, nid = Math.max(...S.topics.map(t=>t.id))+1;
-      clean.forEach(t => { const ex = S.topics.find(x => x.title.toLowerCase()===t.title.toLowerCase());
-        if (ex) { upd++; ex.unit = t.unit; if (t.notes && !ex.notes) ex.notes = t.notes; if (!ex.revs && t.pct) ex.pct = t.pct; }
-        else { add++; S.topics.push({id:nid++,unit:t.unit,title:t.title,pct:t.pct,revs:0,notes:t.notes,last:null}); } });
-      if (r.subject && !S.subject) S.subject = r.subject; if (r.examDate) S.examDate = r.examDate;
-      toast(`Added ${add}, updated ${upd}`);
-    }
+    const replace = $("#replace") && $("#replace").checked, nameIn = $("#isn").value.trim();
+    let add = 0, upd = 0, subs = 0, last = null;
+    r.specs.forEach(sp => {
+      const items = sp.topics.filter(t=>t.title); if (!items.length) return;
+      const name = (r.specs.length===1 && nameIn) || sp.subject || nameIn || "My course";
+      let sub = S.subjects.find(x=>x.name.toLowerCase()===name.toLowerCase());
+      if (!sub) { sub = newSubject(name); subs++; }
+      if (sp.examDate) sub.examDate = sp.examDate;
+      if (replace) { const ids = new Set(S.topics.filter(t=>t.sid===sub.id).map(t=>t.id)); S.topics = S.topics.filter(t=>!ids.has(t.id)); S.log = S.log.filter(e=>!ids.has(e.id)); if (S.pick && ids.has(S.pick.id)) S.pick = null; }
+      items.forEach(t => {
+        const ex = S.topics.find(x => x.sid===sub.id && x.title.toLowerCase()===t.title.toLowerCase());
+        if (ex) { upd++; ex.unit = t.unit; if (t.notes && !ex.notes) ex.notes = t.notes; if (t.rel.length) ex.rel = t.rel; if (!ex.revs && t.pct) ex.pct = t.pct; }
+        else { add++; S.topics.push({ id:nextId(), sid:sub.id, unit:t.unit, title:t.title, pct:t.pct, revs:0, notes:t.notes, last:null, rel:t.rel }); } });
+      last = sub;
+    });
+    if (!last) throw new Error("No topics found.");
+    S.view = r.specs.length===1 ? last.id : "all";
+    toast(`Added ${add}, updated ${upd}${subs?`, ${subs} new subject${subs>1?"s":""}`:""}`);
     save(); tab = "today"; render();
   } catch(e){ msg.style.color = "#c0392b"; msg.textContent = e.message; }
 }
@@ -309,8 +400,7 @@ function doImport(){
 function logRevision(id,pct,notes){
   const t = S.topics.find(x=>x.id===id); if (!t) return;
   S.log.push({ d:today(), id, prev:{pct:t.pct,revs:t.revs,last:t.last} });
-  t.pct = pct; t.revs++; t.last = today(); if (notes!==undefined) t.notes = notes;
-  save();
+  t.pct = pct; t.revs++; t.last = today(); if (notes!==undefined) t.notes = notes; save();
 }
 function undoRevision(id){
   for (let i=S.log.length-1;i>=0;i--) if (S.log[i].id===id && S.log[i].d===today()) {
@@ -321,8 +411,8 @@ function undoRevision(id){
 const CONF = [[25,"Shaky"],[50,"Getting there"],[70,"Okay"],[85,"Solid"],[100,"Nailed it"]];
 function openRevise(id){
   const t = S.topics.find(x=>x.id===id); if (!t) return;
-  const start = t.revs ? t.pct : (t.pct||50);
-  modal(`<div class="sub">${esc(t.unit)} · ${t.revs} revision${t.revs===1?"":"s"} · last ${ago(t.last)}</div>
+  const start = t.revs ? t.pct : (t.pct||50), s = subj(t.sid)||{name:"",color:"#6f7a83"};
+  modal(`<div class="sub"><i class="dot" style="--c:${s.color}"></i> ${esc(s.name)} · ${esc(t.unit)} · ${t.revs} revision${t.revs===1?"":"s"} · last ${ago(t.last)}</div>
     <h2 style="font-size:20px;margin:4px 0 12px">${esc(t.title)}</h2>
     <div class="row"><div class="big-pct" id="bp">${start}%</div><span class="sp"></span><span class="sub" id="bl"></span></div>
     <input type="range" id="rg" min="0" max="100" step="5" value="${start}">
@@ -334,10 +424,22 @@ function openRevise(id){
   $("#rg").addEventListener("input", upd); upd();
 }
 function openAdd(){
-  const units = [...new Set(S.topics.map(t=>t.unit))];
+  if (!S.subjects.length) { openSubject(null); return; }
+  const def = S.view==="all" ? S.subjects[0].id : S.view;
+  const units = [...new Set(S.topics.filter(t=>t.sid===def).map(t=>t.unit))];
   modal(`<h2>Add a topic</h2><div style="display:grid;gap:10px;margin-top:10px">
+    <select id="as">${S.subjects.map(s=>`<option value="${s.id}" ${s.id===def?"selected":""}>${esc(s.name)}</option>`).join("")}</select>
     <input type="text" id="au" list="ul" placeholder="Unit" value="${esc(units[units.length-1]||"")}"><datalist id="ul">${units.map(u=>`<option value="${esc(u)}">`).join("")}</datalist>
     <input type="text" id="at" placeholder="Topic title"><button data-a="doadd">Add topic</button></div>`);
+}
+function openSubject(id){
+  editSid = id; const s = id===null ? null : subj(id); editColor = s ? s.color : (PAL.find(c=>!S.subjects.some(x=>x.color===c))||PAL[0]);
+  modal(`<h2>${s?"Edit subject":"New subject"}</h2><div style="display:grid;gap:10px;margin-top:10px">
+    <input type="text" id="sn" placeholder="e.g. Biology" value="${s?esc(s.name):""}">
+    <div class="sub">Colour</div><div class="swatches" id="sws">${PAL.map(c=>`<button class="sw ${c===editColor?"on":""}" style="--c:${c}" data-a="pickc" data-v="${c}"></button>`).join("")}</div>
+    <div class="sub">Exam date (optional)</div><input type="date" id="sx" value="${s?esc(s.examDate||""):""}">
+    <button data-a="subjsave">Save subject</button>
+    ${s?`<button class="link" data-a="subjdel" data-v="${s.id}">Delete subject and its topics</button>`:""}</div>`);
 }
 
 /* ================= wheel ================= */
@@ -346,36 +448,41 @@ function drawWheel(){
   const size = cv.clientWidth, dpr = window.devicePixelRatio||1; cv.width = size*dpr; cv.height = size*dpr;
   const ctx = cv.getContext("2d"); ctx.scale(dpr,dpr);
   const cs = getComputedStyle(document.documentElement), g = k => cs.getPropertyValue(k).trim();
-  const ink = g("--ink"), acc = g("--acc"), line = g("--line"), cols = [g("--w1"),g("--w2")];
+  const ink = g("--ink"), line = g("--line"), card = g("--card"), dark = document.documentElement.dataset.mode==="dark";
   const R = size/2-5, n = wheelSlices.length||1, a = Math.PI*2/n;
   ctx.clearRect(0,0,size,size);
-  ctx.beginPath(); ctx.arc(size/2,size/2,R+3,0,7); ctx.fillStyle = g("--card"); ctx.fill(); ctx.strokeStyle = line; ctx.stroke();
+  ctx.beginPath(); ctx.arc(size/2,size/2,R+3,0,7); ctx.fillStyle = card; ctx.fill(); ctx.strokeStyle = line; ctx.stroke();
   ctx.save(); ctx.translate(size/2,size/2); ctx.rotate(rot);
   for (let i=0;i<n;i++){
-    const hi = n>1 && i===n-1 && n%2;
+    const sl = wheelSlices[i]||{}, c = /^#[0-9a-f]{6}$/i.test(colorOf(sl)) ? colorOf(sl) : "#6f7a83";
     ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,R,-Math.PI/2+i*a,-Math.PI/2+(i+1)*a); ctx.closePath();
-    ctx.fillStyle = hi ? acc : cols[i%2]; ctx.fill(); ctx.strokeStyle = line; ctx.lineWidth = 1; ctx.stroke();
+    ctx.fillStyle = mix(c, dark?"#161a1d":"#ffffff", (dark?.3:.18) + (i%2)*.12); ctx.fill(); ctx.strokeStyle = card; ctx.lineWidth = 2; ctx.stroke();
     ctx.save(); ctx.rotate(-Math.PI/2+(i+.5)*a); ctx.textAlign="right"; ctx.textBaseline="middle";
-    ctx.fillStyle = hi ? "#fff" : ink; ctx.font = '600 11px Chillax, Jakarta, sans-serif';
-    let t = (wheelSlices[i]||{}).title||""; const max = Math.floor(R*0.62/6.2); if (t.length>max) t = t.slice(0,max-1)+"…";
+    ctx.fillStyle = ink; ctx.font = '600 11px Chillax, Jakarta, sans-serif';
+    let t = sl.title||""; const max = Math.floor(R*0.62/6.2); if (t.length>max) t = t.slice(0,max-1)+"…";
     ctx.fillText(t, R-12, 0); ctx.restore();
   }
   ctx.restore();
-  ctx.beginPath(); ctx.arc(size/2,size/2,17,0,7); ctx.fillStyle = g("--card"); ctx.fill(); ctx.strokeStyle = line; ctx.stroke();
-  ctx.beginPath(); ctx.arc(size/2,size/2,5,0,7); ctx.fillStyle = acc; ctx.fill();
+  ctx.beginPath(); ctx.arc(size/2,size/2,17,0,7); ctx.fillStyle = card; ctx.fill(); ctx.strokeStyle = line; ctx.stroke();
+  ctx.beginPath(); ctx.arc(size/2,size/2,5,0,7); ctx.fillStyle = g("--acc"); ctx.fill();
 }
-function pool(){ const p = S.topics.filter(t=>t.pct<100); return p.length ? p : S.topics; }
+function pool(){ const p = vis().filter(t=>t.pct<100); return p.length ? p : vis(); }
+function weight(t, last){
+  const w = ((100-t.pct)+8) * (t.last===today() ? .15 : 1) * (isDue(t) ? 1.8 : 1);
+  return S.wmode==="related" && last ? w*(relScore(last,t)+.5) : w;
+}
 function weightedWinner(){
-  const p = pool(), w = p.map(t => ((100-t.pct)+8) * (t.last===today() ? .15 : 1));
+  const last = lastTopic(), p = pool().filter(t => !last || t.id!==last.id || pool().length===1), w = p.map(t => weight(t,last));
   let r = Math.random()*w.reduce((a,b)=>a+b,0);
   for (let i=0;i<p.length;i++){ r -= w[i]; if (r<=0) return p[i]; } return p[p.length-1];
 }
 function buildSlices(winner){
-  const others = pool().filter(t => !winner || t.id!==winner.id).sort(()=>Math.random()-.5).slice(0,7);
+  const last = lastTopic();
+  const others = pool().filter(t => !winner || t.id!==winner.id).map(t=>({t,k:Math.random()*weight(t,last)})).sort((a,b)=>b.k-a.k).slice(0,7).map(x=>x.t);
   if (winner) others.push(winner); return others.sort(()=>Math.random()-.5);
 }
 function spin(){
-  if (spinning || !S.topics.length) return;
+  if (spinning || !vis().length) return;
   const winner = weightedWinner(); wheelSlices = buildSlices(winner);
   const idx = wheelSlices.findIndex(t=>t.id===winner.id), a = Math.PI*2/wheelSlices.length;
   const start = rot % (Math.PI*2), target = Math.PI*2*6 - (idx+.5)*a, t0 = performance.now(), dur = 4200;
@@ -388,40 +495,53 @@ function spin(){
 
 /* ================= views ================= */
 function renderNav(){
-  $("#nav").innerHTML = [["today","Today"],["list","Topics"],["prog","Progress"],["sync","Claude"]]
-    .map(([k,l]) => `<button class="${tab===k?"on":""}" data-a="tab" data-v="${k}">${ICON[k==="sync"?"sync":k]}${l}</button>`).join("");
+  $("#nav").innerHTML = [["today","Today","today"],["list","Topics","list"],["prog","Progress","prog"],["sync","Claude","sync"],["set","Settings","set"]]
+    .map(([k,l,i]) => `<button class="${tab===k?"on":""}" data-a="tab" data-v="${k}">${ICON[i]}${l}</button>`).join("");
+}
+function subjBar(){
+  if (S.subjects.length<2) return "";
+  return `<div class="subj"><button class="sc ${S.view==="all"?"on":""}" style="--c:var(--ink)" data-a="view" data-v="all">All</button>` +
+    S.subjects.map(s => `<button class="sc ${S.view===s.id?"on":""}" style="--c:${s.color}" data-a="view" data-v="${s.id}"><i class="dot"></i>${esc(s.name)}</button>`).join("") + `</div>`;
 }
 function viewToday(keep){
-  if (!S.topics.length) return `<div class="card empty">${LOGO.replace("<svg","<svg style='border-radius:18px'")}<h2>Welcome to Spinwise</h2><p>Ask Claude to build your checklist from what it already knows about your course.</p><button data-a="tab" data-v="sync">Set up with Claude</button></div>`;
-  const m = counts(), st = streaks(m), o = overall(), ed = examDays(), pick = todayPick(), done = pick && loggedToday(pick.id), n = todayCount();
-  if (!keep || !wheelSlices.length) wheelSlices = buildSlices(pick);
+  if (!S.subjects.length) return `<div class="card empty">${LOGO.replace("<svg","<svg style='border-radius:18px'")}<h2>Welcome to Spinwise</h2><p>Ask Claude to build checklists for all your subjects from what it already knows about you.</p><button data-a="tab" data-v="sync">Set up with Claude</button><div><button class="link" data-a="subj-new">or add a subject manually</button></div></div>`;
+  const items = vis();
+  if (!items.length) return subjBar()+`<div class="card empty"><h2>No topics yet</h2><p>Import this subject from Claude or add topics by hand.</p><button data-a="add">+ Add topic</button></div>`;
+  const m = counts(), st = streaks(m), o = overall(), ex = nextExam(), pick = todayPick(), done = pick && loggedToday(pick.id), n = todayCount();
+  const dueN = items.filter(isDue).length, last = lastTopic();
+  if (!keep || !wheelSlices.length || wheelSlices.some(t=>!items.some(x=>x.id===t.id))) wheelSlices = buildSlices(pick && items.some(x=>x.id===pick.id) ? pick : null);
+  const sc = pick ? colorOf(pick) : "var(--acc)";
   let panel;
-  if (pick && !done) panel = `<div class="topic"><small>Today's topic · ${esc(pick.unit)}</small><div>${esc(pick.title)}</div></div>
+  if (pick && !done) panel = `<div class="topic" style="--c:${sc}"><small>Today's topic · ${esc((subj(pick.sid)||{}).name||"")} · ${esc(pick.unit)}</small><div>${esc(pick.title)}</div></div>
     <div class="row"><button class="sp" data-a="revise" data-v="${pick.id}">Log revision</button><button class="ghost" data-a="skip">Skip</button></div>`;
-  else if (pick && done) panel = `<div class="topic"><small>Logged · ${pick.pct}% confident</small><div>${esc(pick.title)}</div></div>
+  else if (pick && done) panel = `<div class="topic" style="--c:${sc}"><small>Logged · ${pick.pct}% confident</small><div>${esc(pick.title)}</div></div>
     <div class="row"><button class="sp" data-a="again">Spin another</button><button class="ghost" data-a="undo" data-v="${pick.id}">Undo</button></div>`;
-  else panel = `<button class="full" id="spinbtn" data-a="spin">Spin the wheel</button>`;
+  else panel = `${last?`<div class="seg"><button class="${S.wmode==="any"?"on":""}" data-a="wmode" data-v="any">Any topic</button><button class="${S.wmode==="related"?"on":""}" data-a="wmode" data-v="related">Related to last</button></div>`:""}<button class="full" id="spinbtn" data-a="spin">Spin the wheel</button>`;
   const goalDots = Array.from({length:Math.max(S.goal,1)},(_,i)=>`<span style="width:10px;height:10px;border-radius:99px;background:${i<n?"#fff":"rgba(255,255,255,.3)"};display:inline-block"></span>`).join(" ");
-  return `<div class="card hero"><div class="ringwrap">${ring(o,92,9,"rgba(255,255,255,.25)","#fff")}<div class="lab">${o}%</div></div>
-      <div><b class="big">${o}% revised</b><span class="sub">${S.topics.filter(t=>t.revs).length} of ${S.topics.length} topics started</span>
-      <div class="chips"><span class="chip">🔥 ${st.cur} day${st.cur===1?"":"s"}</span>${ed!==null&&ed>=0?`<span class="chip">${ed} days to exam</span>`:""}<span class="chip">${goalDots} ${n}/${S.goal} today</span></div></div></div>
+  const R = recs(3);
+  return subjBar() + `<div class="card hero"><div class="ringwrap">${ring(o,92,9,"rgba(255,255,255,.25)","#fff")}<div class="lab">${o}%</div></div>
+      <div><b class="big">${o}% revised</b><span class="sub">${items.filter(t=>t.revs).length} of ${items.length} topics started</span>
+      <div class="chips"><span class="chip">🔥 ${st.cur} day${st.cur===1?"":"s"}</span>${dueN?`<span class="chip">${dueN} due</span>`:""}${ex?`<span class="chip">${ex.d} days to ${S.view==="all"&&S.subjects.length>1?esc(ex.name):"exam"}</span>`:""}<span class="chip">${goalDots} ${n}/${S.goal} today</span></div></div></div>
     <div class="card"><div class="wheelwrap"><div class="ptr"></div><canvas id="wheel"></canvas></div>${panel}</div>
-    ${pick && pick.notes ? `<div class="card"><div class="sub" style="text-transform:uppercase;letter-spacing:.06em;font-size:11px">Your note</div><div style="margin-top:4px">${esc(pick.notes)}</div></div>`:""}`;
+    ${pick && pick.notes ? `<div class="card"><div class="sub" style="text-transform:uppercase;letter-spacing:.06em;font-size:11px">Your note</div><div style="margin-top:4px">${esc(pick.notes)}</div></div>`:""}
+    ${R.length?`<div class="card"><h2>${last?"Up next":"Where to start"}</h2><p>${last?`Related to <b>${esc(last.title)}</b>, plus what's due or weak.`:"Weakest and newest topics first."}</p>
+      ${R.map(x=>`<div class="rec" data-a="revise" data-v="${x.t.id}"><i class="dot" style="--c:${colorOf(x.t)}"></i><div class="t">${esc(x.t.title)}<div class="sub" style="font-family:var(--font);font-weight:400">${esc(x.t.unit)}</div></div><span class="pill ${x.due?"due":""}">${recTag(x)}</span></div>`).join("")}</div>`:""}`;
 }
 function viewList(){
   if (!S.topics.length) return `<div class="card empty"><b>No topics yet</b><p>Import from Claude first.</p></div>`;
-  const F = {all:()=>true,new:t=>!t.revs,weak:t=>t.revs&&t.pct<60,solid:t=>t.pct>=80};
-  const units = []; S.topics.forEach(t => { let u = units.find(x=>x.name===t.unit); if(!u){u={name:t.unit,items:[]};units.push(u);} u.items.push(t); });
-  return `<input class="search" id="q" type="text" placeholder="Search topics" autocomplete="off">
-    <div class="filters">${[["all","All"],["new","Not started"],["weak","Needs work"],["solid","Solid"]].map(([k,l])=>`<button class="${flt===k?"on":""}" data-a="flt" data-v="${k}">${l}</button>`).join("")}</div>` +
-    units.map(u => { const items = u.items.filter(F[flt]); if (!items.length) return ""; const up = unitPct(u.items);
-      return `<details class="unit" ${openUnits.has(u.name)||flt!=="all"?"open":""} data-u="${esc(u.name)}"><summary><div class="row"><b class="sp">${esc(u.name)}</b><em>${up}% · ${u.items.filter(t=>t.revs).length}/${u.items.length}</em></div><div class="bar"><i style="width:${up}%"></i></div></summary>` +
-      items.map(t => `<div class="item" data-a="revise" data-v="${t.id}" data-s="${esc(t.title.toLowerCase())}"><div class="badge" data-l="${level(t.pct)}">${t.revs?t.pct+"%":"–"}</div><div class="sp"><div class="t">${esc(t.title)}</div><div class="m">${t.revs?`${t.revs} revision${t.revs===1?"":"s"} · ${ago(t.last)}`:"Not started"}</div></div></div>`).join("") + `</details>`; }).join("") +
+  const F = {all:()=>true,new:t=>!t.revs,weak:t=>t.revs&&t.pct<60,due:isDue,solid:t=>t.pct>=80};
+  const groups = []; vis().forEach(t => { const k = t.sid+"|"+t.unit; let u = groups.find(x=>x.k===k); if(!u){u={k,unit:t.unit,sid:t.sid,items:[]};groups.push(u);} u.items.push(t); });
+  const cnt = {}; Object.keys(F).forEach(k => cnt[k] = vis().filter(F[k]).length);
+  return subjBar() + `<input class="search" id="q" type="text" placeholder="Search topics" autocomplete="off">
+    <div class="filters">${[["all","All"],["new","Not started"],["weak","Needs work"],["due","Due"],["solid","Solid"]].map(([k,l])=>`<button class="${flt===k?"on":""}" data-a="flt" data-v="${k}">${l}${k!=="all"&&cnt[k]?` · ${cnt[k]}`:""}</button>`).join("")}</div>` +
+    groups.map(u => { const items = u.items.filter(F[flt]); if (!items.length) return ""; const up = avg(u.items), s = subj(u.sid)||{name:"",color:"#6f7a83"};
+      return `<details class="unit" style="--sc:${s.color}" ${openUnits.has(u.k)||flt!=="all"?"open":""} data-u="${esc(u.k)}"><summary><div class="row"><b class="sp">${esc(u.unit)}</b><em>${up}% · ${u.items.filter(t=>t.revs).length}/${u.items.length}</em></div>${S.view==="all"&&S.subjects.length>1?`<div class="tag">${esc(s.name)}</div>`:""}<div class="bar"><i style="width:${up}%"></i></div></summary>` +
+      items.map(t => `<div class="item" data-a="revise" data-v="${t.id}" data-s="${esc(t.title.toLowerCase())}"><div class="badge" data-l="${level(t.pct)}">${t.revs?t.pct+"%":"–"}</div><div class="sp"><div class="t">${esc(t.title)}${isDue(t)?'<span class="pill due">Due</span>':""}</div><div class="m">${t.revs?`${t.revs} revision${t.revs===1?"":"s"} · ${ago(t.last)}`:"Not started"}</div></div></div>`).join("") + `</details>`; }).join("") +
     `<div style="text-align:center;margin-top:12px"><button class="ghost small" data-a="add">+ Add topic</button></div>`;
 }
 function viewProg(){
   if (!S.topics.length) return `<div class="card empty"><b>Nothing to show yet</b></div>`;
-  const m = counts(), st = streaks(m), total = S.log.length, active = Object.keys(m).length, ed = examDays();
+  const m = counts(), st = streaks(m), total = S.log.length, active = Object.keys(m).length, ex = nextExam();
   const end = new Date(); end.setHours(0,0,0,0); const start = new Date(end); start.setDate(start.getDate()-52*7-end.getDay());
   let cells = "", months = "", lastM = -1;
   for (let d = new Date(start); d <= new Date(end.getTime()+(6-end.getDay())*864e5); d.setDate(d.getDate()+1)) {
@@ -429,39 +549,53 @@ function viewProg(){
     if (d.getDay()===0) { const mo = d.getMonth(); months += `<span>${mo!==lastM?d.toLocaleString("en",{month:"short"}):""}</span>`; lastM = mo; }
     cells += `<div class="cell ${fut?"future":""} ${k===selDay?"sel":""}" data-l="${l}" data-d="${k}" data-c="${c}"></div>`;
   }
-  const weak = S.topics.slice().sort((a,b)=>a.pct-b.pct).slice(0,5);
-  const units = []; S.topics.forEach(t => { let u = units.find(x=>x.name===t.unit); if(!u){u={name:t.unit,items:[]};units.push(u);} u.items.push(t); });
+  const items = vis(), weak = items.slice().sort((a,b)=>a.pct-b.pct).slice(0,5);
+  const groups = []; items.forEach(t => { const k = t.sid+"|"+t.unit; let u = groups.find(x=>x.k===k); if(!u){u={k,unit:t.unit,sid:t.sid,items:[]};groups.push(u);} u.items.push(t); });
+  const wk = S.log.filter(e=>sinceDays(e.d)<7).length, pw = S.log.filter(e=>{const n=sinceDays(e.d);return n>=7&&n<14}).length;
   const recent = S.log.slice(-5).reverse();
-  return `<div class="stats"><div class="stat"><b>${st.cur}</b><span>current streak</span></div><div class="stat"><b>${st.best}</b><span>best streak</span></div><div class="stat"><b>${active}</b><span>days tracked</span></div></div>
-    <div class="card"><div class="row" style="margin-bottom:10px"><b>${total} revision${total===1?"":"s"} logged</b><span class="sp"></span><span class="sub">last 12 months</span></div>
+  return subjBar() + `<div class="stats"><div class="stat"><b>${st.cur}</b><span>current streak</span></div><div class="stat"><b>${st.best}</b><span>best streak</span></div><div class="stat"><b>${active}</b><span>days tracked</span></div></div>
+    <div class="card"><div class="row" style="margin-bottom:10px"><b>${total} revision${total===1?"":"s"} logged</b><span class="sp"></span><span class="sub">${wk} this week · ${pw} last week</span></div>
       <div class="heat" id="heat"><div class="months">${months}</div><div class="grid">${cells}</div></div><div class="tip" id="tip">Tap a day for details.</div>
       <div class="legend">Less ${[0,1,2,3,4].map(l=>`<div class="cell" data-l="${l}"></div>`).join("")} More</div></div>
-    ${ed!==null?`<div class="card"><div class="row"><div class="big-pct">${Math.max(ed,0)}</div><div><b>days until your exam</b><div class="sub">${S.topics.filter(t=>t.pct<70).length} topics below 70% · about ${Math.ceil(S.topics.filter(t=>t.pct<70).length/Math.max(ed,1)*7)} per week to cover them</div></div></div></div>`:""}
-    <h3>Units</h3><div class="card" style="margin-top:0">${units.map(u=>{const p=unitPct(u.items);return `<div class="list-row"><div class="t">${esc(u.name)}</div><div class="bar"><i style="width:${p}%"></i></div><div class="n">${p}%</div></div>`}).join("")}</div>
-    <h3>Needs work</h3><div class="card" style="margin-top:0">${weak.map(t=>`<div class="list-row" data-a="revise" data-v="${t.id}" style="cursor:pointer"><div class="t">${esc(t.title)}</div><div class="bar warn"><i style="width:${t.pct}%"></i></div><div class="n">${t.pct}%</div></div>`).join("")}</div>
-    ${recent.length?`<h3>Recent</h3><div class="card" style="margin-top:0">${recent.map(e=>{const t=S.topics.find(x=>x.id===e.id);return t?`<div class="list-row"><div class="t">${esc(t.title)}</div><div class="n" style="width:auto">${e.d.slice(5)}</div></div>`:""}).join("")}</div>`:""}`;
+    ${ex?`<div class="card"><div class="row"><div class="big-pct">${ex.d}</div><div><b>days until ${esc(ex.name)}</b><div class="sub">${items.filter(t=>t.pct<70).length} topics below 70%</div></div></div></div>`:""}
+    ${S.view==="all"&&S.subjects.length>1?`<h3>Subjects</h3><div class="card" style="margin-top:0">${S.subjects.map(s=>{const p=avg(S.topics.filter(t=>t.sid===s.id));return `<div class="list-row" data-a="view" data-v="${s.id}" style="cursor:pointer"><i class="dot" style="--c:${s.color}"></i><div class="t">${esc(s.name)}</div><div class="bar"><i style="width:${p}%;background:${s.color}"></i></div><div class="n">${p}%</div></div>`}).join("")}</div>`:""}
+    <h3>Units</h3><div class="card" style="margin-top:0">${groups.map(u=>{const p=avg(u.items),s=subj(u.sid)||{color:"#6f7a83"};return `<div class="list-row"><i class="dot" style="--c:${s.color}"></i><div class="t">${esc(u.unit)}</div><div class="bar"><i style="width:${p}%"></i></div><div class="n">${p}%</div></div>`}).join("")}</div>
+    <h3>Needs work</h3><div class="card" style="margin-top:0">${weak.map(t=>`<div class="list-row" data-a="revise" data-v="${t.id}" style="cursor:pointer"><i class="dot" style="--c:${colorOf(t)}"></i><div class="t">${esc(t.title)}</div><div class="bar warn"><i style="width:${t.pct}%"></i></div><div class="n">${t.pct}%</div></div>`).join("")}</div>
+    ${recent.length?`<h3>Recent</h3><div class="card" style="margin-top:0">${recent.map(e=>{const t=S.topics.find(x=>x.id===e.id);return t?`<div class="list-row"><i class="dot" style="--c:${colorOf(t)}"></i><div class="t">${esc(t.title)}</div><div class="n" style="width:auto">${e.d.slice(5)}</div></div>`:""}).join("")}</div>`:""}`;
 }
 function viewSync(){
-  return `<div class="card"><h2>Load from Claude</h2><p>Claude already knows your courses. Copy this prompt into a regular Claude chat, then paste its reply below. No need to enter any spec yourself.</p>
+  return `<div class="card"><h2>Load from Claude</h2><p>Claude already knows your subjects. Copy this prompt into a regular Claude chat, then paste its reply below. Every subject comes in at once, with colours, related topics and starting confidence.</p>
       <button class="full" data-a="cp-in">Copy prompt for Claude</button>
       <details class="how"><summary>See the prompt</summary><pre>${esc(PROMPT_IN)}</pre></details>
       <textarea id="paste" style="margin-top:10px" placeholder='Paste Claude&#39;s reply here'></textarea>
-      <label class="check"><input type="checkbox" id="replace" ${S.topics.length?"":"disabled"}> Replace everything (otherwise your progress is kept and new topics are merged in)</label>
+      <input type="text" id="isn" list="sl" style="margin-top:8px" placeholder="Subject name (only if Claude's reply doesn't include one)"><datalist id="sl">${S.subjects.map(s=>`<option value="${esc(s.name)}">`).join("")}</datalist>
+      <label class="check"><input type="checkbox" id="replace" ${S.topics.length?"":"disabled"}> Replace those subjects' topics and progress (otherwise progress is kept and new topics merged in)</label>
       <button class="full" style="margin-top:10px" data-a="import">Import</button><div class="msg" id="imsg"></div></div>
-    <div class="card"><h2>Tell Claude how it's going</h2><p>Copies your % revised, streak, weak topics and full data. Paste it into Claude and it can acknowledge your progress and tell you what to do next.</p>
-      <button class="ghost full" data-a="cp-out" ${S.topics.length?"":"disabled"}>Copy progress for Claude</button></div>
-    <div class="card"><h2>Settings</h2>
-      <div class="lbl"><span>Course name</span></div><input type="text" id="sj" value="${esc(S.subject)}" placeholder="e.g. A-Level Biology">
-      <div class="lbl"><span>Exam date</span></div><input type="date" id="sd" value="${esc(S.examDate)}">
-      <div class="lbl"><span>Daily goal (topics)</span><span class="stepper"><button data-a="goal" data-v="-1">−</button><b id="gv">${S.goal}</b><button data-a="goal" data-v="1">+</button></span></div></div>
-    <div class="card"><h2>Backup</h2><p>Copy your data to keep it safe, or paste a backup into the box above and press Import to restore it.</p>
+    <div class="card"><h2>Tell Claude how it's going</h2><p>Copies your % revised per subject, streak, due topics, weak spots and full data. Paste it into Claude and it can acknowledge your progress and say what to do next.</p>
+      <button class="ghost full" data-a="cp-out" ${S.topics.length?"":"disabled"}>Copy progress for Claude</button></div>`;
+}
+function viewSet(){
+  return `<div class="card"><div class="row"><h2 class="sp">Subjects</h2><button class="ghost small" data-a="subj-new">+ Add</button></div><p>Each subject gets its own colour on the wheel and in your lists.</p>
+      ${S.subjects.length?S.subjects.map(s=>`<div class="list-row" data-a="subj-edit" data-v="${s.id}" style="cursor:pointer"><i class="dot" style="--c:${s.color};width:14px;height:14px"></i><div class="t">${esc(s.name)}<div class="sub" style="font-family:var(--font);font-weight:400">${S.topics.filter(t=>t.sid===s.id).length} topics${s.examDate?" · exam "+esc(s.examDate):""}</div></div><span class="sub">Edit</span></div>`).join(""):`<div class="sub">No subjects yet.</div>`}</div>
+    <div class="card"><h2>Appearance</h2><div class="sub" style="margin:6px 0">Theme colour</div>
+      <div class="swatches">${Object.keys(THEMES).map(k=>`<button class="sw ${S.theme===k?"on":""}" style="--c:${THEMES[k].l[0]}" data-a="theme" data-v="${k}" aria-label="${THEMES[k].n}"></button>`).join("")}</div>
+      <div class="sub" style="margin-bottom:6px">Mode</div>
+      <div class="seg" style="margin-bottom:0">${[["system","System"],["light","Light"],["dark","Dark"]].map(([k,l])=>`<button class="${S.mode===k?"on":""}" data-a="mode" data-v="${k}">${l}</button>`).join("")}</div></div>
+    <div class="card"><h2>Daily goal</h2>
+      <div class="lbl"><span>Topics per day</span><span class="stepper"><button data-a="goal" data-v="-1">−</button><b id="gv">${S.goal}</b><button data-a="goal" data-v="1">+</button></span></div></div>
+    <div class="card"><h2>Backup</h2><p>Copy all your data to keep it safe. To restore, paste a backup into the box on the Claude tab and press Import.</p>
       <div class="row"><button class="ghost small sp" data-a="backup">Copy backup</button><button class="ghost small sp" data-a="resetp">Reset progress</button></div></div>`;
 }
+function title(){
+  if (S.view!=="all") return (subj(S.view)||{}).name || "Spinwise";
+  return S.subjects.length===1 ? S.subjects[0].name : "Spinwise";
+}
 function render(keep){
+  applyTheme();
   $("#logo").innerHTML = LOGO;
-  $("#title").textContent = S.subject || "Spinwise";
+  $("#title").textContent = title();
   $("#subtitle").textContent = new Date().toLocaleDateString("en",{weekday:"long",day:"numeric",month:"long"});
-  $("#main").innerHTML = tab==="today"?viewToday(keep):tab==="list"?viewList():tab==="prog"?viewProg():viewSync();
+  $("#main").innerHTML = tab==="today"?viewToday(keep):tab==="list"?viewList():tab==="prog"?viewProg():tab==="sync"?viewSync():viewSet();
   renderNav();
   if (tab==="today") drawWheel();
   if (tab==="list") {
@@ -477,15 +611,13 @@ function render(keep){
       const dt = new Date(c.dataset.d+"T00:00:00").toLocaleDateString("en",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
       const names = S.log.filter(e=>e.d===c.dataset.d).map(e=>(S.topics.find(t=>t.id===e.id)||{}).title).filter(Boolean);
       $("#tip").innerHTML = `<b style="color:var(--ink)">${names.length} revision${names.length===1?"":"s"}</b> on ${dt}`+(names.length?`<br>${names.map(esc).join(" · ")}`:""); }); }
-  if (tab==="sync") {
-    $("#sj").addEventListener("change", e => { S.subject = e.target.value.trim(); save(); $("#title").textContent = S.subject||"Spinwise"; });
-    $("#sd").addEventListener("change", e => { S.examDate = e.target.value; save(); });
-  }
 }
 
 /* ================= actions ================= */
 const act = {
   tab(v){ if (spinning) return; tab = v; render(); window.scrollTo(0,0); },
+  view(v){ if (spinning) return; S.view = v==="all" ? "all" : +v; wheelSlices = []; save(); render(); },
+  wmode(v){ S.wmode = v; wheelSlices = []; save(); render(); },
   spin(){ spin(); },
   skip(){ S.pick = null; save(); render(); },
   again(){ S.pick = null; save(); render(); },
@@ -493,21 +625,33 @@ const act = {
   revise(v){ openRevise(+v); },
   close(){ closeModal(); },
   setpct(v){ $("#rg").value = v; $("#rg").dispatchEvent(new Event("input")); },
-  dolog(v){ const id = +v, pct = +$("#rg").value; logRevision(id,pct,$("#nt").value.trim()); closeModal(); render(); toast("Revision logged"); },
+  dolog(v){ logRevision(+v,+$("#rg").value,$("#nt").value.trim()); closeModal(); wheelSlices = []; render(); toast("Revision logged"); },
   savenote(v){ const t = S.topics.find(x=>x.id===+v); t.notes = $("#nt").value.trim(); if (!t.revs) t.pct = +$("#rg").value; save(); closeModal(); render(); },
   resettopic(v){ const id = +v; ask("Reset this topic?","Reset",()=>{ const t = S.topics.find(x=>x.id===id); t.pct=0;t.revs=0;t.last=null; S.log = S.log.filter(e=>e.id!==id); save(); closeModal(); render(); }); },
-  deltopic(v){ const id = +v; ask("Delete this topic?","Delete",()=>{ S.topics = S.topics.filter(x=>x.id!==id); S.log = S.log.filter(e=>e.id!==id); if (S.pick&&S.pick.id===id) S.pick=null; save(); closeModal(); render(); }); },
+  deltopic(v){ const id = +v; ask("Delete this topic?","Delete",()=>{ S.topics = S.topics.filter(x=>x.id!==id); S.log = S.log.filter(e=>e.id!==id); if (S.pick&&S.pick.id===id) S.pick=null; save(); closeModal(); wheelSlices = []; render(); }); },
   askyes(){ const cb = askCb; askCb = null; if (cb) cb(); },
   flt(v){ flt = v; render(); },
   add(){ openAdd(); },
-  doadd(){ const t = $("#at").value.trim(), u = $("#au").value.trim()||"General"; if (!t) return;
-    S.topics.push({id:Math.max(-1,...S.topics.map(x=>x.id))+1,unit:u,title:t,pct:0,revs:0,notes:"",last:null}); save(); closeModal(); render(); toast("Topic added"); },
+  doadd(){ const t = $("#at").value.trim(), u = $("#au").value.trim()||"General", sid = +$("#as").value; if (!t) return;
+    S.topics.push({id:nextId(),sid,unit:u,title:t,pct:0,revs:0,notes:"",last:null,rel:[]}); save(); closeModal(); wheelSlices = []; render(); toast("Topic added"); },
+  "subj-new"(){ openSubject(null); },
+  "subj-edit"(v){ openSubject(+v); },
+  pickc(v){ editColor = v; document.querySelectorAll("#sws .sw").forEach(b => b.classList.toggle("on", b.dataset.v===v)); },
+  subjsave(){ const name = $("#sn").value.trim(); if (!name) { toast("Give it a name"); return; }
+    if (editSid===null) { const s = newSubject(name); s.color = editColor; s.examDate = $("#sx").value; S.view = s.id; }
+    else { const s = subj(editSid); s.name = name; s.color = editColor; s.examDate = $("#sx").value; }
+    save(); closeModal(); wheelSlices = []; render(); },
+  subjdel(v){ const id = +v; ask("Delete this subject and all its topics?","Delete",()=>{ const ids = new Set(S.topics.filter(t=>t.sid===id).map(t=>t.id));
+    S.topics = S.topics.filter(t=>t.sid!==id); S.log = S.log.filter(e=>!ids.has(e.id)); S.subjects = S.subjects.filter(s=>s.id!==id);
+    if (S.pick && ids.has(S.pick.id)) S.pick = null; if (S.view===id) S.view = "all"; save(); closeModal(); wheelSlices = []; render(); }); },
+  theme(v){ S.theme = v; save(); render(true); },
+  mode(v){ S.mode = v; save(); render(true); },
   "cp-in"(){ copyText(PROMPT_IN); },
   "cp-out"(){ copyText(progressText()); },
   import(){ doImport(); },
   goal(v){ S.goal = Math.max(1,Math.min(10,S.goal+(+v))); save(); $("#gv").textContent = S.goal; },
-  backup(){ copyText(JSON.stringify(Object.assign({version:2},S))); },
-  resetp(){ ask("Reset all progress?","Reset",()=>{ S.topics.forEach(t=>{t.pct=0;t.revs=0;t.last=null}); S.log=[]; S.pick=null; save(); closeModal(); tab="today"; render(); }); }
+  backup(){ copyText(JSON.stringify(Object.assign({},S,{version:3}))); },
+  resetp(){ ask("Reset all progress?","Reset",()=>{ S.topics.forEach(t=>{t.pct=0;t.revs=0;t.last=null}); S.log=[]; S.pick=null; save(); closeModal(); tab="today"; wheelSlices = []; render(); }); }
 };
 document.addEventListener("click", e => { const el = e.target.closest("[data-a]"); if (!el) return; const f = act[el.dataset.a]; if (f) f(el.dataset.v, el); });
 window.addEventListener("resize", () => tab==="today" && drawWheel());
@@ -518,7 +662,7 @@ function pushNative(){
     const c = counts(), days = {}, d = new Date();
     for (let i=0;i<40;i++){ const k = ymd(d); if (c[k]) days[k] = c[k]; d.setDate(d.getDate()-1); }
     const p = todayPick();
-    Android.sync(JSON.stringify({ subject:S.subject, pct:overall(), goal:S.goal, days, examDate:S.examDate, total:S.topics.length,
+    Android.sync(JSON.stringify({ subject:title(), pct:overall(), goal:S.goal, days, total:vis().length,
       pick: p ? { title:p.title, date:today(), logged:loggedToday(p.id) } : null }));
   } catch(e){}
 }

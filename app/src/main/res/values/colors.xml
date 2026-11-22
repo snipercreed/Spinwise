@@ -6,4 +6,5 @@
     <color name="w_mute">#677078</color>
     <color name="w_acc">#1F8A4C</color>
     <color name="w_track">#E7EBE6</color>
+    <color name="w_l0">#E7EBE6</color><color name="w_l1">#BDE5CB</color><color name="w_l2">#74C794</color><color name="w_l3">#2F9E5B</color><color name="w_l4">#16673A</color>
 </resources>

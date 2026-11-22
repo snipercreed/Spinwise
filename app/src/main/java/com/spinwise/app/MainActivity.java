@@ -5,6 +5,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -42,7 +44,17 @@ public class MainActivity extends Activity {
             getSharedPreferences(StreakWidget.PREFS, MODE_PRIVATE).edit().putString(StreakWidget.KEY, json).apply();
             StreakWidget.refresh(getApplicationContext());
         }
-        @JavascriptInterface public void copy(final String text) {
+        @JavascriptInterface public void setMode(final boolean dark) {
+            runOnUiThread(new Runnable() { public void run() {
+                int bg = dark ? 0xFF0D1012 : 0xFFF4F6F3;
+                web.setBackgroundColor(bg);
+                Window w = getWindow();
+                w.setStatusBarColor(bg);
+                w.setNavigationBarColor(bg);
+                int f = dark ? 0 : (View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+                w.getDecorView().setSystemUiVisibility(f);
+            }});
+        }        @JavascriptInterface public void copy(final String text) {
             runOnUiThread(new Runnable() { public void run() {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 cm.setPrimaryClip(ClipData.newPlainText("Spinwise", text));
