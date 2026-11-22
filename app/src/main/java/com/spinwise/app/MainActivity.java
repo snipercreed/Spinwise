@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
@@ -53,6 +54,10 @@ public class MainActivity extends Activity {
                 w.setNavigationBarColor(bg);
                 int f = dark ? 0 : (View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
                 w.getDecorView().setSystemUiVisibility(f);
+            }});
+        }        @JavascriptInterface public void haptic() {
+            runOnUiThread(new Runnable() { public void run() {
+                web.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
             }});
         }        @JavascriptInterface public void copy(final String text) {
             runOnUiThread(new Runnable() { public void run() {
