@@ -14,12 +14,18 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import org.json.JSONObject;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,7 +33,9 @@ import java.io.OutputStream;
 public class MainActivity extends Activity {
     private static final int REQ_SYNC_CREATE = 41;
     private static final int REQ_SYNC_JOIN = 42;
+    private static final int MAX_SHARE_CHARS = 2000000;
     private WebView web;
+    private FrameLayout root;
     private boolean pageLoaded = false;
     private String pendingShare = null;
 
@@ -35,19 +43,46 @@ public class MainActivity extends Activity {
         super.onCreate(b);
         web = new WebView(this);
         WebSettings s = web.getSettings();
-        s.setJavaScriptEnabled(true);
+        s.setJavaScriptEnabled(true);          // the app itself is JavaScript
         s.setDomStorageEnabled(true);
-        s.setAllowFileAccess(true);
         s.setTextZoom(100);
-        web.setBackgroundColor(getResources().getColor(R.color.bg, getTheme()));
+        // Hardening: the app only ever shows its own bundled page. Nothing else may be loaded.
+        s.setAllowFileAccess(false);           // bundled assets (file:///android_asset) still load
+        s.setAllowFileAccessFromFileURLs(false);
+        s.setAllowUniversalAccessFromFileURLs(false);
+        s.setAllowContentAccess(false);
+        s.setGeolocationEnabled(false);
+        s.setJavaScriptCanOpenWindowsAutomatically(false);
+        s.setSupportMultipleWindows(false);
+        s.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+        int bg = getResources().getColor(R.color.bg, getTheme());
+        web.setBackgroundColor(bg);
         web.setWebViewClient(new WebViewClient() {
             @Override public void onPageFinished(WebView view, String url) {
                 pageLoaded = true;
                 if (pendingShare != null) { deliverShare(pendingShare); pendingShare = null; }
             }
+            @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return true;                   // never navigate away from the app
+            }
+            @Override public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                String u = request.getUrl().toString();
+                if (u.startsWith("file:///android_asset/") || u.startsWith("data:") || u.startsWith("blob:")) return null;
+                return new WebResourceResponse("text/plain", "utf-8", new ByteArrayInputStream(new byte[0]));   // block everything else
+            }
         });
         web.addJavascriptInterface(new Bridge(), "Android");
-        setContentView(web);
+        // Android 15 draws apps edge to edge, so keep the page clear of the status and navigation bars
+        root = new FrameLayout(this);
+        root.setBackgroundColor(bg);
+        root.addView(web, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        root.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override public WindowInsets onApplyWindowInsets(View v, WindowInsets insets) {
+                v.setPadding(insets.getSystemWindowInsetLeft(), insets.getSystemWindowInsetTop(), insets.getSystemWindowInsetRight(), insets.getSystemWindowInsetBottom());
+                return insets.consumeSystemWindowInsets();
+            }
+        });
+        setContentView(root);
         web.loadUrl("file:///android_asset/index.html");
         handleIntent(getIntent());
     }
@@ -62,7 +97,7 @@ public class MainActivity extends Activity {
     private void handleIntent(Intent i) {
         if (i == null || !Intent.ACTION_SEND.equals(i.getAction())) return;
         String t = i.getStringExtra(Intent.EXTRA_TEXT);
-        if (t == null) return;
+        if (t == null || t.length() > MAX_SHARE_CHARS) return;    // ignore missing or oversized shares
         if (pageLoaded) deliverShare(t); else pendingShare = t;
     }
 
@@ -123,6 +158,7 @@ public class MainActivity extends Activity {
             runOnUiThread(new Runnable() { public void run() {
                 int bg = dark ? 0xFF0D1012 : 0xFFF4F6F3;
                 web.setBackgroundColor(bg);
+                if (root != null) root.setBackgroundColor(bg);
                 Window w = getWindow();
                 w.setStatusBarColor(bg);
                 w.setNavigationBarColor(bg);
@@ -226,6 +262,12 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface public void syncUnlink() {
             prefs().edit().remove("syncUri").remove("syncName").apply();
+        }
+
+        /** Erases everything the app has stored natively (saved copy, widget data, sync link). */
+        @JavascriptInterface public void wipe() {
+            prefs().edit().clear().apply();
+            StreakWidget.refresh(getApplicationContext());
         }
     }
 }

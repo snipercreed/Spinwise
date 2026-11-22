@@ -24,8 +24,8 @@ Spinwise turns your syllabus into a daily habit. Load your course, spin the whee
 ## Release notes (first release)
 First release of Spinwise.
 
-## Store assets to prepare
-- App icon 512×512 PNG (use the in-app logo)
-- Feature graphic 1024×500
-- At least 2 phone screenshots (Today, Topics, Progress, Shop)
-- Short video optional
+## Store assets (ready)
+- App icon: `store/assets/icon-512.png`
+- Feature graphic: `store/assets/feature-graphic-1024x500.png`
+- Phone screenshots: `store/screenshots/` (Today, Topics, Progress, Shop; demo data only)
+- Regenerate the icon and graphic with `design/gen-store-assets.ps1`

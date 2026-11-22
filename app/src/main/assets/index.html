@@ -96,6 +96,7 @@ canvas{width:100%;height:100%;display:block}
 .bar.warn i{background:var(--warn)}
 .search{width:100%;color:var(--ink);border-radius:18px;padding:12px 16px;font:inherit;margin-top:12px;box-shadow:none}
 .filters{display:flex;gap:6px;margin-top:10px;overflow-x:auto;padding:2px}
+.filters button,.sc{flex:none}
 .filters button{padding:10px 14px;font-size:13px;color:var(--mute);white-space:nowrap;border-radius:99px;box-shadow:none}
 .filters button.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
 .unit{margin-top:12px;border-left:5px solid var(--sc,var(--gborder));border-radius:24px;overflow:hidden}
@@ -188,6 +189,7 @@ input,select,.search{font-family:var(--font)}
 .toast{padding:11px 18px;border-radius:99px;font-size:13px;background:var(--glass-strong)}
 .m-fx{position:fixed;inset:0;z-index:80}
 .m-hl{background-size:0% 100%}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .sheet .m-hl,.topic .m-hl{background-size:100% 100%}
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
 </style>
@@ -220,6 +222,7 @@ let S, tab = "today", spinning = false, rotDeg = 0, wheelSlices = [];
 let flt = "all", selDay = null, editSid = null, editColor = PAL[0], shopTab = "motion", tabDir = 1, lastPt = null; const openUnits = new Set(), openShop = new Set();
 let idleStops = [];
 
+const own_ = (o,k) => Object.prototype.hasOwnProperty.call(o,k);
 /* ----- free accent colours (used by the Clear theme) ----- */
 const ACCENTS = {
   forest:{n:"Forest",l:["#1f8a4c","#0f6b3a"],d:["#3fb96f","#1f8a4c"]},
@@ -287,10 +290,10 @@ S = load();
 
 function norm(s){
   s.topics = s.topics||[]; s.goal = s.goal||1; s.log = s.log||[]; s.pick = s.pick||null;
-  if (!s.themeV) { const old = s.theme; s.accent = ACCENTS[old]?old:"forest"; s.theme = "clear"; s.themeV = 2; delete s.bg; }
-  s.accent = ACCENTS[s.accent]?s.accent:"forest"; s.theme = THEMES[s.theme]?s.theme:"clear";
+  if (!s.themeV) { const old = s.theme; s.accent = own_(ACCENTS,old)?old:"forest"; s.theme = "clear"; s.themeV = 2; delete s.bg; }
+  s.accent = own_(ACCENTS,s.accent)?s.accent:"forest"; s.theme = own_(THEMES,s.theme)?s.theme:"clear";
   s.mode = s.mode||"system"; s.wmode = s.wmode||"any"; s.view = s.view===undefined?"all":s.view; s.anim = s.anim!==false; s.dynIcon = !!s.dynIcon;
-  s.wskin = WSKINS[s.wskin]?s.wskin:"glass"; s.hp = HEATS[s.hp]?s.hp:"classic";
+  s.wskin = own_(WSKINS,s.wskin)?s.wskin:"glass"; s.hp = own_(HEATS,s.hp)?s.hp:"classic";
   if (s.coins===undefined) s.coins = 150; s.life = s.life||0; s.own = s.own||{}; s.eq = s.eq||{}; s.ms = s.ms||{}; s.rw = s.rw||{d:"",n:0,ids:{}};
   ["theme","wskin","hp"].forEach(g => { if (GROUPS[g][s[g]].price) s.own[g+":"+s[g]] = true; });
   if (!s.subjects || !s.subjects.length) {
@@ -321,6 +324,27 @@ function persistLocal(){
   pushNative();
 }
 function save(){ S.updated = Date.now(); persistLocal(); if (typeof schedulePush==="function") schedulePush(); }
+/* ================= data safety: rebuild any imported state from untrusted input ================= */
+const CATS_OK = ["trans","btn","wheel","reveal","ring","list","sheet","heat","celeb","toast","idle"];
+function cleanState(d){
+  d = (d && typeof d==="object" && !Array.isArray(d)) ? d : {};
+  const str = (v,n) => typeof v==="string" ? v.slice(0,n||300) : "", num = (v,a,b,df) => { v = +v; return isFinite(v) ? Math.max(a,Math.min(b,Math.round(v))) : df; },
+    dt = v => (typeof v==="string" && /^\d{4}-\d\d-\d\d$/.test(v)) ? v : null, arr = (v,n) => Array.isArray(v) ? v.slice(0,n) : [], obj = v => v && typeof v==="object" && !Array.isArray(v);
+  const o = { subjects:[], topics:[], log:[] };
+  arr(d.subjects,80).forEach(s => { if (obj(s)) o.subjects.push({ id:num(s.id,0,1e6,0), name:str(s.name,80)||"Subject", color:/^#[0-9a-fA-F]{6}$/.test(s.color)?s.color:PAL[0], examDate:dt(s.examDate)||"" }); });
+  arr(d.topics,8000).forEach(t => { if (!obj(t)) return; const x = { id:num(t.id,0,1e7,0), sid:num(t.sid,0,1e6,0), unit:str(t.unit,120)||"General", title:str(t.title,240).trim(), pct:num(t.pct,0,100,0), revs:num(t.revs,0,1e6,0), notes:str(t.notes,2000), last:dt(t.last), rel:arr(t.rel,6).map(r=>str(r,240)).filter(Boolean) }; if (t.fr) x.fr = true; if (x.title) o.topics.push(x); });
+  arr(d.log,60000).forEach(e => { if (!obj(e) || !dt(e.d)) return; const p = obj(e.prev) ? e.prev : {}; const x = { d:e.d, id:num(e.id,0,1e7,0), prev:{ pct:num(p.pct,0,100,0), revs:num(p.revs,0,1e6,0), last:dt(p.last), fr:!!p.fr }, c:num(e.c,0,100000,0) }; if (e.ms) x.ms = num(e.ms,0,100000,0); if (e.first) x.first = true; o.log.push(x); });
+  o.pick = obj(d.pick) && dt(d.pick.date) ? { date:d.pick.date, id:num(d.pick.id,0,1e7,0) } : null;
+  o.goal = num(d.goal,1,10,1); o.coins = num(d.coins,0,1e9,150); o.life = num(d.life,0,1e9,0); o.updated = num(d.updated,0,9e15,0);
+  o.theme = own_(THEMES,d.theme)?d.theme:"clear"; o.accent = own_(ACCENTS,d.accent)?d.accent:"forest"; o.themeV = 2;
+  o.mode = ["system","light","dark"].includes(d.mode)?d.mode:"system"; o.wmode = d.wmode==="related"?"related":"any"; o.view = (d.view==="all" || o.subjects.some(s=>s.id===d.view)) ? d.view : "all";
+  o.anim = d.anim!==false; o.dynIcon = !!d.dynIcon; o.wskin = own_(WSKINS,d.wskin)?d.wskin:"glass"; o.hp = own_(HEATS,d.hp)?d.hp:"classic";
+  o.own = {}; if (obj(d.own)) Object.keys(d.own).slice(0,400).forEach(k => { if (/^[a-z]+:[A-Za-z0-9_]{1,24}$/.test(k) && d.own[k]) o.own[k] = true; });
+  o.eq = {}; if (obj(d.eq)) CATS_OK.forEach(c => { if (own_(d.eq,c) && Array.isArray(d.eq[c])) o.eq[c] = d.eq[c].slice(0,5).map(i=>num(i,0,4,0)); });
+  o.ms = {}; if (obj(d.ms)) Object.keys(d.ms).slice(0,50).forEach(k => { if (/^\d{1,3}$/.test(k)) o.ms[k] = 1; });
+  o.rw = { d:"", n:0, ids:{} }; if (obj(d.rw)) { o.rw.d = dt(d.rw.d)||""; o.rw.n = num(d.rw.n,0,1000,0); if (obj(d.rw.ids)) Object.keys(d.rw.ids).slice(0,200).forEach(k => { if (/^\d{1,8}$/.test(k)) o.rw.ids[k] = num(d.rw.ids[k],0,1000,1); }); }
+  return norm(o);
+}
 /* ================= derived ================= */
 const subj = id => S.subjects.find(s=>s.id===id);
 const colorOf = t => (subj(t.sid)||{color:"#6f7a83"}).color;
@@ -633,7 +657,7 @@ const saveMeta = () => { try { localStorage.setItem(SYNCKEY, JSON.stringify(SY.m
 function packState(){ return JSON.stringify({ app:"spinwise", v:1, updated:S.updated||0, device:SY.meta.device, data:S }); }
 function schedulePush(){ if (!syncAvail() || !SY.meta.linked) return; clearTimeout(SY.timer); SY.timer = setTimeout(pushSync, 2500); }
 function pushSync(){ try { if (!SY.meta.linked || !syncAvail()) return; Android.syncWrite(packState()); SY.meta.lastPush = Date.now(); SY.meta.lastSeen = S.updated||0; SY.meta.lastRemote = S.updated||0; saveMeta(); } catch(e){} }
-function readRemote(){ try { const raw = Android.syncRead(); if (!raw) return null; const j = JSON.parse(raw); return j && j.app==="spinwise" && j.data && j.data.topics ? j : null; } catch(e){ return null; } }
+function readRemote(){ try { const raw = Android.syncRead(); if (!raw) return null; if (raw.length>6e6) return null; const j = JSON.parse(raw); return j && j.app==="spinwise" && j.data && Array.isArray(j.data.topics) ? j : null; } catch(e){ return null; } }
 function pullSync(initial){
   if (!syncAvail() || !SY.meta.linked) return;
   const r = readRemote();
@@ -645,7 +669,7 @@ function pullSync(initial){
   SY.remote = r; openConflict(r);
 }
 function adoptRemote(r){
-  S = norm(r.data); S.updated = r.updated; SY.meta.lastRemote = r.updated; SY.meta.lastSeen = r.updated; saveMeta(); persistLocal(); wheelSlices = []; closeModal(); render(false,false); toast("Synced from your other device");
+  S = cleanState(r.data); S.updated = r.updated; SY.meta.lastRemote = r.updated; SY.meta.lastSeen = r.updated; saveMeta(); persistLocal(); wheelSlices = []; closeModal(); render(false,false); toast("Synced from your other device");
 }
 function describe(d, updated){ const n = (d.topics||[]).length; return `${n} topics · ${d.coins||0} ✦ · ${(d.log||[]).length} revisions${updated?" · "+new Date(updated).toLocaleString("en",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):""}`; }
 function openConflict(r){
@@ -757,14 +781,14 @@ function toTopic(t, unit){
   rel = (Array.isArray(rel)?rel:[]).map(x=>String(x).trim()).filter(Boolean);
   const raw = pick(o,"pct","confidence","mastery","progress"); let pct = 0;
   if (raw!==undefined) { const m = String(raw).match(/-?\d+(\.\d+)?/); pct = m ? +m[0] : 0; if (pct>0 && pct<=1 && String(raw).indexOf("%")<0 && String(raw).indexOf(".")>=0) pct *= 100; }
-  return { unit:unit||"General", title, pct:Math.max(0,Math.min(100,Math.round(pct))), notes:String(pick(o,"notes","note","tip")||"").trim(), rel };
+  return { unit:String(unit||"General").slice(0,120), title:title.slice(0,240), pct:Math.max(0,Math.min(100,Math.round(pct))), notes:String(pick(o,"notes","note","tip")||"").trim().slice(0,2000), rel:rel.slice(0,6).map(x=>x.slice(0,240)) };
 }
 function toSpecAny(j){
   j = j||{}; const topics = [], units = pick(j,"units","sections","modules","chapters");
   if (Array.isArray(units)) units.forEach(u => { if (!u || typeof u!=="object") return; const un = String(pick(u,"name","unit","title","section")||"General"); const ts = pick(u,"topics","items","children","subtopics","points");
     (Array.isArray(ts)?ts:[]).forEach(t => { const x = toTopic(t,un); if (x) topics.push(x); }); });
   else if (Array.isArray(j.topics)) j.topics.forEach(t => { const x = toTopic(t, (t && typeof t==="object") ? String(pick(t,"unit","section","module")||"General") : "General"); if (x) topics.push(x); });
-  return { subject:String(pick(j,"subject","course","name","title")||"").trim(), examDate:normDate(pick(j,"examDate","exam","exam_date","date")), topics };
+  return { subject:String(pick(j,"subject","course","name","title")||"").trim().slice(0,80), examDate:normDate(pick(j,"examDate","exam","exam_date","date")), topics };
 }
 function csvLine(line){
   const out = []; let cur = "", q = false;
@@ -810,7 +834,7 @@ function parseTextList(text){
   return topics.length ? [{ subject, examDate:"", topics, warn }] : [];
 }
 function parseAny(text){
-  text = String(text||"").trim(); if (!text) throw new Error("Nothing pasted yet.");
+  text = String(text||"").trim(); if (!text) throw new Error("Nothing pasted yet."); if (text.length>2000000) throw new Error("That is too large to import. Try one subject at a time.");
   if (/[\[{]/.test(text)) {
     const r = parseJSONLoose(text);
     if (r && r.data) { const d = r.data, warn = []; let out = null;
@@ -877,7 +901,7 @@ function doImport(){
 function importGo(){
   if (!pendingImport) return; const { r, nameIn } = pendingImport; pendingImport = null; const rep = $("#replace2") && $("#replace2").checked;
   try {
-    if (r.backup) { S = norm(r.backup); save(); closeModal(); tab = "today"; wheelSlices = []; render(false,true); toast("Backup restored"); return; }
+    if (r.backup) { S = cleanState(r.backup); save(); closeModal(); tab = "today"; wheelSlices = []; render(false,true); toast("Backup restored"); return; }
     const res = applyImport(r, rep, nameIn); save(); closeModal(); tab = "today"; render(false,true);
     toast(`Added ${res.add}${res.upd?`, updated ${res.upd}`:""}${res.subs?`, ${res.subs} new subject${res.subs>1?"s":""}`:""}`);
   } catch(e){ closeModal(); toast(e.message); }
@@ -1025,7 +1049,7 @@ function spin(){
   const ctx = { from, to, slice, layer:fxLayer(), pt:{x:wr.left+wr.width/2,y:wr.top+wr.height/2}, set: a => { rotDeg = a; drawWheel(); },
     flick: () => { if (ptr) ptr.animate([{ transform:"translateX(-50%) rotate(-24deg)" },{ transform:"translateX(-50%) rotate(0)" }],{duration:140}); M.haptic(); } };
   const res = RM() ? (ctx.set(to), Promise.resolve()) : playCat("wheel", ctx)[0];
-  Promise.resolve(res).then(() => { rotDeg = to; spinning = false; S.pick = {date:today(),id:winner.id}; save(); render(true); const card = $(".topic"); if (card) playCat("reveal", { card, title:$(".topic div") }); });
+  Promise.resolve(res).then(() => { rotDeg = to; spinning = false; S.pick = {date:today(),id:winner.id}; save(); render(true); const lv = $("#live"); if (lv) lv.textContent = "Today's topic: " + winner.title; const card = $(".topic"); if (card) playCat("reveal", { card, title:$(".topic div") }); });
 }
 
 /* ================= views ================= */
@@ -1057,7 +1081,7 @@ function viewToday(keep){
   return subjBar() + `<div class="card hero"><div class="ringwrap">${ring(o,92,9,"rgba(255,255,255,.25)","#fff")}<div class="lab">${o}%</div></div>
       <div><b class="big">${o}% revised</b><span class="sub">${items.filter(t=>t.revs).length} of ${items.length} topics started</span>
       <div class="chips"><span class="chip" id="streakchip">🔥 ${st.cur} day${st.cur===1?"":"s"}</span>${dueN?`<span class="chip">${dueN} due</span>`:""}${ex?`<span class="chip">${ex.d} days to ${S.view==="all"&&S.subjects.length>1?esc(ex.name):"exam"}</span>`:""}<span class="chip">${goalDots} ${n}/${S.goal} today</span></div></div></div>
-    <div class="card"><div class="wheelwrap"><div class="ptr"></div><canvas id="wheel"></canvas></div>${panel}</div>
+    <div class="card"><div class="wheelwrap"><div class="ptr"></div><canvas id="wheel" role="img" aria-label="Topic wheel"></canvas><div id="live" class="sr" aria-live="polite"></div></div>${panel}</div>
     ${pick && pick.notes ? `<div class="card"><div class="sub" style="text-transform:uppercase;letter-spacing:.06em;font-size:12px">Your note</div><div style="margin-top:4px">${esc(pick.notes)}</div></div>`:""}
     ${R.length?`<div class="card"><h2>${last?"Up next":"Where to start"}</h2><p>${last?`Related to <b>${esc(last.title)}</b>, plus what's due or weak.`:"Weakest and newest topics first."}</p>
       ${R.map(x=>`<div class="rec" data-a="revise" data-v="${x.t.id}"><i class="dot" style="--c:${colorOf(x.t)}"></i><div class="t">${esc(x.t.title)}<div class="sub" style="font-family:var(--font);font-weight:400">${esc(x.t.unit)}</div></div><span class="pill ${x.due?"due":""}">${recTag(x)}</span></div>`).join("")}</div>`:""}`;
@@ -1122,7 +1146,12 @@ function viewMore(){
 <div class="card"><h2>Daily goal</h2>
       <div class="lbl"><span>Topics per day</span><span class="stepper"><button data-a="goal" data-v="-1">−</button><b id="gv">${S.goal}</b><button data-a="goal" data-v="1">+</button></span></div></div>
     <div class="card"><h2>Backup</h2><p>Copy all your data (including ✦, unlocks and equipped motion) to keep it safe. To restore, paste a backup into the box above and press Import. Updates keep your data automatically; a backup is only needed if you ever uninstall the app.</p>
-      <div class="row"><button class="ghost small sp" data-a="backup">Copy backup</button><button class="ghost small sp" data-a="resetp">Reset progress</button></div></div>`;
+      <div class="row"><button class="ghost small sp" data-a="backup">Copy backup</button><button class="ghost small sp" data-a="resetp">Reset progress</button></div></div>
+    <div class="card"><h2>About Spinwise</h2><p>Everything you enter stays on this device. Spinwise has no account, no ads, no analytics and no internet permission. Sync and sharing only run when you choose them.</p>
+      <details class="how"><summary>Privacy summary</summary><p>Stored on this device: your subjects, topics, notes, revision history, ✦ and settings. Nothing is sent to the developer. If you turn on sync, the app writes your data to a file in the cloud storage app you pick, and that provider's policy applies to the file. Share sends text only to the app you choose. Delete the app, or use the button below, to remove local data.</p></details>
+      <details class="how"><summary>Fonts and licences</summary><p>Clash Display and Chillax © Indian Type Foundry, used under the ITF Free Font License (fontshare.com). Plus Jakarta Sans © Tokotype, SIL Open Font License 1.1. The full licence texts are bundled with the app.</p></details>
+      <p>Spinwise is an independent app. It isn't affiliated with or endorsed by Anthropic. Claude is a trademark of Anthropic.</p>
+      <button class="ghost small full" data-a="wipe">Delete all my data</button></div>`;
 }
 function title(){
   if (tab==="shop") return "Shop"; if (tab==="motion") return "Motion";
@@ -1205,6 +1234,7 @@ const act = {
   "cp-in"(){ copyText(PROMPT_IN); },
   "cp-out"(){ copyText(progressText()); },
   import(){ doImport(); },
+  wipe(){ ask("Delete all your data?","Delete everything",() => { try { localStorage.removeItem(KEY); localStorage.removeItem("spinwise.v1"); localStorage.removeItem(SYNCKEY); } catch(e){} try { Android.wipe(); } catch(e){} SY.meta = { device:SY.meta.device }; S = norm({topics:[]}); wheelSlices = []; closeModal(); tab = "today"; render(false,true); toast("All data deleted"); }, "This erases every subject, topic, record, ✦ and unlock on this device. It can't be undone."); },
   sharepick(){ openSharePicker(); },
   sharesub(v){ closeModal(); shareChecklist(+v); },
   shareprog(){ shareProgress(); },

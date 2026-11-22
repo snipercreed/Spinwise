@@ -27,7 +27,7 @@ foreach ($k in $V.Keys) {
     <path android:fillColor="#FFFFFF" android:pathData="M54,20L47.5,31L60.5,31Z"/>
 </vector>
 "@
-  W "$res\mipmap-anydpi-v26\ic_$k.xml" "<?xml version=`"1.0`" encoding=`"utf-8`"?>`n<adaptive-icon xmlns:android=`"http://schemas.android.com/apk/res/android`">`n    <background android:drawable=`"@drawable/ic_bg_$k`"/>`n    <foreground android:drawable=`"@drawable/ic_fg_$k`"/>`n</adaptive-icon>`n"
+  W "$res\mipmap-anydpi-v26\ic_$k.xml" "<?xml version=`"1.0`" encoding=`"utf-8`"?>`n<adaptive-icon xmlns:android=`"http://schemas.android.com/apk/res/android`">`n    <background android:drawable=`"@drawable/ic_bg_$k`"/>`n    <foreground android:drawable=`"@drawable/ic_fg_$k`"/>`n    <monochrome android:drawable=`"@drawable/ic_mono`"/>`n</adaptive-icon>`n"
   $en = if ($k -eq "a_forest") { "true" } else { "false" }
   $aliases += @"
         <activity-alias android:name=".Icon_$k" android:targetActivity=".MainActivity" android:enabled="$en" android:exported="true" android:icon="@mipmap/ic_$k" android:roundIcon="@mipmap/ic_$k" android:label="Spinwise">
@@ -48,6 +48,8 @@ W "$r\app\src\main\AndroidManifest.xml" @"
         android:icon="@mipmap/ic_a_forest"
         android:roundIcon="@mipmap/ic_a_forest"
         android:allowBackup="true"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop"
             android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
