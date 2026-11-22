@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spinwise UX Report · 200 simulated learners</title>
+<style>
+@font-face{font-family:"Jakarta";src:url(__JAKARTA__) format("woff2");font-weight:400}
+@font-face{font-family:"Clash";src:url(__CLASH__) format("woff2");font-weight:600}
+@font-face{font-family:"Chillax";src:url(__CHILLAX__) format("woff2");font-weight:600}
+:root{--bg:#eef1f5;--card:#ffffff;--ink:#11161c;--mute:#5b6671;--line:#e1e6ec;--acc:#1f8a4c;--bad:#d6334a;--warn:#d98a1f;--good:#1f8a4c;--info:#3e63dd;--font:"Jakarta",system-ui,sans-serif;--display:"Clash",system-ui,sans-serif;--ui:"Chillax",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#0b0e12;--card:#151a20;--ink:#eef2f5;--mute:#93a0ac;--line:#262d35;--acc:#3fb96f;--bad:#ff6b80;--warn:#f0b04a;--good:#3fb96f;--info:#8fa8ff}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--font);padding-bottom:60px}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+h1{font:600 34px/1.08 var(--display);letter-spacing:-.025em;margin:30px 0 8px}
+h2{font:600 22px/1.2 var(--display);margin:40px 0 6px;letter-spacing:-.01em}
+h3{font:600 16px/1.3 var(--display);margin:0 0 4px}
+p{color:var(--mute);margin:4px 0 12px}
+b,button,th{font-family:var(--ui);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 18px;margin:12px 0}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.kpi b{display:block;font:600 30px/1 var(--display);letter-spacing:-.02em}.kpi span{font-size:13px;color:var(--mute)}
+.tag{display:inline-block;font:600 11px var(--ui);border-radius:99px;padding:2px 9px;margin-right:6px;vertical-align:1px}
+.t-meas{background:#d9f2e3;color:#0d5c30}.t-mod{background:#e3e8ff;color:#2a3a9a}.t-crit{background:#ffd9df;color:#8a1328}.t-high{background:#ffe6c2;color:#7a4a00}.t-med{background:#fff3c2;color:#6a5500}.t-low{background:#e5e9ee;color:#3b4652}
+@media (prefers-color-scheme:dark){.t-meas{background:#123d27;color:#8ee0b0}.t-mod{background:#1f2a5c;color:#b7c4ff}.t-crit{background:#4a1520;color:#ffb3c0}.t-high{background:#4a3410;color:#ffd699}.t-med{background:#40380f;color:#f2e08a}.t-low{background:#252d35;color:#c3ccd4}}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:12px;color:var(--mute)}
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden;min-width:60px}.bar i{display:block;height:100%;border-radius:99px;background:var(--acc)}
+.note{border-left:4px solid var(--info);background:var(--card);border-radius:0 16px 16px 0;padding:12px 16px;margin:14px 0;font-size:14px}
+.finding{display:grid;gap:4px}.finding .ev{font-size:13.5px;color:var(--mute)}.finding .fx{font-size:13.5px}
+svg text{font-family:var(--ui);fill:var(--mute);font-size:11px}
+.opt{border-left:5px solid var(--acc)}.opt.rec{outline:2px solid var(--acc)}
+ul{margin:6px 0 0;padding-left:18px;color:var(--mute)}li{margin:2px 0}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mute);margin:6px 0}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>200 learners walk into Spinwise</h1>
+<p>A simulated field test of the app as it stands today: who gets in, who stays, what trips people up, and where to go next.</p>
+
+<div class="note"><b>How to read this.</b> <span class="tag t-meas">MEASURED</span> means I ran the app's real code (importer, wheel, rewards, rendering) against generated data. <span class="tag t-mod">MODELLED</span> means the number depends on my assumptions about human behaviour, such as how often Claude's output is malformed and how fast people drift away. Simulated people are not real people, so treat absolute retention as illustrative. The <i>ranking of problems</i> and the <i>relative size of each fix</i> are the useful part. Nothing here was run on a physical phone.</div>
+
+<h2>The headline</h2>
+<div class="grid g4">
+  <div class="card kpi"><b>32%</b><span>of 200 never get set up (modelled, mostly import and manual-entry failures)</span></div>
+  <div class="card kpi"><b>7 / 19</b><span>realistic Claude reply shapes import correctly (measured); 7 fail outright, 5 import wrongly</span></div>
+  <div class="card kpi"><b>194</b><span>repeat taps on one topic earn the entire shop (measured)</span></div>
+  <div class="card kpi"><b>13 / 19</b><span>themes fail contrast for white hero text (measured)</span></div>
+</div>
+<p>Spinwise's core loop is good and fast. Its weak points are all at the edges: getting data in, rewarding effort fairly, and readability on the more colourful themes. These are fixable, and fixing the first one is worth more than any new feature.</p>
+
+<h2>Who the 200 were</h2>
+<p>Eleven archetypes, each with its own subjects, spec size, approach to the wheel, and tolerance for friction. They drew on a pool of 24 subjects, from 8-topic manual lists to 1,800-topic medical specs.</p>
+<div class="card"><table id="per"></table></div>
+
+<h2>1 · Getting in (onboarding)</h2>
+<div class="grid g2">
+  <div class="card"><h3>Where people drop out <span class="tag t-mod">MODELLED</span></h3><div id="funnel"></div>
+  <p style="margin-top:10px">Of the 145 who tried the Claude route, 49 failed the first import and 26 gave up. Of the 55 who typed topics in by hand, 37 abandoned during setup. That is a 69% cliff, because there is no way to paste a list in.</p></div>
+  <div class="card"><h3>What Claude's reply looks like in the wild <span class="tag t-meas">MEASURED</span></h3><div id="fmt"></div><p style="margin-top:10px">Pass or fail is measured. How often each shape occurs is my assumption (long specs get truncated more often).</p></div>
+</div>
+<div class="card"><h3>What actually breaks</h3>
+<table><tr><th>Claude reply</th><th>Result</th></tr>
+<tr><td>Clean JSON, JSON in a code fence with chat text, single or multi-subject</td><td>✅ Imports correctly</td></tr>
+<tr><td>Truncated JSON (token limit), trailing commas, <code>//</code> comments, single quotes, curly quotes from a chat UI</td><td>❌ "Couldn't find any topics", which is misleading because the topics are right there</td></tr>
+<tr><td>Plain lines without bullets, CSV</td><td>❌ Fails</td></tr>
+<tr><td>Numbered unit headings ("1. Cells") with bulleted topics</td><td>⚠️ "Imports" 28 items instead of 24 (units become topics) and the subject name is lost</td></tr>
+<tr><td>Repeated topic titles in one subject ("Introduction" × 24)</td><td>🚨 <b>24 topics silently collapse into 1</b></td></tr>
+<tr><td><code>"name"</code> instead of <code>"subject"</code></td><td>⚠️ Subject becomes "My course"</td></tr>
+<tr><td><code>"pct":"60%"</code> as text, <code>related</code> as a string</td><td>⚠️ Silently ignored</td></tr>
+<tr><td>Importing the same JSON twice</td><td>✅ No duplicates</td></tr>
+<tr><td>Unicode, RTL text, emoji, 700 topics</td><td>✅ Fine</td></tr></table></div>
+
+<h2>2 · Staying (retention)</h2>
+<div class="card"><h3>Share of all 200 still active on day N <span class="tag t-mod">MODELLED</span></h3>
+<div class="legend"><span><i style="background:#8a949b"></i>Today</span><span><i style="background:#3e63dd"></i>Forgiving importer</span><span><i style="background:#f76b15"></i>Reminders</span><span><i style="background:#1f8a4c"></i>Fixes + reminders + easier manual entry</span></div>
+<div id="ret"></div>
+<p>The model uses a steep week-one drop-off, a flatter tail, softening from streaks and rewards, and extra drop-off after a failed import or lots of wheel skipping. By day 30, <b>21.5%</b> of everyone is still active today, and <b>37%</b> would be with the combined fixes. Almost all of that gain comes from getting more people through the door.</p></div>
+<div class="grid g2">
+  <div class="card"><h3>Biggest single lever</h3><p>A forgiving importer: onboarded users go from <b>68.5% → 81.5%</b> of everyone. That beats reminders (+7 pts of onboarded users still active at day 30) because you can't retain someone who never started.</p></div>
+  <div class="card"><h3>Who sticks, who doesn't</h3><p>Steady A-level and medical-spec users keep going (many active days, long streaks). Casual tryers leave in a few days whatever you do (11.8% reach day 7). Manual-entry users mostly never finish setup. Perfectionists run out of things to do: they reach about 89% revised with near-100% coverage.</p></div>
+</div>
+
+<h2>3 · Findings, ranked</h2>
+<div id="findings"></div>
+
+<h2>4 · What's working</h2>
+<div class="card"><ul>
+<li><b>The core loop is fast.</b> Spin, log, done is about 3 taps. Every screen renders in under 25 ms of JavaScript even at 1,800 topics. <span class="tag t-meas">MEASURED</span></li>
+<li><b>No layout breakage at 375 px:</b> zero horizontal overflow on all six screens, including a 150-character topic title and a 12-subject bar. <span class="tag t-meas">MEASURED</span></li>
+<li><b>Importing is idempotent.</b> Re-pasting the same spec never duplicates topics, and progress is preserved on merge.</li>
+<li><b>Multi-subject colour coding</b> let the "all subjects" view stay readable across 24 different subjects.</li>
+<li><b>Reduced-motion and the Off switch</b> are respected, which is rare and matters for accessibility.</li>
+<li><b>Wheel weighting favours what needs work:</b> weak and due topics are weighted up, and a topic revised today is weighted down by design.</li></ul></div>
+
+<h2>5 · Economy check <span class="tag t-meas">MEASURED</span></h2>
+<div class="grid g2">
+ <div class="card"><h3>Too fast, and decoupled from effort</h3><p>One revision a day earns about <b>60 ✦ per day</b>, so the whole 2,540 ✦ catalogue is gone in roughly <b>42 days</b>. In the first week that is 392 ✦: enough for a 300 ✦ theme by day 7. The flat +25 daily-goal bonus is the cause, since it pays every day regardless of how much was studied.</p></div>
+ <div class="card"><h3>Easy to farm</h3><p>Logging the same topic repeatedly pays about 13 ✦ each time with no limit, so <b>194 taps</b> (a few minutes) buys everything. Resetting and re-logging a topic earns 485 ✦ in 20 rounds. In the simulation, "collector" users earned about <b>8× more</b> than honest users (59.6k vs 7.2k ✦ total).</p></div>
+</div>
+
+<h2>6 · Performance, layout and accessibility <span class="tag t-meas">MEASURED</span></h2>
+<div class="card"><table id="perf"></table>
+<p style="margin-top:8px">These are JavaScript times in a desktop browser. The real risk on a phone is <b>paint cost</b>: frosted-glass blur over thousands of DOM nodes (11,368 on the Topics screen at 1,800 topics, since every topic is rendered at once). Worth testing on your device with a big spec.</p></div>
+<div class="grid g2">
+ <div class="card"><h3>Contrast (WCAG AA = 4.5:1)</h3><div id="contrast"></div></div>
+ <div class="card"><h3>Touch and text size</h3><ul><li>Subject chips, wallet and most secondary buttons are <b>35–38 px</b> tall (Android guideline: 48).</li><li>Labels at <b>10–11 px</b> on Today, Topics, Progress and Shop.</li><li>The wheel is a canvas, so screen readers cannot see which topic won.</li><li>Muted text over bright backdrops drops to about 3.1–4.0:1.</li></ul></div>
+</div>
+
+<h2>7 · Where to go next</h2>
+<p>Five directions. They stack, but order matters.</p>
+<div class="card opt rec"><h3>A · Fix the foundation <span class="tag t-crit">RECOMMENDED FIRST</span></h3>
+<p>Make getting data in forgiving, make rewards fair, make everything readable.</p>
+<ul><li><b>Smart importer:</b> repair or recover broken JSON (truncated, trailing commas, curly quotes), keep every complete topic from a cut-off reply, a preview screen before import, clear error messages, never merge distinct topics that share a title.</li>
+<li><b>Bulk add by paste</b> for the no-Claude route.</li>
+<li><b>Economy:</b> diminishing returns per topic per day, scale the daily bonus with goal size, cap farmable income, slow the catalogue to about 3–4 months of honest use.</li>
+<li><b>Readability pass:</b> auto-pick dark or light text on each hero gradient, 48 px touch targets, 12 px minimum text.</li></ul>
+<p><b>Modelled effect:</b> setup success 68% → 82–87%, and it removes the two trust-breaking bugs (silent data loss, inflated shop).</p></div>
+<div class="card opt"><h3>B · Make it stick</h3><p>Daily reminders (Android notifications), a capped <b>Today queue</b> instead of an unbounded "due" count (engaged users reach about 98 due topics, p90 215), streak freeze, a weekly recap you can paste to Claude. <b>Modelled effect:</b> about +7 pts of onboarded users still active at day 30.</p></div>
+<div class="card opt"><h3>C · Make it feel premium</h3><p>The realistic liquid glass, a Glass quality setting, wheel lens, richer haptics. Improves delight and screenshots, but <b>does not move retention in the model</b>. Do it after A, and test performance on your phone first.</p></div>
+<div class="card opt"><h3>D · Make it teach, not just track</h3><p>Today's "Log revision" is self-reported. Add a 60-second self-test per topic (Claude generates questions you paste in), time spent, past-paper marks, and an exam-countdown planner that spreads topics across the days left. This is the real differentiator, and it needs the most design.</p></div>
+<div class="card opt"><h3>E · Open it up to other people</h3><p>Cloud sync across devices, sharing a checklist with a friend, a Play Store release. Only worth it if you want other users. It needs a backend, accounts, and privacy work.</p></div>
+
+<div class="note"><b>My recommendation:</b> A, then B, then C, with D as the long-term bet. The simulation says the next ten points of success come from setup, not from polish. And before any of it, spend one evening watching three real people try to set the app up. That will reveal things no simulation can.</div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const PER=[["GCSE crammer",24,70.8,76.5,17.6,16.7,"Exam in weeks, many subjects, big specs; hits truncated Claude output hardest"],["A-level steady",30,76.7,65.2,43.5,34,"Best fit: steady, multi-subject; loves related suggestions"],["University",24,66.7,56.3,37.5,20.7,"Fewer topics per module; lighter use"],["Pro certification",16,87.5,71.4,42.9,16.2,"One subject, clear deadline"],["Language learner",14,57.1,37.5,12.5,18.3,"Hundreds of tiny topics; wheel feels random at that scale"],["Medical (huge spec)",10,60,50,50,69.7,"Biggest specs; most loyal once in; coverage only 85% after months"],["Casual tryer",28,60.7,11.8,0,2.6,"Tries a few days then leaves; leaves a default 50% rating"],["Perfectionist",14,100,71.4,42.9,40.8,"Skips the wheel a lot, hits 89% revised, then runs out of challenge"],["Gamer / collector",12,50,66.7,66.7,42.5,"Farms ✦; earns 8× honest users"],["Manual entry only",16,31.3,20,0,2.6,"No Claude: typing topics one by one is the cliff"],["Messy importer",12,91.7,63.6,36.4,16.7,"Pastes whatever Claude gives; most formats fail first time"]];
+$("#per").innerHTML="<tr><th>Archetype</th><th>People</th><th>Got set up</th><th>Active day 7</th><th>Day 30</th><th>Avg active days</th><th>What they experience</th></tr>"+PER.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}%</td><td>${r[3]}%</td><td>${r[4]}%</td><td>${r[5]}</td><td style="color:var(--mute)">${r[6]}</td></tr>`).join("");
+const bar=(l,v,max,c)=>`<div style="display:grid;grid-template-columns:150px 1fr 52px;gap:8px;align-items:center;margin:6px 0;font-size:13px"><span>${l}</span><div class="bar"><i style="width:${v/max*100}%;${c?"background:"+c:""}"></i></div><b style="text-align:right">${v}</b></div>`;
+$("#funnel").innerHTML=bar("Tried the app",200,200)+bar("Took Claude route",145,200,"#3e63dd")+bar("Import failed 1st try",49,200,"#d98a1f")+bar("Gave up on import",26,200,"#d6334a")+bar("Took manual route",55,200,"#8e4ec6")+bar("Gave up typing topics",37,55,"#d6334a")+bar("Got set up",137,200,"#1f8a4c");
+const FM=[["Clean JSON",82,0],["JSON in code fence",11,0],["Truncated",30,30],["Curly quotes",8,8],["Trailing commas",8,8],["Plain lines",3,3],["Numbered units",3,0]];
+$("#fmt").innerHTML=FM.map(r=>`<div style="display:grid;grid-template-columns:140px 1fr 70px;gap:8px;align-items:center;margin:6px 0;font-size:13px"><span>${r[0]}</span><div class="bar"><i style="width:${r[2]/Math.max(r[1],1)*100}%;background:#d6334a"></i></div><b style="text-align:right">${r[2]}/${r[1]} fail</b></div>`).join("");
+const D=[1,3,7,14,30,60,90],SER=[["#8a949b",[62,50.5,38.5,32.5,21.5,15.5,9]],["#3e63dd",[73.5,60,46,40.5,28,20,13]],["#f76b15",[64.5,56,43.5,38.5,26,20,11.5]],["#1f8a4c",[82,71.5,57.5,51,37,28.5,18.5]]];
+(function(){const W=820,H=250,L=36,B=26,pw=W-L-12,ph=H-B-12,x=i=>L+i/(D.length-1)*pw,y=v=>12+(1-v/100)*ph;let s=`<svg viewBox="0 0 ${W} ${H}" width="100%">`;
+ [0,25,50,75,100].forEach(v=>s+=`<line x1="${L}" x2="${W-12}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${v}%</text>`);
+ D.forEach((d,i)=>s+=`<text x="${x(i)}" y="${H-6}" text-anchor="middle">day ${d}</text>`);
+ SER.forEach(([c,v])=>{s+=`<polyline fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${v.map((a,i)=>x(i)+","+y(a)).join(" ")}"/>`;v.forEach((a,i)=>s+=`<circle cx="${x(i)}" cy="${y(a)}" r="3.5" fill="${c}"/>`);s+=`<text x="${x(D.length-1)+4}" y="${y(v[v.length-1])+4}" style="fill:${c}">${v[v.length-1]}%</text>`;});
+ $("#ret").innerHTML=s+"</svg>";})();
+const F=[
+["crit","Importer rejects almost any imperfect reply, with a misleading error","Truncated, trailing-comma, curly-quote, comment and single-quote JSON all fail with “Couldn't find any topics”. Long specs are the most likely to be cut off, and those are the heaviest users. 26 of 145 Claude-route users gave up here (modelled).","Repair JSON, recover every complete topic from a cut-off reply, show a preview, and say exactly what went wrong.","MEASURED + MODELLED"],
+["crit","Silent data loss on repeated topic titles","24 topics titled “Introduction” import as 1. Common in real specs (“Introduction”, “Practice questions”, “Revision”).","Key topics on unit plus title, or add a suffix, and report what was merged.","MEASURED"],
+["crit","Shop economy is farmable and decoupled from effort","194 repeat logs of one topic buy the whole catalogue. An honest 1-a-day user finishes it in about 42 days. The flat +25 daily bonus pays regardless of study. Reset and re-log gives +485 per 20 rounds.","Diminishing returns per topic per day, goal bonus scaled to the goal, rebalance prices.","MEASURED"],
+["high","No-Claude setup is a cliff","Typing topics one by one: 37 of 55 manual-route users abandoned. There is no bulk paste.","Paste-a-list box that accepts lines, bullets and CSV.","MODELLED"],
+["high","Setup means leaving the app","About 10 taps plus a trip to Claude and back, before the first spin.","Shorter prompt, share-sheet “Send to Claude”, and a sample course to try instantly.","STATIC REVIEW"],
+["high","White text fails contrast on 13 of 19 themes","Worst: Ember and Golden Hour at 2.15:1 on the hero card. White-on-accent buttons fail on 11 of 19 in light mode.","Pick text colour per theme automatically, or darken hero gradients.","MEASURED"],
+["high","“Due” and review load grow without limit","Engaged users average about 98 due topics (p90 215). A chip reading “98 due” demotivates.","A capped daily queue (for example 5 to 10 items) and a “catch-up” mode.","MEASURED"],
+["med","Touch targets and text are small","35–38 px controls (guideline 48). 10–11 px labels on four screens.","48 px minimum, 12 px minimum text.","MEASURED"],
+["med","“Related” label means almost nothing","98.7% of suggestions are tagged Related, even for users with no Claude links, because same-unit gives a high base score.","Score links from Claude separately from unit adjacency and label them differently.","MEASURED"],
+["med","The wheel shows 8 topics out of hundreds","Big-spec users still covered only about 63% of topics after roughly 107 active days with wheel-led study.","Add a “cover everything” plan mode and show how many topics remain.","MODELLED"],
+["med","No reminders","Largest retention lever after setup (about +7 pts at day 30 among onboarded users).","Daily notification at a chosen time, plus streak-at-risk nudge.","MODELLED"],
+["med","Whole topic list is rendered at once","11,368 DOM nodes at 1,800 topics, each with blur effects. Likely jank on mid-range phones.","Render collapsed units lazily, or virtualise.","MEASURED (nodes) / UNTESTED ON DEVICE"],
+["low","Logging is self-reported","Casual users often accept the default 50%. Nothing checks learning.","Optional 60-second self-test (direction D).","STATIC REVIEW"],
+["low","Backup is copy and paste","Uninstalling wipes data unless you saved a backup.","Export to a file, plus Android Auto Backup.","STATIC REVIEW"]];
+const TG={crit:["t-crit","Critical"],high:["t-high","High"],med:["t-med","Medium"],low:["t-low","Low"]};
+$("#findings").innerHTML=F.map((f,i)=>`<div class="card finding"><div><span class="tag ${TG[f[0]][0]}">${TG[f[0]][1]}</span><b>${i+1}. ${f[1]}</b></div><div class="ev">${f[2]}</div><div class="fx"><b>Fix:</b> ${f[3]} <span class="tag t-low" style="margin-left:6px">${f[4]}</span></div></div>`).join("");
+const P=[["60 topics",.2,.8,5,.3],["240 topics",.9,4.5,10.4,.7],["750 topics",6.1,10.1,15,1.6],["1,800 topics",6.9,15.7,24.4,13.3]];
+$("#perf").innerHTML="<tr><th>Spec size</th><th>Suggestions</th><th>Topics screen</th><th>Progress screen</th><th>Related pick</th></tr>"+P.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]} ms</td><td>${r[2]} ms</td><td>${r[3]} ms</td><td>${r[4]} ms</td></tr>`).join("")+"<tr><td colspan=5 style='color:var(--mute)'>Data size at 1,800 topics: 342 KB. Saved after every revision.</td></tr>";
+const C=[["Ember",2.15],["Golden Hour",2.15],["Lagoon",2.57],["Aurora",3.16],["Mint Fog",3.19],["Dusk",3.39],["Glacier",3.39],["Sakura",3.96],["Cosmic",3.91],["Nebula",4.27],["Clear (default)",4.38],["Obsidian Gold",5.03],["Ocean Deep",4.95]];
+$("#contrast").innerHTML=C.map(r=>`<div style="display:grid;grid-template-columns:110px 1fr 46px;gap:8px;align-items:center;margin:5px 0;font-size:13px"><span>${r[0]}</span><div class="bar"><i style="width:${Math.min(100,r[1]/7*100)}%;background:${r[1]<4.5?'#d6334a':'#1f8a4c'}"></i></div><b style="text-align:right">${r[1]}</b></div>`).join("")+"<p style='margin-top:6px'>White text on the hero card, best gradient end. Red is below 4.5:1.</p>";
+</script>
+</body>
+</html>

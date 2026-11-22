@@ -10,3 +10,7 @@ $c = [IO.File]::ReadAllText("$PSScriptRoot\concept.template.html")
 $c = $c.Replace("__JAKARTA__",(B64 "PlusJakartaSans-Regular.woff2")).Replace("__CLASH__",(B64 "ClashDisplay-Semibold.woff2")).Replace("__CHILLAX__",(B64 "Chillax-Semibold.woff2"))
 [IO.File]::WriteAllText("$PSScriptRoot\liquid-glass-concept.html",$c,(New-Object Text.UTF8Encoding $false))
 "built concept {0:N0} KB" -f ((Get-Item "$PSScriptRoot\liquid-glass-concept.html").Length/1KB)
+$rp = [IO.File]::ReadAllText("$PSScriptRoot\report.template.html")
+$rp = $rp.Replace("__JAKARTA__",(B64 "PlusJakartaSans-Regular.woff2")).Replace("__CLASH__",(B64 "ClashDisplay-Semibold.woff2")).Replace("__CHILLAX__",(B64 "Chillax-Semibold.woff2"))
+[IO.File]::WriteAllText("$PSScriptRoot\ux-report.html",$rp,(New-Object Text.UTF8Encoding $false))
+"built report"
