@@ -15,7 +15,7 @@
   --font:"Jakarta",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --display:"Clash","Jakarta",system-ui,sans-serif;
   --ui:"Chillax","Jakarta",system-ui,sans-serif;
-  --bg:#eaeef4; --card:#ffffff; --ink:#12161a; --mute:#66707a; --line:rgba(20,30,40,.1);
+  --bg:#eaeef4; --card:#ffffff; --ink:#12161a; --mute:#56626d; --line:rgba(20,30,40,.1);
   --acc:#1f8a4c; --acc2:#0f6b3a; --acc-ink:#ffffff; --acc-soft:rgba(31,138,76,.14); --glow:rgba(31,138,76,.45); --warn:#d98a1f; --hero1:#1f8a4c; --hero2:#0f6b3a;
   --l0:#e3e8e4; --l1:#bde5cb; --l2:#74c794; --l3:#2f9e5b; --l4:#16673a;
   --glass:rgba(255,255,255,.6); --glass-strong:rgba(255,255,255,.86); --gborder:rgba(255,255,255,.78);
@@ -23,7 +23,7 @@
   --b1:#8fd3b0; --b2:#a9b8ff; --b3:#ffc9a0; --stage:rgba(110,125,140,.14); --sheetbg:rgba(255,255,255,.94);
 }
 :root[data-mode="dark"]{
-  --bg:#0b0e12; --card:#171c21; --ink:#edf1f2; --mute:#8a949b; --line:rgba(255,255,255,.09); --warn:#e7a23a;
+  --bg:#0b0e12; --card:#171c21; --ink:#edf1f2; --mute:#9ba7af; --line:rgba(255,255,255,.09); --warn:#e7a23a;
   --l0:#222a2e;
   --glass:rgba(34,41,50,.56); --glass-strong:rgba(26,32,39,.82); --gborder:rgba(255,255,255,.13);
   --gshadow:0 10px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.14);
@@ -46,7 +46,7 @@ header{padding:16px 16px 4px;display:flex;gap:12px;align-items:center;max-width:
 header svg{width:44px;height:44px;flex:none;border-radius:13px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
 h1{font-size:22px;margin:0;letter-spacing:-.025em;line-height:1.12}
 .sub{color:var(--mute);font-size:13px}
-.wallet{margin-left:auto;display:flex;align-items:center;gap:6px;border-radius:99px;padding:8px 14px;color:var(--ink);font-size:14px}
+.wallet{min-height:44px;margin-left:auto;display:flex;align-items:center;gap:6px;border-radius:99px;padding:8px 14px;color:var(--ink);font-size:14px}
 .wallet .gem{color:var(--acc)}
 main{padding:6px 16px 16px;max-width:640px;margin:0 auto}
 .card{border-radius:26px;padding:16px;margin-top:12px;position:relative}
@@ -65,7 +65,7 @@ main{padding:6px 16px 16px;max-width:640px;margin:0 auto}
 .stat{border-radius:22px;padding:12px}
 .stat b{display:block;font-size:22px;letter-spacing:-.02em}
 .stat span{font-size:12px;color:var(--mute)}
-button{font:inherit;border:0;border-radius:16px;padding:13px 16px;position:relative;overflow:hidden;
+button{font:inherit;border:0;border-radius:16px;padding:13px 16px;min-height:44px;position:relative;overflow:hidden;
   background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,0) 62%),var(--acc);color:var(--acc-ink);cursor:pointer;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 6px 16px var(--glow)}
 button.ghost{background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:var(--ink);border:1px solid var(--gborder);box-shadow:var(--gshadow)}
@@ -75,11 +75,11 @@ button:disabled{opacity:.45}
 button.full{width:100%}
 nav{position:fixed;left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom));display:flex;border-radius:30px;padding:6px;z-index:5;max-width:612px;margin:0 auto;
   background:var(--glass-strong);backdrop-filter:blur(30px) saturate(190%);-webkit-backdrop-filter:blur(30px) saturate(190%);border:1px solid var(--gborder);box-shadow:0 14px 40px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.5)}
-nav button{flex:1;background:none;box-shadow:none;color:var(--mute);border-radius:24px;padding:9px 0 7px;font-size:10.5px}
-nav button.on{color:var(--acc);background:var(--acc-soft)}
+nav button{flex:1;background:none;box-shadow:none;color:var(--mute);border-radius:24px;padding:9px 0 7px;font-size:12px}
+nav button.on{color:var(--acc-text);background:var(--acc-soft)}
 nav svg{display:block;margin:0 auto 2px;width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .subj{display:flex;gap:6px;margin-top:12px;overflow-x:auto;padding:2px 2px 4px}
-.sc{display:flex;align-items:center;gap:7px;padding:8px 13px;border-radius:99px;color:var(--ink);white-space:nowrap;font-size:13px;box-shadow:none}
+.sc{min-height:44px;display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:99px;color:var(--ink);white-space:nowrap;font-size:13px;box-shadow:none}
 .sc.on{box-shadow:inset 0 0 0 2px var(--c);border-color:var(--c)}
 .dot{width:10px;height:10px;border-radius:99px;background:var(--c);display:inline-block;flex:none}
 .wheelwrap{position:relative;width:min(100%,310px);margin:2px auto 14px;aspect-ratio:1}
@@ -89,28 +89,28 @@ canvas{width:100%;height:100%;display:block}
 .seg button{flex:1;border-radius:13px;background:transparent;box-shadow:none;color:var(--mute);padding:9px 6px;font-size:13px}
 .seg button.on{background:var(--acc);color:var(--acc-ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 4px 12px var(--glow)}
 .topic{border-left:3px solid var(--c,var(--acc));padding:4px 0 4px 12px;margin:2px 0 14px}
-.topic small{color:var(--mute);text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+.topic small{color:var(--mute);text-transform:uppercase;letter-spacing:.06em;font-size:12px}
 .topic div{font-size:19px;letter-spacing:-.01em;margin-top:2px}
 .bar{height:8px;border-radius:99px;background:var(--l0);overflow:hidden}
 .bar i{display:block;height:100%;background:var(--acc);border-radius:99px}
 .bar.warn i{background:var(--warn)}
 .search{width:100%;color:var(--ink);border-radius:18px;padding:12px 16px;font:inherit;margin-top:12px;box-shadow:none}
 .filters{display:flex;gap:6px;margin-top:10px;overflow-x:auto;padding:2px}
-.filters button{padding:7px 12px;font-size:13px;color:var(--mute);white-space:nowrap;border-radius:99px;box-shadow:none}
+.filters button{padding:10px 14px;font-size:13px;color:var(--mute);white-space:nowrap;border-radius:99px;box-shadow:none}
 .filters button.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
 .unit{margin-top:12px;border-left:5px solid var(--sc,var(--gborder));border-radius:24px;overflow:hidden}
 .unit>summary{list-style:none;padding:14px 16px;cursor:pointer}
 .unit>summary::-webkit-details-marker{display:none}
 .unit>summary em{font-style:normal;color:var(--mute);font-size:13px}
 .unit>summary .bar{margin-top:9px;height:6px}
-.unit .tag{font-size:11px;color:var(--mute)}
+.unit .tag{font-size:12px;color:var(--mute)}
 .item{display:flex;gap:12px;align-items:center;padding:11px 16px;border-top:1px solid var(--line);cursor:pointer}
 .badge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:13px;flex:none;background:var(--l0);color:var(--ink)}
 .badge[data-l="1"]{background:var(--l1)}.badge[data-l="2"]{background:var(--l2)}
 .badge[data-l="3"]{background:var(--l3);color:#fff}.badge[data-l="4"]{background:var(--l4);color:#fff}
 .item .t{line-height:1.25}
 .item .m{font-size:12px;color:var(--mute)}
-.pill{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:99px;background:var(--l1);color:var(--ink);margin-left:6px;vertical-align:middle;font-family:var(--ui)}
+.pill{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;background:var(--l1);color:var(--ink);margin-left:6px;vertical-align:middle;font-family:var(--ui)}
 .pill.due{background:var(--warn);color:#fff}
 .heat{overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
 .grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,13px);gap:3px;width:max-content}
@@ -118,8 +118,8 @@ canvas{width:100%;height:100%;display:block}
 .cell[data-l="1"]{background:var(--l1)}.cell[data-l="2"]{background:var(--l2)}
 .cell[data-l="3"]{background:var(--l3)}.cell[data-l="4"]{background:var(--l4)}
 .cell.future{visibility:hidden}.cell.sel{outline:2px solid var(--ink);outline-offset:1px}
-.months{display:grid;grid-auto-flow:column;grid-auto-columns:16px;font-size:11px;color:var(--mute);height:16px;width:max-content}
-.legend{display:flex;gap:4px;align-items:center;font-size:11px;color:var(--mute);justify-content:flex-end;margin-top:8px}
+.months{display:grid;grid-auto-flow:column;grid-auto-columns:16px;font-size:12px;color:var(--mute);height:16px;width:max-content}
+.legend{display:flex;gap:4px;align-items:center;font-size:12px;color:var(--mute);justify-content:flex-end;margin-top:8px}
 .legend .cell{width:11px;height:11px}
 .tip{min-height:20px;font-size:13px;color:var(--mute);margin-top:8px}
 textarea,input[type=text],input[type=date],select{width:100%;border:1px solid var(--line);border-radius:16px;background:rgba(127,140,150,.1);color:var(--ink);font:inherit;font-size:14px;padding:12px 14px}
@@ -131,11 +131,13 @@ p{margin:4px 0 10px;color:var(--mute);font-size:13px}
 .msg{font-size:13px;margin-top:8px;min-height:18px}
 .empty{text-align:center;padding:30px 10px;color:var(--mute)}
 .empty svg{width:64px;height:64px;margin-bottom:10px}
-details.how>summary{cursor:pointer;color:var(--acc);font-size:13px;margin:4px 0}
+details.how>summary{cursor:pointer;color:var(--acc-text);font-size:13px;margin:4px 0}
 .lbl{display:flex;justify-content:space-between;align-items:center;font-size:14px;padding:9px 0}
 .stepper{display:flex;align-items:center;gap:10px}
-.stepper button{width:34px;height:34px;padding:0;border-radius:12px}
-label.check{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mute);margin:10px 0 2px}
+.stepper button{width:44px;height:44px;padding:0;border-radius:12px}
+label.check{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--mute);margin:6px 0;min-height:44px}
+input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc);flex:none}
+.note-w{background:rgba(224,161,0,.16);border-radius:14px;padding:10px 12px;margin:8px 0;font-size:13px}
 .list-row{display:flex;gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
 .list-row:first-of-type{border-top:0}
 .list-row .t{flex:1;line-height:1.25}
@@ -145,7 +147,7 @@ label.check{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--m
 .rec:first-of-type{border-top:0}
 .rec .t{flex:1;line-height:1.25}
 .swatches{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 14px}
-.sw{width:40px;height:40px;border-radius:99px;padding:0;background:var(--c);border:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 10px rgba(0,0,0,.18)}
+.sw{width:44px;height:44px;border-radius:99px;padding:0;background:var(--c);border:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 10px rgba(0,0,0,.18)}
 .sw.on{outline:3px solid var(--ink);outline-offset:2px}
 .sw.lock{opacity:.5;position:relative}
 .sw.lock::after{content:"🔒";position:absolute;inset:0;display:grid;place-items:center;font-size:14px}
@@ -178,7 +180,7 @@ label.check{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--m
 .big-pct{font-size:44px;letter-spacing:-.03em;line-height:1}
 input[type=range]{width:100%;accent-color:var(--acc);margin:12px 0 6px}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px}
-.pills button{padding:7px 11px;font-size:13px;background:rgba(127,140,150,.14);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.pills button{padding:10px 13px;font-size:13px;background:rgba(127,140,150,.14);color:var(--ink);border:1px solid var(--line);box-shadow:none}
 h1,h2,h3,.hero b.big,.big-pct,.stat b,.topic div,.ringwrap .lab,.badge,.chip{font-family:var(--display);font-weight:600}
 b,strong,button,.item .t,.list-row .t,.rec .t,.toast,details.how>summary,.opt .nm,.look{font-family:var(--ui);font-weight:600}
 input,select,.search{font-family:var(--font)}
@@ -289,7 +291,7 @@ function norm(s){
   s.accent = ACCENTS[s.accent]?s.accent:"forest"; s.theme = THEMES[s.theme]?s.theme:"clear";
   s.mode = s.mode||"system"; s.wmode = s.wmode||"any"; s.view = s.view===undefined?"all":s.view; s.anim = s.anim!==false; s.dynIcon = !!s.dynIcon;
   s.wskin = WSKINS[s.wskin]?s.wskin:"glass"; s.hp = HEATS[s.hp]?s.hp:"classic";
-  if (s.coins===undefined) s.coins = 150; s.life = s.life||0; s.own = s.own||{}; s.eq = s.eq||{}; s.ms = s.ms||{};
+  if (s.coins===undefined) s.coins = 150; s.life = s.life||0; s.own = s.own||{}; s.eq = s.eq||{}; s.ms = s.ms||{}; s.rw = s.rw||{d:"",n:0,ids:{}};
   ["theme","wskin","hp"].forEach(g => { if (GROUPS[g][s[g]].price) s.own[g+":"+s[g]] = true; });
   if (!s.subjects || !s.subjects.length) {
     s.subjects = (s.topics.length || s.subject) ? [{ id:0, name:s.subject||"My course", color:PAL[3], examDate:s.examDate||"" }] : [];
@@ -381,12 +383,19 @@ const recTag = x => x.r>=3 ? "Related" : x.due ? "Due" : !x.t.revs ? "New" : "We
 const rgb = h => [1,3,5].map(i=>parseInt(h.substr(i,2),16));
 const mix = (a,b,t) => { const A = rgb(a), B = rgb(b); return "#"+A.map((v,i)=>Math.round(v*t+B[i]*(1-t)).toString(16).padStart(2,"0")).join(""); };
 const isDark = () => S.mode==="dark" || (S.mode!=="light" && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
+/* contrast helpers: keep text readable on every theme */
+const lum = h => { const c = rgb(h).map(v=>v/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)); return .2126*c[0]+.7152*c[1]+.0722*c[2]; };
+const contrast = (a,b) => { const x = lum(a), y = lum(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); };
+const darkenForWhite = c => { for (let s=0; s<=.75; s+=.05) { const d = mix(c,"#000000",1-s); if (contrast("#ffffff",d)>=4.6) return d; } return mix(c,"#000000",.25); };
+const textOn = bgc => contrast("#ffffff",bgc) >= contrast("#0a1410",bgc) ? "#ffffff" : "#0a1410";
+const accText = (a,dark) => { const bgc = dark?"#171c21":"#ffffff"; for (let s=0; s<=.8; s+=.05) { const d = dark ? mix("#ffffff",a,s) : mix("#000000",a,s); if (contrast(d,bgc)>=4.6) return d; } return a; };
 function applyTheme(){
   const dark = isDark(), th = THEMES[S.theme], ac = ACCENTS[S.accent];
-  const pair = th.acc ? th.acc[dark?1:0] : (dark?ac.d:ac.l), hero = th.hero || ac.l, a = pair[0], a2 = pair[1];
+  const pair = th.acc ? th.acc[dark?1:0] : (dark?ac.d:ac.l), hero = (th.hero || ac.l).map(darkenForWhite), a2 = pair[1];
+  const a = (() => { const c = pair[0]; for (let s=0; s<=.5; s+=.03) { const d = mix(c,"#000000",1-s); if (Math.max(contrast("#ffffff",d),contrast("#0a1410",d))>=4.6) return d; } return c; })();
   const bg = dark?"#171c21":"#ffffff", st = document.documentElement.style;
   document.documentElement.dataset.mode = dark?"dark":"light";
-  st.setProperty("--acc",a); st.setProperty("--acc2",a2); st.setProperty("--acc-ink",dark?"#071009":"#ffffff");
+  st.setProperty("--acc",a); st.setProperty("--acc2",a2); st.setProperty("--acc-ink",textOn(a)); st.setProperty("--acc-text",accText(a,dark));
   st.setProperty("--glow",a+"73"); st.setProperty("--acc-soft",a+(dark?"30":"24"));
   st.setProperty("--hero1",hero[0]); st.setProperty("--hero2",hero[1]);
   let l = [mix(a,bg,dark?.3:.32), mix(a,bg,dark?.55:.6), mix(a,bg,dark?.8:.88), dark?a:a2];
@@ -551,7 +560,7 @@ function viewShop(){
     if (g==="hp") { const L = it.l || ["#bde5cb","#74c794","#2f9e5b","#16673a"]; pv = `background:linear-gradient(90deg,${L.join(",")})`; }
     return `<button class="look ${on?"on":""}" data-a="${own?"look":"buy"}" data-v="${id}"><div class="pv" style="${pv}"></div>${esc(it.n)}<small>${on?"Equipped":own?"Owned":it.price+" ✦"}</small></button>`; }).join("")}</div></div>`).join("");
   return `<div class="card hero" style="justify-content:space-between"><div><b class="big">${S.coins} ✦</b><span class="sub">${S.life} earned in total</span></div><div style="position:relative;z-index:1;text-align:right;font-size:12px;max-width:160px" class="sub">Spend ✦ on cosmetics. Animations are free in More › Motion.</div></div>
-    <div class="card"><h2>How to earn ✦</h2><div class="earn"><span>Log a revision</span><span>12</span><span>Streak bonus</span><span>up to +8</span><span>Big confidence jump</span><span>+5</span><span>Revising a due topic</span><span>+5</span><span>First time on a topic</span><span>+5</span><span>Hit your daily goal</span><span>+25</span><span>Streak milestones</span><span>up to +400</span></div></div>
+    <div class="card"><h2>How to earn ✦</h2><div class="earn"><span>Each topic you revise (first 3 a day)</span><span>10+</span><span>Topics 4 to 8 each day</span><span>half</span><span>Streak bonus</span><span>up to +5</span><span>Big confidence jump · due topic · first time</span><span>+3 each</span><span>Hit your daily goal</span><span>+5 per topic</span><span>Streak milestones</span><span>up to +300</span><span>Same topic again today</span><span>no ✦</span></div></div>
     ${sections}`;
 }
 const MPRESETS = {
@@ -587,6 +596,8 @@ Build a checklist for EVERY subject I take:
 - "related" = titles of 1-3 other topics (in the same subject) that connect to it as prerequisites or follow-ons. The app uses this to suggest what to revise next.
 - "examDate" if you know it.
 
+Keep unit and topic names concise. If the full reply would be too long for one message, send ONE subject per message (JSON for that subject only) and wait for me to say "next".
+
 Reply with ONLY valid JSON, nothing else, in this shape (one entry per subject):
 {"subjects":[ ${ONE} ]}`;
 
@@ -611,76 +622,226 @@ Full data:
 ${JSON.stringify({subjects:subs})}`;
 }
 
-/* ================= import ================= */
-function toSpec(j){
-  const topics = [];
-  (j.units||[]).forEach(u => (u.topics||[]).forEach(t => { const o = typeof t==="string" ? {title:t} : t;
-    topics.push({ unit:String(u.name||"General"), title:String(o.title||o.name||"").trim(), pct:Math.max(0,Math.min(100,+(o.pct??0)||0)),
-      notes:String(o.notes||""), rel:(Array.isArray(o.related)?o.related:[]).map(String) }); }));
-  return { subject:String(j.subject||""), examDate:/^\d{4}-\d\d-\d\d$/.test(j.examDate||"")?j.examDate:"", topics };
+/* ================= import (forgiving) ================= */
+const SMART = {"“":'"',"”":'"',"„":'"',"‟":'"',"‘":"'","’":"'","«":'"',"»":'"'};
+/* Cleans JSON-ish text: strips comments, trailing commas, converts single quotes, closes raw newlines in strings */
+function lexJSON(src){
+  let out = "", stack = [], i = 0, inStr = null; const n = src.length;
+  while (i<n) { const ch = src[i];
+    if (inStr) {
+      if (ch==="\\") { out += (inStr==="'" && src[i+1]==="'") ? "'" : ch+(src[i+1]||""); i += 2; continue; }
+      if (ch===inStr) { out += '"'; inStr = null; i++; continue; }
+      if (inStr==="'" && ch==='"') { out += '\\"'; i++; continue; }
+      if (ch==="\n") { out += "\\n"; i++; continue; } if (ch==="\r") { i++; continue; } if (ch==="\t") { out += "\\t"; i++; continue; }
+      out += ch; i++; continue; }
+    if (ch==='"' || ch==="'") { inStr = ch; out += '"'; i++; continue; }
+    if (ch==="/" && src[i+1]==="/") { while (i<n && src[i]!=="\n") i++; continue; }
+    if (ch==="/" && src[i+1]==="*") { i += 2; while (i<n && !(src[i]==="*" && src[i+1]==="/")) i++; i += 2; continue; }
+    if (ch==="{" || ch==="[") { stack.push(ch); out += ch; i++; continue; }
+    if (ch==="}" || ch==="]") { out = out.replace(/,\s*$/,""); stack.pop(); out += ch; i++; continue; }
+    out += ch; i++; }
+  return { out, stack, inStr };
 }
-function parseSpec(text){
-  text = text.trim(); if (!text) throw new Error("Nothing pasted.");
-  const a = text.indexOf("{"), b = text.lastIndexOf("}");
-  if (a>=0 && b>a) { try {
-    const j = JSON.parse(text.slice(a,b+1));
-    if (j.version>=2 && Array.isArray(j.topics)) return { backup:j };
-    if (Array.isArray(j.subjects)) return { specs: j.subjects.map(toSpec) };
-    if (Array.isArray(j.units)) return { specs:[toSpec(j)] };
-  } catch(e){} }
-  let unit = "General", subject = "", topics = [], first = true;
-  text.split(/\r?\n/).forEach(line => { const l = line.trim(); if (!l) return;
-    const h = l.match(/^#{1,3}\s+(.*)/);
-    if (h) { if (first && /^#\s/.test(l)) { subject = h[1]; first = false; } else unit = h[1]; return; }
-    const li = l.match(/^(?:[-*•]|\d+[.)])\s+(.*)/);
-    if (li) topics.push({ unit, title:li[1].trim(), pct:0, notes:"", rel:[] }); else if (/:$/.test(l)) unit = l.slice(0,-1); });
-  if (!topics.length) throw new Error("Couldn't find any topics. Ask Claude for the JSON format.");
-  return { specs:[{ subject, examDate:"", topics }] };
+const closersFor = st => st.slice().reverse().map(c => c==="{"?"}":"]").join("");
+function parseJSONLoose(text){
+  let s = text; for (const k in SMART) s = s.split(k).join(SMART[k]);
+  const a = s.search(/[\[{]/); if (a<0) return null; s = s.slice(a);
+  const b = Math.max(s.lastIndexOf("}"), s.lastIndexOf("]"));
+  try { if (b>0) return { data:JSON.parse(s.slice(0,b+1)), fixed:false, truncated:false }; } catch(e){}
+  const L = lexJSON(s);
+  if (!L.inStr && L.stack.length===0) { try { return { data:JSON.parse(L.out), fixed:true, truncated:false }; } catch(e){} }
+  // broken or cut off: close the open brackets, or cut back to the last complete item
+  try { return { data:JSON.parse(L.out + (L.inStr?'"':"") + closersFor(L.stack)), fixed:true, truncated:L.stack.length>0 }; } catch(e){}
+  let tries = 0;
+  for (let i=L.out.length-1; i>=0 && tries<80; i--) { const ch = L.out[i]; if (ch!=="}" && ch!=="]") continue; tries++;
+    const slice = L.out.slice(0,i+1), L2 = lexJSON(slice);
+    try { return { data:JSON.parse(slice + closersFor(L2.stack)), fixed:true, truncated:true }; } catch(e){} }
+  return null;
 }
+const pick = (o,...ks) => { for (const k of ks) if (o && o[k]!==undefined && o[k]!==null && o[k]!=="") return o[k]; };
+function normDate(v){
+  v = String(v||"").trim(); if (!v) return ""; if (/^\d{4}-\d\d-\d\d$/.test(v)) return v;
+  const d = new Date(v); return isNaN(d) ? "" : ymd(d);
+}
+function toTopic(t, unit){
+  const o = typeof t==="string" ? { title:t } : (t||{}); const title = String(pick(o,"title","name","topic","label")||"").trim(); if (!title) return null;
+  let rel = pick(o,"related","links","prerequisites","relatedTopics") || []; if (typeof rel==="string") rel = rel.split(/[;|]|,(?=\s*[A-Z])/);
+  rel = (Array.isArray(rel)?rel:[]).map(x=>String(x).trim()).filter(Boolean);
+  const raw = pick(o,"pct","confidence","mastery","progress"); let pct = 0;
+  if (raw!==undefined) { const m = String(raw).match(/-?\d+(\.\d+)?/); pct = m ? +m[0] : 0; if (pct>0 && pct<=1 && String(raw).indexOf("%")<0 && String(raw).indexOf(".")>=0) pct *= 100; }
+  return { unit:unit||"General", title, pct:Math.max(0,Math.min(100,Math.round(pct))), notes:String(pick(o,"notes","note","tip")||"").trim(), rel };
+}
+function toSpecAny(j){
+  j = j||{}; const topics = [], units = pick(j,"units","sections","modules","chapters");
+  if (Array.isArray(units)) units.forEach(u => { if (!u || typeof u!=="object") return; const un = String(pick(u,"name","unit","title","section")||"General"); const ts = pick(u,"topics","items","children","subtopics","points");
+    (Array.isArray(ts)?ts:[]).forEach(t => { const x = toTopic(t,un); if (x) topics.push(x); }); });
+  else if (Array.isArray(j.topics)) j.topics.forEach(t => { const x = toTopic(t, (t && typeof t==="object") ? String(pick(t,"unit","section","module")||"General") : "General"); if (x) topics.push(x); });
+  return { subject:String(pick(j,"subject","course","name","title")||"").trim(), examDate:normDate(pick(j,"examDate","exam","exam_date","date")), topics };
+}
+function csvLine(line){
+  const out = []; let cur = "", q = false;
+  for (let i=0;i<line.length;i++){ const c = line[i]; if (q) { if (c==='"') { if (line[i+1]==='"') { cur += '"'; i++; } else q = false; } else cur += c; } else if (c==='"') q = true; else if (c===","||c==="\t") { out.push(cur); cur = ""; } else cur += c; }
+  out.push(cur); return out.map(x=>x.trim());
+}
+const BUL = /^([-*•·▪‣]|\d+[.)]|[a-z][.)]|\(\w+\))\s+/i;
+function parseTextList(text){
+  const rows = text.replace(/\r/g,"").split("\n").map(raw => ({ indent:raw.match(/^[\t ]*/)[0].replace(/\t/g,"  ").length, s:raw.trim() })).filter(r=>r.s);
+  if (!rows.length) return [];
+  // CSV / TSV
+  const withComma = rows.filter(r => /[,\t]/.test(r.s));
+  if (rows.length>=2 && withComma.length>=rows.length*.8 && !rows.some(r=>BUL.test(r.s)) && !rows.some(r=>/^#/.test(r.s))) {
+    const csv = rows.map(r=>csvLine(r.s)), head = csv[0].map(x=>x.toLowerCase()), hasHead = head.some(h=>/^(subject|course|unit|section|module|chapter|topic|title|name)$/.test(h));
+    const data = hasHead ? csv.slice(1) : csv; let ci = { sj:-1, un:-1, tp:-1 };
+    if (hasHead) { head.forEach((h,i)=>{ if (/subject|course/.test(h)) ci.sj = i; else if (/unit|section|module|chapter/.test(h)) ci.un = i; else if (/topic|title|name/.test(h)) ci.tp = i; }); if (ci.tp<0) ci.tp = head.length-1; }
+    else { const w = data[0].length; ci = w>=3 ? {sj:0,un:1,tp:2} : w===2 ? {sj:-1,un:0,tp:1} : {sj:-1,un:-1,tp:0}; }
+    const by = {}; data.forEach(r => { const title = (r[ci.tp]||"").trim(); if (!title) return; const sj = ci.sj>=0 ? (r[ci.sj]||"").trim() : "";
+      (by[sj] = by[sj]||[]).push({ unit:(ci.un>=0?(r[ci.un]||"").trim():"")||"General", title, pct:0, notes:"", rel:[] }); });
+    const specs = Object.keys(by).map(sj => ({ subject:sj, examDate:"", topics:by[sj] })); if (specs.length) return specs;
+  }
+  // outline: headings, bullets, indentation, numbered units
+  const strip = s => s.replace(/^#+\s*/,"").replace(BUL,"").replace(/\*\*/g,"").trim();
+  const structured = rows.some(r => BUL.test(r.s) || /^#/.test(r.s) || r.indent>0 || /:$/.test(r.s));
+  let subject = "", unit = "General", topics = [], first = true, warn = [];
+  if (!structured) {
+    // plain lines: use blank-line blocks, or "Unit 3"-style lines, else everything is one list
+    const blocks = text.replace(/\r/g,"").split(/\n\s*\n/).map(b=>b.split("\n").map(x=>x.trim()).filter(Boolean)).filter(b=>b.length);
+    const isUnitLine = s => /^(unit|chapter|module|section|paper|week|part|topic area)\b/i.test(s);
+    if (blocks.length>=2 && blocks.every(b=>b.length>=2)) blocks.forEach(b => { b.slice(1).forEach(t => topics.push({ unit:b[0], title:t, pct:0, notes:"", rel:[] })); });
+    else rows.forEach(r => { if (isUnitLine(r.s) && rows.length>3) unit = r.s; else topics.push({ unit, title:r.s, pct:0, notes:"", rel:[] }); });
+    if (topics.length && !topics.some(t=>t.unit!=="General")) warn.push("I couldn't tell which lines are unit headings, so everything went into one list.");
+    return topics.length ? [{ subject:"", examDate:"", topics, warn }] : [];
+  }
+  let startAt = 0;   // a plain first line followed by a numbered/bulleted unit with children is the subject name
+  if (rows.length>3 && !BUL.test(rows[0].s) && !/^#/.test(rows[0].s) && !/:$/.test(rows[0].s) && rows[1] && (BUL.test(rows[1].s)||/^#/.test(rows[1].s)) && rows[2] && rows[2].indent>rows[1].indent) { subject = strip(rows[0].s); startAt = 1; first = false; }
+  for (let i=startAt;i<rows.length;i++){ const r = rows[i], nx = rows[i+1], s = r.s, h = s.match(/^(#{1,4})\s+(.*)/);
+    if (h) { const lvl = h[1].length, txt = strip(h[2]); if (lvl===1 && first && !subject) { subject = txt; first = false; } else unit = txt; continue; }
+    first = false; const txt = strip(s); if (!txt) continue;
+    const decimalChild = /^\d+(\.\d+)+[.)]?\s/.test(s), plainThenBullet = !BUL.test(s) && nx && BUL.test(nx.s), deeper = (nx && nx.indent>r.indent) || plainThenBullet, decimalNext = nx && /^\d+\.\d+/.test(nx.s) && /^\d+[.)]\s/.test(s) && !decimalChild;
+    if (!decimalChild && (deeper || decimalNext || /:$/.test(txt))) { unit = txt.replace(/:$/,""); continue; }
+    topics.push({ unit, title:txt.replace(/:$/,""), pct:0, notes:"", rel:[] }); }
+  return topics.length ? [{ subject, examDate:"", topics, warn }] : [];
+}
+function parseAny(text){
+  text = String(text||"").trim(); if (!text) throw new Error("Nothing pasted yet.");
+  if (/[\[{]/.test(text)) {
+    const r = parseJSONLoose(text);
+    if (r && r.data) { const d = r.data, warn = []; let out = null;
+      if (d && !Array.isArray(d) && d.version>=2 && Array.isArray(d.topics)) return { backup:d, warn };
+      if (Array.isArray(d)) { if (d.length && typeof d[0]==="object" && pick(d[0],"units","sections")) out = d.map(toSpecAny); else if (d.length && typeof d[0]==="object" && d[0].topics) out = [toSpecAny({ units:d })]; else if (d.length && typeof d[0]==="string") out = [toSpecAny({ topics:d })]; }
+      else if (Array.isArray(d.subjects)) out = d.subjects.map(toSpecAny); else out = [toSpecAny(d)];
+      if (out) { out = out.filter(s=>s.topics.length);
+        if (out.length) { if (r.fixed) warn.push("Fixed some formatting problems in the reply."); if (r.truncated) warn.push("The reply looks cut off. I kept every complete topic I could read. Ask Claude to continue, then import the rest."); return { specs:out, warn }; } } }
+  }
+  const specs = parseTextList(text);
+  if (specs.length) return { specs, warn:specs.reduce((a,s)=>a.concat(s.warn||[]),[]) };
+  throw new Error("I couldn't find any topics in that. Paste Claude's JSON reply, or a list with one topic per line.");
+}
+/* Plan or apply an import. Distinct topics are never merged just because they share a title. */
+function resolveSpecs(specs, nameIn){
+  return specs.map(sp => { const name = (specs.length===1 && nameIn) || sp.subject || nameIn || "My course";
+    const seen = {}, topics = sp.topics.map(t => { const key = (t.unit+"|"+t.title).toLowerCase(); seen[key] = (seen[key]||0)+1; return seen[key]>1 ? Object.assign({}, t, { title:t.title+" ("+seen[key]+")" }) : t; });
+    return { name, examDate:sp.examDate, topics, renamed:topics.filter((t,i)=>t!==sp.topics[i]).length }; });
+}
+function matchExisting(sub, t, skip){
+  const same = S.topics.filter(x => x.sid===sub.id && !(skip && skip.has(x.id)) && x.title.toLowerCase()===t.title.toLowerCase());
+  return same.find(x => x.unit.toLowerCase()===t.unit.toLowerCase()) || (same.length===1 ? same[0] : null);
+}
+function planImport(r, nameIn){
+  return resolveSpecs(r.specs, nameIn).map(sp => { const sub = S.subjects.find(x=>x.name.toLowerCase()===sp.name.toLowerCase());
+    let add = 0, upd = 0; const units = new Set(sp.topics.map(t=>t.unit));
+    sp.topics.forEach(t => { if (sub && matchExisting(sub,t)) upd++; else add++; });
+    return { name:sp.name, existing:sub||null, add, upd, units:units.size, total:sp.topics.length, renamed:sp.renamed, sample:sp.topics.slice(0,5).map(t=>t.title) }; });
+}
+function applyImport(r, replace, nameIn){
+  let add = 0, upd = 0, subs = 0, last = null;
+  resolveSpecs(r.specs, nameIn).forEach(sp => {
+    if (!sp.topics.length) return;
+    let sub = S.subjects.find(x=>x.name.toLowerCase()===sp.name.toLowerCase());
+    if (!sub) { sub = newSubject(sp.name); subs++; }
+    if (sp.examDate) sub.examDate = sp.examDate;
+    if (replace) { const ids = new Set(S.topics.filter(t=>t.sid===sub.id).map(t=>t.id)); S.topics = S.topics.filter(t=>!ids.has(t.id)); S.log = S.log.filter(e=>!ids.has(e.id)); if (S.pick && ids.has(S.pick.id)) S.pick = null; }
+    const fresh = new Set();   // topics added by this import can't be matched again, so repeated titles stay separate
+    sp.topics.forEach(t => {
+      const ex = matchExisting(sub,t,fresh);
+      if (ex) { upd++; ex.unit = t.unit; if (t.notes && !ex.notes) ex.notes = t.notes; if (t.rel.length) ex.rel = t.rel; if (!ex.revs && t.pct) ex.pct = t.pct; }
+      else { add++; const id = nextId(); fresh.add(id); S.topics.push({ id, sid:sub.id, unit:t.unit, title:t.title, pct:t.pct, revs:0, notes:t.notes, last:null, rel:t.rel }); } });
+    last = sub; });
+  if (!last) throw new Error("No topics found.");
+  S.view = r.specs.length===1 ? last.id : "all"; wheelSlices = [];
+  return { add, upd, subs };
+}
+let pendingImport = null;
 function doImport(){
-  const msg = $("#imsg");
-  try {
-    const r = parseSpec($("#paste").value);
-    if (r.backup) { S = norm(r.backup); save(); tab="today"; render(false,true); toast("Backup restored"); return; }
-    const replace = $("#replace") && $("#replace").checked, nameIn = $("#isn").value.trim();
-    let add = 0, upd = 0, subs = 0, last = null;
-    r.specs.forEach(sp => {
-      const items = sp.topics.filter(t=>t.title); if (!items.length) return;
-      const name = (r.specs.length===1 && nameIn) || sp.subject || nameIn || "My course";
-      let sub = S.subjects.find(x=>x.name.toLowerCase()===name.toLowerCase());
-      if (!sub) { sub = newSubject(name); subs++; }
-      if (sp.examDate) sub.examDate = sp.examDate;
-      if (replace) { const ids = new Set(S.topics.filter(t=>t.sid===sub.id).map(t=>t.id)); S.topics = S.topics.filter(t=>!ids.has(t.id)); S.log = S.log.filter(e=>!ids.has(e.id)); if (S.pick && ids.has(S.pick.id)) S.pick = null; }
-      items.forEach(t => {
-        const ex = S.topics.find(x => x.sid===sub.id && x.title.toLowerCase()===t.title.toLowerCase());
-        if (ex) { upd++; ex.unit = t.unit; if (t.notes && !ex.notes) ex.notes = t.notes; if (t.rel.length) ex.rel = t.rel; if (!ex.revs && t.pct) ex.pct = t.pct; }
-        else { add++; S.topics.push({ id:nextId(), sid:sub.id, unit:t.unit, title:t.title, pct:t.pct, revs:0, notes:t.notes, last:null, rel:t.rel }); } });
-      last = sub;
-    });
-    if (!last) throw new Error("No topics found.");
-    S.view = r.specs.length===1 ? last.id : "all"; wheelSlices = [];
-    toast(`Added ${add}, updated ${upd}${subs?`, ${subs} new subject${subs>1?"s":""}`:""}`);
-    save(); tab = "today"; render(false,true);
-  } catch(e){ msg.style.color = "#c0392b"; msg.textContent = e.message; }
+  const msg = $("#imsg"); msg.textContent = "";
+  try { const r = parseAny($("#paste").value); pendingImport = { r, nameIn:$("#isn").value.trim() }; showImportPreview(); }
+  catch(e){ msg.style.color = "#c0392b"; msg.textContent = e.message; }
 }
+function showImportPreview(){
+  const { r, nameIn } = pendingImport, warn = (r.warn||[]).map(w=>`<div class="note-w">⚠️ ${esc(w)}</div>`).join("");
+  if (r.backup) { modal(`<h2>Restore this backup?</h2><p>${r.backup.topics.length} topics, ${r.backup.coins||0} ✦. This replaces everything currently in the app.</p>${warn}<div class="row"><button class="ghost sp" data-a="close">Cancel</button><button class="sp" data-a="importgo">Restore</button></div>`); return; }
+  const plan = planImport(r, nameIn), total = plan.reduce((a,p)=>a+p.total,0), anyExisting = plan.some(p=>p.existing);
+  modal(`<h2>Ready to import</h2><p>${total} topics across ${plan.length} subject${plan.length===1?"":"s"}. Check this looks right.</p>${warn}
+    ${plan.map(p=>`<div class="card" style="margin:8px 0;padding:12px 14px;background:rgba(127,140,150,.08)"><div class="row"><i class="dot" style="--c:${p.existing?p.existing.color:"var(--acc)"}"></i><b class="sp">${esc(p.name)}</b><span class="pill">${p.existing?"existing":"new"}</span></div>
+      <div class="sub" style="margin-top:4px">${p.total} topics · ${p.units} unit${p.units===1?"":"s"}${p.existing?` · adds ${p.add}, updates ${p.upd}`:""}${p.renamed?` · ${p.renamed} repeated title${p.renamed===1?"":"s"} numbered`:""}</div>
+      <div class="sub" style="margin-top:4px;font-size:12px">${p.sample.map(esc).join(" · ")}${p.total>5?" …":""}</div></div>`).join("")}
+    ${anyExisting?`<label class="check"><input type="checkbox" id="replace2"> Replace the existing subjects' topics and progress (otherwise progress is kept)</label>`:""}
+    <div class="row" style="margin-top:12px"><button class="ghost sp" data-a="close">Cancel</button><button class="sp" data-a="importgo">Import ${total} topics</button></div>`);
+}
+function importGo(){
+  if (!pendingImport) return; const { r, nameIn } = pendingImport; pendingImport = null; const rep = $("#replace2") && $("#replace2").checked;
+  try {
+    if (r.backup) { S = norm(r.backup); save(); closeModal(); tab = "today"; wheelSlices = []; render(false,true); toast("Backup restored"); return; }
+    const res = applyImport(r, rep, nameIn); save(); closeModal(); tab = "today"; render(false,true);
+    toast(`Added ${res.add}${res.upd?`, updated ${res.upd}`:""}${res.subs?`, ${res.subs} new subject${res.subs>1?"s":""}`:""}`);
+  } catch(e){ closeModal(); toast(e.message); }
+}
+function openBulk(){
+  const opts = S.subjects.map(s=>`<option value="${s.id}" ${S.view===s.id?"selected":""}>${esc(s.name)}</option>`).join("");
+  modal(`<h2>Paste a list of topics</h2><p>One topic per line. Headings, bullets, numbers or CSV all work, and unit headings are picked up.</p>
+    <div style="display:grid;gap:10px"><select id="bs">${opts}<option value="new" ${S.subjects.length?"":"selected"}>New subject…</option></select>
+    <input type="text" id="bn" placeholder="New subject name" style="${S.subjects.length?"display:none":""}">
+    <textarea id="bt" style="min-height:150px" placeholder="Cells&#10;- Membranes&#10;- Mitosis&#10;Genetics&#10;- DNA replication"></textarea><div class="msg" id="bm"></div>
+    <button data-a="bulkgo">Add topics</button></div>`);
+  const sel = $("#bs"), bn = $("#bn"); sel.addEventListener("change", () => { bn.style.display = sel.value==="new" ? "" : "none"; });
+}
+function bulkGo(){
+  const m = $("#bm"); m.textContent = "";
+  try { const r = parseAny($("#bt").value); if (r.backup) throw new Error("That looks like a backup. Paste it on the More tab instead.");
+    let name = ""; const v = $("#bs").value; if (v==="new") { name = $("#bn").value.trim(); if (!name) throw new Error("Give the new subject a name."); } else name = (subj(+v)||{}).name||"";
+    const res = applyImport(r, false, name); save(); closeModal(); tab = "list"; render(false,true); toast(`Added ${res.add} topics`+(res.upd?`, updated ${res.upd}`:"")); }
+  catch(e){ m.style.color = "#c0392b"; m.textContent = e.message; }
+}
+const SAMPLE = { subject:"Sample: Biology", examDate:"", topics:[
+  ["Cells","Cell structure","Membranes and transport","Mitosis and the cell cycle"],["Genetics","DNA and replication","Protein synthesis","Inheritance and mutation"],["Ecology","Energy flow","Nutrient cycles","Populations and sampling"] ]
+  .flatMap(u => u.slice(1).map((t,i,arr) => ({ unit:u[0], title:t, pct:0, notes:"", rel:arr[i+1]?[arr[i+1]]:[arr[0]] }))) };
 
 /* ================= revisions & rewards ================= */
-const MILESTONES = {3:10,7:25,14:50,30:100,60:200,100:400};
+const MILESTONES = {3:10,7:20,14:40,30:80,60:150,100:300};
+const REWARD = { base:10, streakCap:5, gain:3, due:3, first:3, fullTopics:3, halfTopics:8, goalPer:5, goalCap:30 };
+function ledger(){ if (!S.rw || S.rw.d!==today()) S.rw = { d:today(), n:0, ids:{} }; return S.rw; }
 function logRevision(id,pct,notes){
   const t = S.topics.find(x=>x.id===id); if (!t) return null;
-  const due = isDue(t), first = t.revs===0, gain = pct - t.pct;
-  const e = { d:today(), id, prev:{pct:t.pct,revs:t.revs,last:t.last} }; S.log.push(e);
-  t.pct = pct; t.revs++; t.last = today(); if (notes!==undefined) t.notes = notes;
-  const st = streaks(counts()).cur; let c = 12 + Math.min(8,st) + (gain>=20?5:0) + (due?5:0) + (first?5:0), extra = [];
-  if (todayCount()===S.goal) { c += 25; extra.push("Daily goal +25"); }
-  if (MILESTONES[st] && !S.ms[st] && todayCount()===1) { c += MILESTONES[st]; S.ms[st] = 1; e.ms = st; extra.push(st+"-day streak +"+MILESTONES[st]); }
+  const due = isDue(t), first = t.revs===0 && !t.fr, gain = pct - t.pct, L = ledger(), seen = L.ids[id]||0;
+  const e = { d:today(), id, prev:{pct:t.pct,revs:t.revs,last:t.last,fr:!!t.fr} }; S.log.push(e);
+  t.pct = pct; t.revs++; t.last = today(); t.fr = true; if (notes!==undefined) t.notes = notes;
+  const st = streaks(counts()).cur; let c = 0; const extra = [];
+  if (seen===0) {
+    L.n++; L.ids[id] = 1; e.first = true;
+    const k = L.n<=REWARD.fullTopics ? 1 : L.n<=REWARD.halfTopics ? .5 : 0;
+    const raw = REWARD.base + Math.min(REWARD.streakCap,Math.floor(st/2)) + (gain>=20?REWARD.gain:0) + (due?REWARD.due:0) + (first?REWARD.first:0);
+    c = Math.round(raw*k);
+    if (k===.5) extra.push("half rate after 3 topics"); if (k===0) extra.push("daily ✦ limit reached");
+    if (L.n===S.goal) { const g = Math.min(REWARD.goalCap, S.goal*REWARD.goalPer); c += g; extra.push("Daily goal +"+g); }
+    if (MILESTONES[st] && !S.ms[st] && L.n===1) { c += MILESTONES[st]; S.ms[st] = 1; e.ms = st; extra.push(st+"-day streak +"+MILESTONES[st]); }
+  } else { L.ids[id] = seen+1; extra.push("already counted today"); }
   e.c = c; S.coins += c; S.life += c; save();
   return { c, extra };
 }
 function undoRevision(id){
   for (let i=S.log.length-1;i>=0;i--) if (S.log[i].id===id && S.log[i].d===today()) {
-    const e = S.log[i], t = S.topics.find(x=>x.id===id); if (t && e.prev) { t.pct=e.prev.pct; t.revs=e.prev.revs; t.last=e.prev.last; }
+    const e = S.log[i], t = S.topics.find(x=>x.id===id); if (t && e.prev) { t.pct=e.prev.pct; t.revs=e.prev.revs; t.last=e.prev.last; if (!e.prev.fr) delete t.fr; }
     if (e.c) { S.coins = Math.max(0,S.coins-e.c); S.life = Math.max(0,S.life-e.c); } if (e.ms) delete S.ms[e.ms];
+    const L = ledger(); if (L.ids[id]) { L.ids[id]--; if (L.ids[id]<=0) { delete L.ids[id]; L.n = Math.max(0,L.n-1); } }
     S.log.splice(i,1); save(); return true; }
   return false;
 }
@@ -741,7 +902,7 @@ function drawWheel(){
     ctx.fillStyle = fill; ctx.fill(); ctx.strokeStyle = stroke; ctx.lineWidth = sk==="neon"?1.5:2; if (sk==="neon") { ctx.shadowColor = c; ctx.shadowBlur = 8; } ctx.stroke(); ctx.shadowBlur = 0;
     if (sk==="mono") { ctx.beginPath(); ctx.arc(0,0,R-1,-Math.PI/2+i*a+.03,-Math.PI/2+(i+1)*a-.03); ctx.strokeStyle = c; ctx.lineWidth = 4; ctx.stroke(); }
     ctx.save(); ctx.rotate(-Math.PI/2+(i+.5)*a); ctx.textAlign="right"; ctx.textBaseline="middle";
-    ctx.fillStyle = txt; ctx.font = '600 11px Chillax, Jakarta, sans-serif';
+    ctx.fillStyle = txt; ctx.font = '600 12px Chillax, Jakarta, sans-serif';
     let t = sl.title||""; const max = Math.floor(R*0.62/6.2); if (t.length>max) t = t.slice(0,max-1)+"…";
     ctx.fillText(t, R-14, 0); ctx.restore();
   }
@@ -791,9 +952,9 @@ function subjBar(){
     S.subjects.map(s => `<button class="sc ${S.view===s.id?"on":""}" style="--c:${s.color}" data-a="view" data-v="${s.id}"><i class="dot"></i>${esc(s.name)}</button>`).join("") + `</div>`;
 }
 function viewToday(keep){
-  if (!S.subjects.length) return `<div class="card empty">${logo().replace("<svg","<svg style='border-radius:18px'")}<h2>Welcome to Spinwise</h2><p>Ask Claude to build checklists for all your subjects from what it already knows about you.</p><button data-a="tab" data-v="more">Set up with Claude</button><div><button class="link" data-a="subj-new">or add a subject manually</button></div></div>`;
+  if (!S.subjects.length) return `<div class="card empty">${logo().replace("<svg","<svg style='border-radius:18px'")}<h2>Welcome to Spinwise</h2><p>Ask Claude to build checklists for all your subjects from what it already knows about you.</p><button data-a="tab" data-v="more">Set up with Claude</button><div><button class="link" data-a="bulk">Paste a list of topics</button><button class="link" data-a="sample">Try a sample course</button></div></div>`;
   const items = vis();
-  if (!items.length) return subjBar()+`<div class="card empty"><h2>No topics yet</h2><p>Import this subject from Claude or add topics by hand.</p><button data-a="add">+ Add topic</button></div>`;
+  if (!items.length) return subjBar()+`<div class="card empty"><h2>No topics yet</h2><p>Import this subject from Claude, or paste a list of topics.</p><button data-a="bulk">Paste a list</button><div><button class="link" data-a="add">+ Add one topic</button></div></div>`;
   const m = counts(), st = streaks(m), o = overall(), ex = nextExam(), pick = todayPick(), done = pick && loggedToday(pick.id), n = todayCount();
   const dueN = items.filter(isDue).length, last = lastTopic();
   if (!keep || !wheelSlices.length || wheelSlices.some(t=>!items.some(x=>x.id===t.id))) wheelSlices = buildSlices(pick && items.some(x=>x.id===pick.id) ? pick : null);
@@ -810,7 +971,7 @@ function viewToday(keep){
       <div><b class="big">${o}% revised</b><span class="sub">${items.filter(t=>t.revs).length} of ${items.length} topics started</span>
       <div class="chips"><span class="chip" id="streakchip">🔥 ${st.cur} day${st.cur===1?"":"s"}</span>${dueN?`<span class="chip">${dueN} due</span>`:""}${ex?`<span class="chip">${ex.d} days to ${S.view==="all"&&S.subjects.length>1?esc(ex.name):"exam"}</span>`:""}<span class="chip">${goalDots} ${n}/${S.goal} today</span></div></div></div>
     <div class="card"><div class="wheelwrap"><div class="ptr"></div><canvas id="wheel"></canvas></div>${panel}</div>
-    ${pick && pick.notes ? `<div class="card"><div class="sub" style="text-transform:uppercase;letter-spacing:.06em;font-size:11px">Your note</div><div style="margin-top:4px">${esc(pick.notes)}</div></div>`:""}
+    ${pick && pick.notes ? `<div class="card"><div class="sub" style="text-transform:uppercase;letter-spacing:.06em;font-size:12px">Your note</div><div style="margin-top:4px">${esc(pick.notes)}</div></div>`:""}
     ${R.length?`<div class="card"><h2>${last?"Up next":"Where to start"}</h2><p>${last?`Related to <b>${esc(last.title)}</b>, plus what's due or weak.`:"Weakest and newest topics first."}</p>
       ${R.map(x=>`<div class="rec" data-a="revise" data-v="${x.t.id}"><i class="dot" style="--c:${colorOf(x.t)}"></i><div class="t">${esc(x.t.title)}<div class="sub" style="font-family:var(--font);font-weight:400">${esc(x.t.unit)}</div></div><span class="pill ${x.due?"due":""}">${recTag(x)}</span></div>`).join("")}</div>`:""}`;
 }
@@ -824,7 +985,7 @@ function viewList(){
     groups.map(u => { const items = u.items.filter(F[flt]); if (!items.length) return ""; const up = avg(u.items), s = subj(u.sid)||{name:"",color:"#6f7a83"};
       return `<details class="unit" style="--sc:${s.color}" ${openUnits.has(u.k)||flt!=="all"?"open":""} data-u="${esc(u.k)}"><summary><div class="row"><b class="sp">${esc(u.unit)}</b><em>${up}% · ${u.items.filter(t=>t.revs).length}/${u.items.length}</em></div>${S.view==="all"&&S.subjects.length>1?`<div class="tag">${esc(s.name)}</div>`:""}<div class="bar"><i style="width:${up}%"></i></div></summary>` +
       items.map(t => `<div class="item" data-a="revise" data-v="${t.id}" data-s="${esc(t.title.toLowerCase())}"><div class="badge" data-l="${level(t.pct)}">${t.revs?t.pct+"%":"–"}</div><div class="sp"><div class="t">${esc(t.title)}${isDue(t)?'<span class="pill due">Due</span>':""}</div><div class="m">${t.revs?`${t.revs} revision${t.revs===1?"":"s"} · ${ago(t.last)}`:"Not started"}</div></div></div>`).join("") + `</details>`; }).join("") +
-    `<div style="text-align:center;margin-top:12px"><button class="ghost small" data-a="add">+ Add topic</button></div>`;
+    `<div class="row" style="justify-content:center;margin-top:12px"><button class="ghost small" data-a="add">+ Add topic</button><button class="ghost small" data-a="bulk">Paste a list</button></div>`;
 }
 function viewProg(){
   if (!S.topics.length) return `<div class="card empty"><b>Nothing to show yet</b></div>`;
@@ -856,8 +1017,9 @@ function viewMore(){
       <details class="how"><summary>See the prompt</summary><pre>${esc(PROMPT_IN)}</pre></details>
       <textarea id="paste" style="margin-top:10px" placeholder='Paste Claude&#39;s reply here'></textarea>
       <input type="text" id="isn" list="sl" style="margin-top:8px" placeholder="Subject name (only if Claude's reply doesn't include one)"><datalist id="sl">${S.subjects.map(s=>`<option value="${esc(s.name)}">`).join("")}</datalist>
-      <label class="check"><input type="checkbox" id="replace" ${S.topics.length?"":"disabled"}> Replace those subjects' topics and progress (otherwise progress is kept and new topics merged in)</label>
-      <button class="full" style="margin-top:10px" data-a="import">Import</button><div class="msg" id="imsg"></div></div>
++
+
+      <button class="full" style="margin-top:10px" data-a="import">Review import</button><button class="link" data-a="bulk" style="width:100%">or paste a plain list of topics</button><div class="msg" id="imsg"></div></div>
     <div class="card"><h2>Tell Claude how it's going</h2><p>Copies your % revised per subject, streak, due topics, weak spots and full data. Paste it into Claude and it can acknowledge your progress and say what to do next.</p>
       <button class="ghost full" data-a="cp-out" ${S.topics.length?"":"disabled"}>Copy progress for Claude</button></div>
     <div class="card"><div class="row"><h2 class="sp">Subjects</h2><button class="ghost small" data-a="subj-new">+ Add</button></div><p>Each subject gets its own colour on the wheel and in your lists.</p>
@@ -956,6 +1118,10 @@ const act = {
   "cp-in"(){ copyText(PROMPT_IN); },
   "cp-out"(){ copyText(progressText()); },
   import(){ doImport(); },
+  importgo(){ importGo(); },
+  bulk(){ openBulk(); },
+  bulkgo(){ bulkGo(); },
+  sample(){ try { const res = applyImport({ specs:[SAMPLE] }, false, ""); save(); tab = "today"; render(false,true); toast("Sample course added. Remove it any time in More › Subjects"); } catch(e){ toast(e.message); } },
   goal(v){ S.goal = Math.max(1,Math.min(10,S.goal+(+v))); save(); $("#gv").textContent = S.goal; },
   backup(){ copyText(JSON.stringify(Object.assign({},S,{version:3}))); },
   resetp(){ ask("Reset all progress?","Reset",()=>{ S.topics.forEach(t=>{t.pct=0;t.revs=0;t.last=null}); S.log=[]; S.pick=null; S.ms={}; save(); closeModal(); tab="today"; wheelSlices = []; render(false,true); }); }
