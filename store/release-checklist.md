@@ -5,7 +5,7 @@
 2. Decide the package name. It is `com.spinwise.app` and cannot be changed after publishing.
 
 ## Build
-1. Push to GitHub. The `Build APK` workflow now produces two artifacts: `Spinwise-apk` (install directly) and `Spinwise-play-bundle` (the `.aab` for Play).
+1. Push to GitHub. The `Build APK` workflow now produces two artifacts: `Spinwise-apk` (the *sideload* build, installed directly, with in-app updates) and `Spinwise-play-bundle` (the *play* build `.aab`: no internet permission and no self-updater, as Play requires). Only upload the `.aab` to Play. See `UPDATES.md`.
 2. Signing: the workflow signs with the key stored in the `KS_B64` and `KS_PASSWORD` secrets. Enrol in **Play App Signing** when you upload the first bundle. That key becomes your *upload key*, so keep a safe offline copy of `keystore/` (it is not in git).
 3. Raise `versionCode` automatically: it already uses the GitHub run number.
 

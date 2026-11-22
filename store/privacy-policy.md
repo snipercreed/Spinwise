@@ -19,6 +19,9 @@ Your subjects, topics, notes, revision history, rewards and settings. This data 
 - **Backup / copy:** copying a backup or a prompt places text on your clipboard.
 - **Android Auto Backup:** your device may include the app's data in your Google backup, according to your device settings.
 
+## Update checks (direct-download version only)
+The copy of the app installed directly from GitHub (not from Google Play) can check for new versions. When it does, it makes a request to GitHub to read the latest release information, and, if you tap Update, downloads the new version from GitHub. The request carries no account, identifiers or data from the app. You can switch the automatic check off in More › App updates. The Google Play version contains no update check and has no internet permission.
+
 ## Children
 The app is suitable for students. It does not collect personal information from anyone.
 

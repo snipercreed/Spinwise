@@ -9,6 +9,13 @@ android {
         versionCode (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInteger()
         versionName "1.0." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0")
     }
+    // "sideload" = the GitHub/APK build, which can offer in-app updates.
+    // "play" = the Google Play build: no network, no self-updater (Play requires updates to come from Play).
+    flavorDimensions "dist"
+    productFlavors {
+        sideload { dimension "dist" }
+        play { dimension "dist" }
+    }
     def ksFile = file("spinwise.keystore")
     signingConfigs { release { if (ksFile.exists()) { storeFile ksFile; storePassword System.getenv("KS_PASSWORD"); keyAlias "spinwise"; keyPassword System.getenv("KS_PASSWORD") } } }
     buildTypes { release { minifyEnabled false; signingConfig ksFile.exists() ? signingConfigs.release : signingConfigs.debug } }

@@ -5,7 +5,8 @@ Spinwise is a local-first app with no server and no network permission. The main
 ## What is in place
 | Area | Measure |
 |---|---|
-| Network | No `INTERNET` permission. Cleartext traffic disabled by a network security config. The WebView also blocks every request that is not a bundled asset. |
+| Network | The Play build has no `INTERNET` permission. The sideload build has it only for update checks, made by native code to one fixed GitHub repo. Cleartext traffic is disabled, and the WebView itself blocks every request that is not a bundled asset in both builds. |
+| Updates | Downloads must come from the fixed releases repo, must match a published SHA-256, and are installed by Android, which rejects any APK not signed with the installed app's key. |
 | WebView | File, content and universal file-URL access off. Mixed content blocked. Navigation away from the app page is refused. New windows are not allowed. |
 | Bridge | The `Android` JavaScript interface exposes only the listed `@JavascriptInterface` methods, and is only reachable from the bundled page. |
 | Injected content | Every imported, shared or synced string is HTML-escaped before it is drawn. A test injects script and attribute payloads through the importer, share code and sync file and confirms nothing executes. |

@@ -128,6 +128,15 @@ public class MainActivity extends Activity {
         }
     }
 
+    /** Lets background threads run a script in the page. */
+    private Updater.Sink jsSink() {
+        return new Updater.Sink() {
+            @Override public void js(final String script) {
+                runOnUiThread(new Runnable() { public void run() { web.evaluateJavascript(script, null); }});
+            }
+        };
+    }
+
     private SharedPreferences prefs() {
         return getSharedPreferences(StreakWidget.PREFS, MODE_PRIVATE);
     }
@@ -262,6 +271,30 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface public void syncUnlink() {
             prefs().edit().remove("syncUri").remove("syncName").apply();
+        }
+
+        /** True only in the sideload (GitHub) build, which can look for and install updates. */
+        @JavascriptInterface public boolean updaterEnabled() {
+            return Updater.ENABLED;
+        }
+
+        @JavascriptInterface public String appVersion() {
+            try {
+                return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            } catch (Exception e) {
+                return "";
+            }
+        }
+
+        @JavascriptInterface public void updateCheck() {
+            if (Updater.ENABLED) Updater.check(MainActivity.this, jsSink());
+        }
+
+        @JavascriptInterface public void updateInstall(String url, String sha, String size) {
+            if (!Updater.ENABLED) return;
+            long n = 0;
+            try { n = Long.parseLong(size); } catch (Exception ignored) {}
+            Updater.install(MainActivity.this, url, sha, n, jsSink());
         }
 
         /** Erases everything the app has stored natively (saved copy, widget data, sync link). */
