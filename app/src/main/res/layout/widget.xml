@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/w_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:background="@drawable/widget_bg">
+
+    <TextView android:id="@+id/w_subject"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Spinwise" android:textSize="12sp" android:textStyle="bold"
+        android:textColor="@color/w_mute" android:maxLines="1" android:ellipsize="end"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="bottom" android:layout_marginTop="4dp">
+        <TextView android:id="@+id/w_streak" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="0" android:textSize="30sp" android:textStyle="bold" android:textColor="@color/w_ink"/>
+        <TextView android:id="@+id/w_streak_lbl" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="day streak" android:textSize="12sp" android:textColor="@color/w_mute"
+            android:layout_marginStart="6dp" android:layout_marginBottom="6dp"/>
+        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+        <TextView android:id="@+id/w_pct" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="0%" android:textSize="30sp" android:textStyle="bold" android:textColor="@color/w_acc"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="revised" android:textSize="12sp" android:textColor="@color/w_mute"
+            android:layout_marginStart="6dp" android:layout_marginBottom="6dp"/>
+    </LinearLayout>
+
+    <ProgressBar android:id="@+id/w_bar" style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent" android:layout_height="6dp"
+        android:layout_marginTop="4dp" android:max="100" android:progress="0"
+        android:progressDrawable="@drawable/widget_bar"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:layout_marginTop="10dp">
+        <ImageView android:id="@+id/sq0" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq1" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq2" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq3" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq4" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq5" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq6" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq7" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq8" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq9" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq10" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq11" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq12" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+        <ImageView android:id="@+id/sq13" android:layout_width="0dp" android:layout_height="14dp" android:layout_weight="1" android:layout_margin="1.5dp" android:src="@drawable/widget_sq"/>
+    </LinearLayout>
+
+    <TextView android:id="@+id/w_line" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" android:text="Open Spinwise" android:textSize="13sp" android:textStyle="bold"
+        android:textColor="@color/w_ink" android:maxLines="1" android:ellipsize="end"/>
+</LinearLayout>

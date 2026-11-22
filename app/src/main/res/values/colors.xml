@@ -1,0 +1,9 @@
+<resources>
+    <color name="bg">#F4F6F3</color>
+    <color name="ic_bg">#1F8A4C</color>
+    <color name="w_card">#FFFFFF</color>
+    <color name="w_ink">#12161A</color>
+    <color name="w_mute">#677078</color>
+    <color name="w_acc">#1F8A4C</color>
+    <color name="w_track">#E7EBE6</color>
+</resources>
