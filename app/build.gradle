@@ -6,7 +6,7 @@ android {
         applicationId "com.spinwise.app"
         minSdk 26
         targetSdk 35
-        versionCode (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInteger()
+        versionCode Integer.parseInt(System.getenv("GITHUB_RUN_NUMBER") ?: "1")
         versionName "1.0." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0")
     }
     // "sideload" = the GitHub/APK build, which can offer in-app updates.
